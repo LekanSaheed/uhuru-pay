@@ -58,16 +58,18 @@ const DashBoardAside = () => {
                   <>
                     {aside.dropdown && (
                       <div className={classes.dropdown}>
-                        {aside.dropdown.map((drop) => {
-                          return (
-                            <Link href={"/dashboard" + drop.link}>
-                              <a>
-                                <span>{drop.icon}</span>
-                                {drop.text}
-                              </a>
-                            </Link>
-                          );
-                        })}
+                        {React.Children.toArray(
+                          aside.dropdown.map((drop) => {
+                            return (
+                              <Link href={"/dashboard" + drop.link}>
+                                <a>
+                                  <span>{drop.icon}</span>
+                                  {drop.text}
+                                </a>
+                              </Link>
+                            );
+                          })
+                        )}
                       </div>
                     )}
                   </>
