@@ -1,0 +1,9 @@
+.main {
+  padding: 15px;
+}
+.cont {
+  display: grid;
+  grid-template-columns: 75% 25%;
+  grid-template-rows: 300px;
+  background-color: white;
+}

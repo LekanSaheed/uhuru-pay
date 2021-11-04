@@ -1,0 +1,39 @@
+.dash_header {
+  background-color: white;
+  padding: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.path_container {
+  display: flex;
+  gap: 20px;
+}
+
+.icon {
+  font-size: 22px;
+  color: #5e6278;
+}
+.icon:hover {
+  background-color: #f2f4f4;
+  border-radius: 4px;
+}
+.header_right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.header_search {
+  display: flex;
+  align-items: center;
+  background-color: #f2f4f4;
+  border-radius: 7px;
+  padding-right: 13px;
+}
+.header_search input {
+  border: none;
+  background-color: #f2f4f4;
+  padding: 12px;
+  padding-left: 20px;
+  width: 250px;
+}

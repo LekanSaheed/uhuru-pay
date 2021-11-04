@@ -1,0 +1,24 @@
+.cardContainer {
+  display: flex;
+  flex-basis: 100%;
+  margin: 30px;
+  flex: 1;
+}
+.cards {
+  width: 200px;
+  height: auto;
+  border-right: solid 2px #ececec;
+  padding: 17px;
+  flex: 1 1 25%;
+}
+.title {
+  color: #797979;
+  font-weight: 500;
+  font-size: 14px;
+}
+.figure {
+  font-weight: 600;
+  font-size: 40px;
+}
+.detail {
+}

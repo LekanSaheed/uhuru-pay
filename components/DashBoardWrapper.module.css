@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  width: 100%;
+  font-family: "IBM Plex Sans", sans-serif;
+  flex-basis: 100%;
+}
+.main {
+  background-color: #f8f8f8;
+  flex: 1 1 80%;
+  min-height: 100vh;
+  margin-left: 20%;
+}
+.side_nav {
+  flex: 1 1 20%;
+  background-color: #2a3042;
+  color: #a5b2cb;
+  height: 100vh;
+  float: left;
+  width: 20%;
+  position: fixed;
+}

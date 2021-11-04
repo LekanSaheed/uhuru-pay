@@ -1,0 +1,28 @@
+.wallet_container {
+  display: flex;
+  flex-direction: column;
+  flex: 2;
+  padding: 20px 15px;
+  gap: 20px;
+}
+.wallet_header {
+  display: flex;
+  justify-content: space-between;
+}
+.wallet_main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(43, 84, 209);
+  color: white;
+  flex-direction: column;
+  padding: 20px 30px;
+  border-radius: 10px;
+}
+.wallet_title {
+  font-size: 13px;
+}
+.wallet_balance {
+  font-size: 24px;
+  font-weight: 500;
+}

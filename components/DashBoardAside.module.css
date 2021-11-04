@@ -1,0 +1,41 @@
+.asideContainer {
+  display: flex;
+  list-style: none;
+  gap: 30px;
+  flex-direction: column;
+  position: fixed;
+}
+.asideMain {
+  min-height: 100vh;
+  background-color: #2a3042;
+  width: auto;
+}
+.asideHeader {
+  padding: 40px;
+}
+.icon {
+  font-size: 20px;
+}
+.icon:hover {
+  color: white;
+}
+.link_flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  transition: 0.2s ease-in-out;
+}
+.link_flex:hover {
+  color: #fff;
+}
+.dropdown {
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.asideLink {
+  cursor: pointer;
+  font-weight: 500;
+  color: #a6a7b5;
+}
