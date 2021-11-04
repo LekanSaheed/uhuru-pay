@@ -109,16 +109,7 @@ const Form = () => {
             type={type ? "password" : "text"}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <span
-            onClick={() => setType(!type)}
-            style={{
-              position: "absolute",
-              marginLeft: "-50px",
-              cursor: "pointer",
-              marginTop: "20px",
-              fontSize: "26px",
-            }}
-          >
+          <span onClick={() => setType(!type)} className={classes.vis_toggle}>
             {type ? <AiFillEyeInvisible /> : <AiFillEye />}
           </span>
         </div>
