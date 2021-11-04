@@ -3,6 +3,8 @@ import { BsFillPersonPlusFill } from "react-icons/bs";
 
 export const defaultState = {
   isDropdown: true,
+  user: {},
+  isUser: false,
   asideContents: [
     {
       text: "Dashboard",

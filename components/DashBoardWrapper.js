@@ -1,7 +1,8 @@
 import DashBoardAside from "./DashBoardAside";
 import DashBoardHeader from "./DashBoardHeader";
-import DashBoardMain from "./DashBoardMain";
+
 import classes from "./DashBoardWrapper.module.css";
+import MainWrapper from "./MainWrapper";
 const DashBoardWrapper = ({ children }) => {
   return (
     <div className={classes.container}>
@@ -10,7 +11,7 @@ const DashBoardWrapper = ({ children }) => {
       </aside>
       <main className={classes.main}>
         <DashBoardHeader />
-        {children}
+        <MainWrapper>{children}</MainWrapper>
       </main>
     </div>
   );

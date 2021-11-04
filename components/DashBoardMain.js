@@ -3,9 +3,13 @@ import Cards from "./Cards";
 import Wallet from "./Wallet";
 import GridCard from "./GridCard";
 import Graph from "./Graph";
+import MainWrapper from "./MainWrapper";
+import { baseUrl } from "../context/baseUrl";
+import React from "react";
 const DashBoardMain = () => {
+  React.useEffect(() => {}, []);
   return (
-    <div className={classes.main}>
+    <MainWrapper>
       <span>WELCOME USER</span>
       <div className={classes.cont}>
         <Cards />
@@ -15,7 +19,7 @@ const DashBoardMain = () => {
       </div>
       <GridCard />
       <Graph />
-    </div>
+    </MainWrapper>
   );
 };
 export default DashBoardMain;

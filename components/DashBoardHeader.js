@@ -4,6 +4,7 @@ import { GiExpand, GiPerson } from "react-icons/gi";
 import { GrSearch, GrNotification } from "react-icons/gr";
 import { BsChatDotsFill } from "react-icons/bs";
 import React from "react";
+
 const DashBoardHeader = () => {
   const data = [
     { id: 1, icon: <RiAlignLeft /> },
@@ -13,6 +14,37 @@ const DashBoardHeader = () => {
     { id: 1, icon: <GrNotification /> },
     { id: 2, icon: <GiPerson /> },
   ];
+
+  // var elem = document.documentElement;
+
+  // /* View in fullscreen */
+  // function openFullscreen() {
+  //   if (elem.requestFullscreen) {
+  //     elem.requestFullscreen();
+  //   } else if (elem.webkitRequestFullscreen) {
+  //     /* Safari */
+  //     elem.webkitRequestFullscreen();
+  //   } else if (elem.msRequestFullscreen) {
+  //     /* IE11 */
+  //     elem.msRequestFullscreen();
+  //   }
+  // }
+
+  // /* Close fullscreen */
+  // function closeFullscreen() {
+  //   if (document.exitFullscreen) {
+  //     document.exitFullscreen();
+  //   } else if (document.webkitExitFullscreen) {
+  //     /* Safari */
+  //     document.webkitExitFullscreen();
+  //   } else if (document.msExitFullscreen) {
+  //     /* IE11 */
+  //     document.msExitFullscreen();
+  //   }
+  // }
+  // React.useEffect(() => {
+  //   openFullscreen();
+  // }, []);
   return (
     <nav className={classes.dash_header}>
       <div className={classes.path_container}>
@@ -28,7 +60,7 @@ const DashBoardHeader = () => {
       </div>
 
       <div className={classes.header_right}>
-        <span className={classes.icon}>
+        <span onClick={() => alert("Expanded")} className={classes.icon}>
           <GiExpand />
         </span>
         <div className={classes.header_search}>

@@ -11,6 +11,9 @@
   padding: 17px;
   flex: 1 1 25%;
 }
+.cardContainer div:last-child {
+  border: none;
+}
 .title {
   color: #797979;
   font-weight: 500;
