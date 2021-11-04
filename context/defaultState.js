@@ -1,10 +1,12 @@
 import { MdSpaceDashboard, MdPeopleAlt } from "react-icons/md";
 import { BsFillPersonPlusFill } from "react-icons/bs";
 
+const localUser = JSON.parse(localStorage.getItem("stakeholder"));
 export const defaultState = {
   isDropdown: true,
-  user: {},
-  isUser: false,
+  user: localUser ? localUser : {},
+  isUser: localUser ? true : false,
+  token: localStorage.getItem("token") ? localStorage.getItem("token") : "",
   asideContents: [
     {
       text: "Dashboard",

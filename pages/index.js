@@ -1,13 +1,14 @@
-import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
-import DashBoardWrapper from "../components/DashBoardWrapper";
 import Link from "next/link";
 const Home = () => {
   return (
     <div>
-      <Link href="/dashboard">Dashboard</Link>
-      nothing
+      <Link href="/dashboard">
+        <a>Dashboard</a>
+      </Link>
+      <br />
+      <Link href="/login">
+        <a>login</a>
+      </Link>
     </div>
   );
 };

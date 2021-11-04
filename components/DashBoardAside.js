@@ -4,7 +4,7 @@ import { MdKeyboardArrowDown, MdKeyboardArrowRight } from "react-icons/md";
 import { useGlobalContext } from "../context/context";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import logo from "../public/WORDMARK.png";
+
 const DashBoardAside = () => {
   const router = useRouter();
   const { toggleDropdown, isDropdown, asideContents } = useGlobalContext();
@@ -12,7 +12,9 @@ const DashBoardAside = () => {
   return (
     <div className={classes.asideMain}>
       <header className={classes.asideHeader}>
-        <img src={logo} />
+        <div style={{ padding: "10px" }}>
+          <img style={{ width: "100%" }} src="/WORDMARK.png" />
+        </div>
       </header>
 
       <ul className={classes.asideContainer}>

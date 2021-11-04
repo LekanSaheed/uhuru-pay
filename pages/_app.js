@@ -4,7 +4,9 @@ import { useReducer } from "react";
 import { defaultState } from "../context/defaultState";
 import { reducer } from "../context/reducer";
 import React from "react";
-function MyApp({ Component, pageProps }) {
+import { motion } from "framer-motion";
+
+function MyApp({ Component, pageProps, router }) {
   const [state, dispatch] = useReducer(reducer, defaultState);
 
   const toggleDropdown = (aside) => {
@@ -23,7 +25,21 @@ function MyApp({ Component, pageProps }) {
         }}
       >
         {" "}
-        <Component {...pageProps} />
+        <motion.div
+          key={router.route}
+          initial="pageInitial"
+          animate="pageAnimate"
+          variants={{
+            pageInitial: {
+              opacity: 0.5,
+            },
+            pageAnimate: {
+              opacity: 1,
+            },
+          }}
+        >
+          <Component {...pageProps} />
+        </motion.div>
       </AppContext.Provider>
     </React.StrictMode>
   );

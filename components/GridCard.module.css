@@ -48,6 +48,12 @@
   font-size: 14px;
   margin-top: 10px;
 }
+@media (max-width: 950px) {
+  .card {
+    flex: 1 1 33.3%;
+    width: 33.3%;
+  }
+}
 
 .icon {
   font-size: 40px;

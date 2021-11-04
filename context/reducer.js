@@ -10,10 +10,15 @@ export const reducer = (state, action) => {
     };
   }
   if (action.type === "SET_USER") {
+    localStorage.setItem(
+      JSON.stringify("stakeholder", action.payload.stakeholder)
+    );
+    console.log(action.payload.token);
     return {
       ...state,
       user: action.payload,
       isUser: true,
+      token: action.payload.token,
     };
   }
   return state;

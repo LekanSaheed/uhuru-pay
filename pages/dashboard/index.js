@@ -12,6 +12,7 @@ const DashBoard = () => {
       router.push("/login");
     }
   });
+
   return (
     <DashBoardWrapper>
       <DashBoardMain />
