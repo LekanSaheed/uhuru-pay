@@ -48,7 +48,7 @@ const GridCard = () => {
       {React.Children.toArray(
         cardContent.map((card) => {
           return (
-            <div className={classes.card}>
+            <div key={card.title} className={classes.card}>
               <div className={classes.cardMain}>
                 <div className={classes.icon}>{card.icon}</div>
                 <div className={classes.title}>{card.title}</div>

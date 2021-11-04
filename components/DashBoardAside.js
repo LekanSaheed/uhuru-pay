@@ -16,7 +16,7 @@ const DashBoardAside = () => {
         {React.Children.toArray(
           asideContents.map((aside) => {
             return (
-              <li className={classes.aside}>
+              <li className={classes.aside} key={aside.text}>
                 <Link
                   href={aside.link && "/dashboard" + aside.link}
                   className={classes.asideLink}
@@ -61,7 +61,10 @@ const DashBoardAside = () => {
                         {React.Children.toArray(
                           aside.dropdown.map((drop) => {
                             return (
-                              <Link href={"/dashboard" + drop.link}>
+                              <Link
+                                key={drop.text}
+                                href={"/dashboard" + drop.link}
+                              >
                                 <a>
                                   <span>{drop.icon}</span>
                                   {drop.text}

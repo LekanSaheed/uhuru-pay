@@ -6,27 +6,23 @@ import { BsChatDotsFill } from "react-icons/bs";
 import React from "react";
 const DashBoardHeader = () => {
   const data = [
-    {
-      icon: <RiAlignLeft />,
-    },
-    {
-      icon: <BsChatDotsFill />,
-    },
+    { id: 1, icon: <RiAlignLeft /> },
+    { id: 2, icon: <BsChatDotsFill /> },
   ];
   const rightIcons = [
-    {
-      icon: <GrNotification />,
-    },
-    {
-      icon: <GiPerson />,
-    },
+    { id: 1, icon: <GrNotification /> },
+    { id: 2, icon: <GiPerson /> },
   ];
   return (
     <nav className={classes.dash_header}>
       <div className={classes.path_container}>
         {React.Children.toArray(
           data.map((icon) => {
-            return <span className={classes.icon}>{icon.icon}</span>;
+            return (
+              <span key={icon.id} className={classes.icon}>
+                {icon.icon}
+              </span>
+            );
           })
         )}
       </div>
@@ -44,7 +40,11 @@ const DashBoardHeader = () => {
         <div className={classes.path_container}>
           {React.Children.toArray(
             rightIcons.map((icon) => {
-              return <span className={classes.icon}>{icon.icon}</span>;
+              return (
+                <span key={icon.id} className={classes.icon}>
+                  {icon.icon}
+                </span>
+              );
             })
           )}
         </div>
