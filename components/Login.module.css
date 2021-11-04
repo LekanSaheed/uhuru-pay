@@ -74,15 +74,15 @@
   margin-left: -50px;
   cursor: pointer;
   margin-top: 14px;
-  font-size: 26px;
+  font-size: 23px;
 }
 .input_container input {
   width: 100%;
   box-sizing: border-box;
-  padding: 11px;
+  padding: 10px;
   border: solid 1px #4bc2bc;
   margin-top: 7px;
-  font-size: 18px;
+  font-size: 14px;
   border-radius: 5px;
   outline-color: #6ff1eb;
   transition: 0.3s;
