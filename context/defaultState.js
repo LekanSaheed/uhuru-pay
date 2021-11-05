@@ -4,13 +4,11 @@ import {
   MdLock,
   MdStream,
 } from "react-icons/md";
-import { token } from "./baseUrl";
 
 export const defaultState = {
   isDropdown: true,
   user: {},
   isUser: false,
-  token: token,
   asideContents: [
     {
       text: "Dashboard",

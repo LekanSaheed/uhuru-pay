@@ -5,18 +5,25 @@ import { useGlobalContext } from "../../context/context";
 import React from "react";
 const DashBoard = () => {
   const { isUser } = useGlobalContext();
-
+  const [auth, setAuth] = React.useState(false);
   const router = useRouter();
   React.useEffect(() => {
-    if (!isUser) {
+    if (isUser) {
+      setAuth(true);
+    } else {
+      setAuth(false);
       router.push("/login");
     }
-  });
+  }, [isUser, setAuth]);
 
   return (
-    <DashBoardWrapper>
-      <DashBoardMain />
-    </DashBoardWrapper>
+    <>
+      {auth && (
+        <DashBoardWrapper>
+          <DashBoardMain />
+        </DashBoardWrapper>
+      )}
+    </>
   );
 };
 

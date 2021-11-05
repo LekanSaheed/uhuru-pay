@@ -12,17 +12,17 @@ import {
   Paper,
 } from "@mui/material";
 
-const url = `${baseUrl}/revenue/all`;
+const url = `${baseUrl}/revenue/list`;
 const Revenues = () => {
-  const { token } = useGlobalContext();
+  const { user } = useGlobalContext();
   const [loading, setLoading] = useState(true);
   const [revenues, setRevenues] = useState([]);
+  console.log(user.token);
   useEffect(async () => {
     const requestOptions = {
       method: "GET",
       headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${user.token}`,
       },
     };
     await fetch(url, requestOptions)
@@ -45,32 +45,32 @@ const Revenues = () => {
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }}>
           <TableHead>
-            <TableRow style={{ fontWeight: "bold" }}>
+            <TableRow>
               <TableCell component="th" scope="row">
-                Revenue Id
+                Title
               </TableCell>
-              <TableCell align="right">Title</TableCell>
+              <TableCell>Amount</TableCell>
 
-              <TableCell align="right">Price</TableCell>
+              <TableCell>Category</TableCell>
+              <TableCell>Date Created</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {revenues.map((revenue) => {
               return (
-                <>
-                  <TableRow
-                    key={revenue.revenue_id}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell component="th" scope="row">
-                      {revenue.revenue_id}
-                    </TableCell>
+                <TableRow
+                  key={revenue.revenue_id}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    {revenue.title}
+                  </TableCell>
 
-                    <TableCell align="right">{revenue.title}</TableCell>
+                  <TableCell>{revenue.amount}</TableCell>
 
-                    <TableCell align="right">{revenue.amount}</TableCell>
-                  </TableRow>
-                </>
+                  <TableCell>{revenue.category}</TableCell>
+                  <TableCell>{revenue.created_At}</TableCell>
+                </TableRow>
               );
             })}
           </TableBody>

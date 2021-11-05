@@ -1,10 +1,12 @@
 import MainWrapper from "./MainWrapper";
 import classes from "./AddStakeholder.module.css";
-import { useState } from "react";
-import { baseUrl, token } from "../context/baseUrl";
+import { useState, useEffect } from "react";
+import { baseUrl } from "../context/baseUrl";
 import Select from "react-select";
 import { state as stateOptions } from "./state";
 import { useGlobalContext } from "../context/context";
+import toast from "react-hot-toast";
+
 const AddStakeholder = () => {
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
@@ -12,23 +14,43 @@ const AddStakeholder = () => {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [state, setState] = useState({});
+  const [streams, setStream] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [revenues, setRevenues] = useState([]);
+
   const roleOptions = [];
   const { user } = useGlobalContext();
+
+  useEffect(async () => {
+    const url = `${baseUrl}/revenue/all`;
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    };
+    await fetch(url, requestOptions)
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+  }, []);
   const newOptions = stateOptions.map((state) => {
     return {
       label: state.toUpperCase(),
       value: state.toLowerCase(),
     };
   });
+  const handleStream = (stream) => {
+    setStream(stream);
+  };
   const handleRole = (role) => {
     setRole(role);
     console.log(role);
   };
   const handleState = (state) => {
     setState(state);
-    console.log(state);
   };
+  const streamOptions = [{ label: "Transport" }, { value: "transport" }];
+
   const add = async (e) => {
     setLoading(true);
     e.preventDefault();
@@ -37,7 +59,7 @@ const AddStakeholder = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${user.token}`,
         Accept: "application/json",
       },
       body: JSON.stringify({
@@ -55,13 +77,15 @@ const AddStakeholder = () => {
         console.log(data);
         if (data.success) {
           setLoading(false);
+          toast.success("Stakeholder Registered Successfully");
         } else {
-          console.log(data.error);
+          toast.error(data.error);
           setLoading(false);
         }
       })
       .catch((err) => {
         console.log(err);
+        toast.error(err.message);
       });
   };
   if (user.stakeholder.role === "admin") {
@@ -110,6 +134,7 @@ const AddStakeholder = () => {
                     placeholder="Name"
                     onChange={(e) => setName(e.target.value)}
                   />
+                  <label>Full Name e.g (John Doe Peters)</label>
                 </div>
                 <div className={classes.input_container}>
                   <label>Username.</label>
@@ -128,6 +153,9 @@ const AddStakeholder = () => {
                     placeholder="Phone"
                     onChange={(e) => setPhone(e.target.value)}
                   />
+                  <label>
+                    Phone number must start with country code e.g (234)
+                  </label>
                 </div>
                 <div className={classes.input_container}>
                   <label>State.</label>
@@ -150,19 +178,33 @@ const AddStakeholder = () => {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
-              <div className={classes.input_container}>
-                <label>Role.</label>
-                <Select
-                  value={role}
-                  placeholder="Choose a Role"
-                  onChange={handleRole}
-                  options={roleOptions}
-                />
-                {/* <input
+              <div className={classes.columns}>
+                <div className={classes.input_container}>
+                  <label>Role.</label>
+                  <Select
+                    value={role}
+                    placeholder="Choose a Role"
+                    onChange={handleRole}
+                    options={roleOptions}
+                  />
+                  {/* <input
                 value={role}
                 placeholder="Role"
                 onChange={(e) => setRole(e.target.value)}
               /> */}
+                </div>
+                {user.stakeholder.role !== "admin" && (
+                  <div className={classes.input_container}>
+                    <label>Revenue Streams.</label>
+                    <Select
+                      value={streams}
+                      isMulti={true}
+                      onChange={handleStream}
+                      isSearchable={true}
+                      options={streamOptions}
+                    />
+                  </div>
+                )}
               </div>
             </section>
           </div>

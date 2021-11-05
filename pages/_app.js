@@ -5,17 +5,22 @@ import { defaultState } from "../context/defaultState";
 import { reducer } from "../context/reducer";
 import React from "react";
 import { motion } from "framer-motion";
-import { loadGetInitialProps } from "next/dist/shared/lib/utils";
+import { Toaster } from "react-hot-toast";
 
 function MyApp({ Component, pageProps, router }) {
   const [state, dispatch] = useReducer(reducer, defaultState);
-
   const toggleDropdown = (aside) => {
     dispatch({ type: "TOGGLE_DROPDOWN", payload: aside });
   };
   const setUser = (profile) => {
     dispatch({ type: "SET_USER", payload: profile });
   };
+
+  React.useEffect(() => {
+    // const localUser = JSON.parse(localStorage.getItem("stakeholder"));
+    // setUser(localUser);
+    // localStorage.removeItem("stakeholder");
+  }, []);
   return (
     <React.StrictMode>
       <AppContext.Provider
@@ -39,6 +44,7 @@ function MyApp({ Component, pageProps, router }) {
             },
           }}
         >
+          <Toaster position="top-center" />
           <Component {...pageProps} />
         </motion.div>
       </AppContext.Provider>

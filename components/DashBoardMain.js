@@ -12,7 +12,7 @@ const DashBoardMain = () => {
   return (
     <MainWrapper>
       <span className={classes.name}>
-        WELCOME {stakeholder === {} ? "USER" : "Bum"}
+        WELCOME {user === {} ? "USER" : "Bum"}
       </span>
       <div className={classes.cont}>
         <Cards />
