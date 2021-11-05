@@ -7,7 +7,7 @@
 .main {
   background-color: #f8f8f8;
   flex: 1 1 80%;
-  min-height: 100vh;
+  min-height: 100%;
   margin-left: 280px;
   min-width: 500px;
 }

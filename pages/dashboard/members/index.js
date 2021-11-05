@@ -1,8 +1,7 @@
 import AllStakeHolders from "../../../components/AllStakeHolders";
 import DashBoardWrapper from "../../../components/DashBoardWrapper";
 
-const Members = (props) => {
-  console.log(props.stakeholders, ":Props");
+const Members = () => {
   return (
     <DashBoardWrapper>
       <AllStakeHolders />

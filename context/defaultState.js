@@ -1,11 +1,16 @@
-import { MdSpaceDashboard, MdPeopleAlt } from "react-icons/md";
-import { BsFillPersonPlusFill } from "react-icons/bs";
+import {
+  MdSpaceDashboard,
+  MdPeopleAlt,
+  MdLock,
+  MdStream,
+} from "react-icons/md";
+import { token } from "./baseUrl";
 
 export const defaultState = {
   isDropdown: true,
   user: {},
   isUser: false,
-  token: "",
+  token: token,
   asideContents: [
     {
       text: "Dashboard",
@@ -24,20 +29,24 @@ export const defaultState = {
       dropdown: [
         {
           text: "Add New",
-          icon: <BsFillPersonPlusFill />,
+
           link: "/add-new-stakeholder",
         },
-        { text: "Members", icon: "", link: "/members" },
+        {
+          text: "Members",
+
+          link: "/members",
+        },
       ],
       open: true,
     },
-    { id: 3, text: "Pin Management", icon: "", open: true, link: "" },
+    { id: 3, text: "Pin Management", icon: <MdLock />, open: true, link: "" },
     {
       id: 4,
       open: true,
       text: "Revenue Streams",
       expandable: true,
-      icon: "",
+      icon: <MdStream />,
       link: "",
       dropdown: [
         { text: "Add New", icons: "", link: "/add-revenue" },

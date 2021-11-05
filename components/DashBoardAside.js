@@ -1,6 +1,7 @@
 import classes from "./DashBoardAside.module.css";
 import React from "react";
 import { MdKeyboardArrowDown, MdKeyboardArrowRight } from "react-icons/md";
+import { BiLogInCircle } from "react-icons/bi";
 import { useGlobalContext } from "../context/context";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -39,12 +40,12 @@ const DashBoardAside = () => {
                       style={{
                         display: "flex",
                         justifyContent: "space-between",
-                        gap: "10px",
+                        gap: "16px",
                         alignItems: "center",
                       }}
                     >
                       <span className={classes.icon}>{aside.icon}</span>
-                      <span>{aside.text}</span>
+                      <span style={{ fontSize: "14px" }}>{aside.text}</span>
                     </span>{" "}
                     <span>
                       {aside.expandable && (
@@ -59,29 +60,40 @@ const DashBoardAside = () => {
                     </span>
                   </a>
                 </Link>
-                {aside.open && (
-                  <>
-                    {aside.dropdown && (
-                      <div className={classes.dropdown}>
-                        {React.Children.toArray(
-                          aside.dropdown.map((drop) => {
-                            return (
-                              <Link
-                                key={drop.text}
-                                href={"/dashboard" + drop.link}
+
+                <div
+                  className={aside.open ? classes.showdrop : classes.hide_drop}
+                >
+                  {aside.dropdown && (
+                    <div className={classes.dropdown}>
+                      {React.Children.toArray(
+                        aside.dropdown.map((drop) => {
+                          return (
+                            <Link
+                              key={drop.text}
+                              href={"/dashboard" + drop.link}
+                            >
+                              <a
+                                style={{
+                                  display: "flex",
+                                  gap: "15px",
+                                  alignItems: "center",
+                                }}
                               >
-                                <a>
-                                  <span>{drop.icon}</span>
+                                <span>
+                                  <BiLogInCircle />
+                                </span>
+                                <span style={{ fontSize: "13px" }}>
                                   {drop.text}
-                                </a>
-                              </Link>
-                            );
-                          })
-                        )}
-                      </div>
-                    )}
-                  </>
-                )}
+                                </span>
+                              </a>
+                            </Link>
+                          );
+                        })
+                      )}
+                    </div>
+                  )}
+                </div>
               </li>
             );
           })
