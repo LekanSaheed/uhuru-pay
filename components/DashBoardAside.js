@@ -14,7 +14,7 @@ const DashBoardAside = () => {
     <div className={classes.asideMain}>
       <header className={classes.asideHeader}>
         <div style={{ padding: "10px" }}>
-          <Image width={100} height={50} src="/WORDMARK.png" />
+          <Image width={200} height={50} src="/WORDMARK.png" />
         </div>
       </header>
 
@@ -23,30 +23,47 @@ const DashBoardAside = () => {
           asideContents.map((aside) => {
             return (
               <li className={classes.aside} key={aside.text}>
-                <Link
-                  href={aside.link && "/dashboard" + aside.link}
-                  className={classes.asideLink}
-                  style={{
-                    display: "flex",
-                    gap: "20px",
-                    alignItems: "baseline",
-                  }}
-                >
-                  <a
-                    className={classes.link_flex}
-                    onClick={() => toggleDropdown(aside)}
+                {aside.link ? (
+                  <Link
+                    href={"/dashboard" + aside.link}
+                    className={`${classes.asideLink}`}
                   >
-                    <span
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        gap: "16px",
-                        alignItems: "center",
-                      }}
+                    <a
+                      className={`${classes.link_flex}  ${
+                        router.pathname == `"/dashboard${aside.link}`
+                          ? classes.active
+                          : ""
+                      }`}
                     >
-                      <span className={classes.icon}>{aside.icon}</span>
-                      <span style={{ fontSize: "14px" }}>{aside.text}</span>
-                    </span>{" "}
+                      <span
+                        className={classes.link_hover}
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          gap: "16px",
+                          alignItems: "center",
+                        }}
+                      >
+                        <i className={classes.icon}>{aside.icon}</i>
+                        <span style={{ fontSize: "14px" }}>{aside.text}</span>
+                      </span>{" "}
+                    </a>
+                  </Link>
+                ) : (
+                  <span
+                    onClick={() => toggleDropdown(aside)}
+                    className={classes.link_flex}
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      gap: "16px",
+                      alignItems: "center",
+                    }}
+                  >
+                    <span>
+                      <i className={classes.icon}>{aside.icon}</i>
+                      {aside.text}
+                    </span>
                     <span>
                       {aside.expandable && (
                         <>
@@ -58,8 +75,8 @@ const DashBoardAside = () => {
                         </>
                       )}
                     </span>
-                  </a>
-                </Link>
+                  </span>
+                )}
 
                 <div
                   className={aside.open ? classes.showdrop : classes.hide_drop}

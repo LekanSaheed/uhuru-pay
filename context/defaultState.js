@@ -23,7 +23,6 @@ export const defaultState = {
     {
       id: 2,
       text: "Stakeholders",
-      link: "",
       expandable: true,
       icon: <MdPeopleAlt />,
       dropdown: [
@@ -40,14 +39,19 @@ export const defaultState = {
       ],
       open: true,
     },
-    { id: 3, text: "Pin Management", icon: <MdLock />, open: true, link: "" },
+    {
+      id: 3,
+      text: "Pin Management",
+      icon: <MdLock />,
+      open: true,
+      link: "/pin-management",
+    },
     {
       id: 4,
       open: true,
       text: "Revenue Streams",
       expandable: true,
       icon: <MdStream />,
-      link: "",
       dropdown: [
         { text: "Add New", icons: "", link: "/add-revenue" },
         { text: "All Revenues", icons: "", link: "/all-revenues" },

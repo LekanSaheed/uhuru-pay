@@ -5,6 +5,7 @@ import { defaultState } from "../context/defaultState";
 import { reducer } from "../context/reducer";
 import React from "react";
 import { motion } from "framer-motion";
+import { loadGetInitialProps } from "next/dist/shared/lib/utils";
 
 function MyApp({ Component, pageProps, router }) {
   const [state, dispatch] = useReducer(reducer, defaultState);
@@ -46,3 +47,4 @@ function MyApp({ Component, pageProps, router }) {
 }
 
 export default MyApp;
+export function getInitialProps() {}

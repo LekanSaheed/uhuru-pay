@@ -69,7 +69,7 @@ const Form = () => {
   return (
     <div className={classes.login_container}>
       <div style={{ padding: "10px" }}>
-        <Image width={200} src="/WORDMARK.png" alt="Upay logo" />
+        <Image width={200} height={50} src="/WORDMARK.png" alt="Upay logo" />
       </div>
       <motion.div
         animate="visible"

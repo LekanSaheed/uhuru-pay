@@ -46,12 +46,12 @@ const Revenues = () => {
         <Table sx={{ minWidth: 650 }}>
           <TableHead>
             <TableRow style={{ fontWeight: "bold" }}>
-              <TableCell component="th" scope="row" float="right">
+              <TableCell component="th" scope="row">
                 Revenue Id
               </TableCell>
-              <TableCell>Title</TableCell>
+              <TableCell align="right">Title</TableCell>
 
-              <TableCell float="right">Price</TableCell>
+              <TableCell align="right">Price</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

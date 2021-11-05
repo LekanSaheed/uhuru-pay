@@ -8,6 +8,7 @@
 .main {
   background-color: #f4f6f8;
   width: 100%;
+  min-height: 100%;
 }
 .side_nav {
   /* background-color: #2a3042; */

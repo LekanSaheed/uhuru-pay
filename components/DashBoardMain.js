@@ -7,13 +7,17 @@ import MainWrapper from "./MainWrapper";
 import React from "react";
 import { useGlobalContext } from "../context/context";
 const DashBoardMain = () => {
-  React.useEffect(() => {}, []);
+  const [stakeholder, setStakeholder] = React.useState({});
+  React.useEffect(() => {
+    setStakeholder(user);
+  }, []);
+
   const { user } = useGlobalContext();
-  console.log(user);
+  console.log(stakeholder);
   return (
     <MainWrapper>
       <span className={classes.name}>
-        WELCOME {user != {} && user.stakeholder.name.toUpperCase()}
+        WELCOME {stakeholder === {} ? "USER" : stakeholder.stakeholder.name}
       </span>
       <div className={classes.cont}>
         <Cards />

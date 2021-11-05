@@ -24,18 +24,15 @@
 }
 
 .dropdown a:hover {
-  color: white;
+  color: black;
   transition: 0.2s;
 }
 .asideHeader {
-  padding: 40px;
+  padding: 20px;
 }
 .icon {
   font-size: 22px;
-  color: #a6a7b5;
-}
-.icon:hover {
-  color: white;
+  color: #c3c4d3;
 }
 .link_flex {
   display: flex;
@@ -44,11 +41,11 @@
   gap: 10px;
   transition: 0.2s ease-in-out;
 }
-.link_flex:hover {
-  color: #fff;
+.active {
+  color: goldenrod !important;
 }
 .dropdown {
-  margin-left: 30px;
+  margin-left: 32px;
   display: flex;
   flex-direction: column;
   margin-top: 10px;
@@ -61,4 +58,10 @@
   cursor: pointer;
   font-weight: 500;
   color: #a6a7b5;
+  display: flex;
+  gap: 20px;
+  align-items: baseline;
+}
+.link_hover:hover {
+  color: black !important;
 }
