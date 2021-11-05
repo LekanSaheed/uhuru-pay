@@ -13,7 +13,7 @@ const DashBoardMain = () => {
   return (
     <MainWrapper>
       <span className={classes.name}>
-        WELCOME {user && user.stakeholder.name.toUpperCase()}
+        WELCOME {user != {} && user.stakeholder.name.toUpperCase()}
       </span>
       <div className={classes.cont}>
         <Cards />

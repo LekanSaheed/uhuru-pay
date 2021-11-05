@@ -7,6 +7,7 @@ import React from "react";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { ImSpinner } from "react-icons/im";
 import { motion } from "framer-motion";
+import Image from "next/image";
 const Form = () => {
   const router = useRouter();
 
@@ -17,7 +18,6 @@ const Form = () => {
   const { setUser, user, isUser } = useGlobalContext();
   const [error, setError] = useState("");
   React.useEffect(() => {
-    console.log(router);
     if (isUser) {
       router.push("/dashboard");
     }
@@ -69,7 +69,7 @@ const Form = () => {
   return (
     <div className={classes.login_container}>
       <div style={{ padding: "10px" }}>
-        <img style={{ width: "200px" }} src="/WORDMARK.png" alt="Upay logo" />
+        <Image width={200} src="/WORDMARK.png" alt="Upay logo" />
       </div>
       <motion.div
         animate="visible"

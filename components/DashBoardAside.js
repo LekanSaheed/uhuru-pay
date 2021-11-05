@@ -5,7 +5,7 @@ import { BiLogInCircle } from "react-icons/bi";
 import { useGlobalContext } from "../context/context";
 import Link from "next/link";
 import { useRouter } from "next/router";
-
+import Image from "next/image";
 const DashBoardAside = () => {
   const router = useRouter();
   const { toggleDropdown, isDropdown, asideContents } = useGlobalContext();
@@ -14,7 +14,7 @@ const DashBoardAside = () => {
     <div className={classes.asideMain}>
       <header className={classes.asideHeader}>
         <div style={{ padding: "10px" }}>
-          <img style={{ width: "100%" }} src="/WORDMARK.png" />
+          <Image width={100} height={50} src="/WORDMARK.png" />
         </div>
       </header>
 
