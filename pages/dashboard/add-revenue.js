@@ -3,7 +3,7 @@ import { baseUrl } from "../../context/baseUrl";
 import {useState} from 'react'
 export default function AddRevenue(){
     const addRevenue = async() => {
-        const
+        
 const url = `${baseUrl}/revenue/all`;
 const [title, setTitle]
     const requestOptions = {
