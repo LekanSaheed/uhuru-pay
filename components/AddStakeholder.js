@@ -16,7 +16,6 @@ const AddStakeholder = () => {
   const [state, setState] = useState({});
   const [streams, setStream] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [revenues, setRevenues] = useState([]);
 
   const roleOptions = [];
   const { user } = useGlobalContext();
@@ -119,7 +118,7 @@ const AddStakeholder = () => {
 
   return (
     <>
-      {!isServer && (
+      {isServer && (
         <form className={classes.form}>
           <div className={classes.header}>
             <span>Add Stakeholder</span>
