@@ -1,11 +1,15 @@
 import DashBoardWrapper from "../../components/DashBoardWrapper";
 import { baseUrl } from "../../context/baseUrl";
-import {useState} from 'react'
-export default function AddRevenue(){
-    const addRevenue = async() => {
-        
-const url = `${baseUrl}/revenue/all`;
-const [title, setTitle]
+import { useState } from "react";
+export default function AddRevenue() {
+  const addRevenue = async () => {
+    const url = `${baseUrl}/revenue/all`;
+    const [title, setTitle] = useState("");
+    const [amount, setAmount] = useState("");
+    const [comment, setComment] = useState("");
+    const [category, setCategory] = useState("");
+    const [sharing, setSharing] = useState("");
+
     const requestOptions = {
       method: "POST",
       headers: {
@@ -14,10 +18,10 @@ const [title, setTitle]
         Accept: "application/json",
       },
       body: JSON.stringify({
-       title: title,
-       amount: amount,
-       sharing: sharing,
-       category: category
+        title: title,
+        amount: amount,
+        sharing: sharing,
+        category: category,
       }),
     };
     await fetch(url, requestOptions)
@@ -25,17 +29,16 @@ const [title, setTitle]
       .then((data) => console.log(data));
   };
 
-    
-return(
+  return (
     <DashBoardWrapper>
-<form>
-    <div>
-        <input/>
-    </div>
-    <div>
-        <input/>
-    </div>
-</form>
+      <form>
+        <div>
+          <input />
+        </div>
+        <div>
+          <input />
+        </div>
+      </form>
     </DashBoardWrapper>
-)
+  );
 }
