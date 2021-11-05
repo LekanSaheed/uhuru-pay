@@ -43,24 +43,32 @@ const Revenues = () => {
     <section>
       <span>All Revenues</span>
       <TableContainer component={Paper}>
-        <Table>
+        <Table sx={{ minWidth: 650 }}>
           <TableHead>
-            <TableRow>
+            <TableRow style={{ fontWeight: "bold" }}>
+              <TableCell component="th" scope="row" float="right">
+                Revenue Id
+              </TableCell>
               <TableCell>Title</TableCell>
-              <TableCell>Revenue Id</TableCell>
-              <TableCell>Price</TableCell>
+
+              <TableCell float="right">Price</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {revenues.map((revenue) => {
               return (
                 <>
-                  <TableRow>
-                    <TableCell>{revenue.title}</TableCell>
+                  <TableRow
+                    key={revenue.revenue_id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {revenue.revenue_id}
+                    </TableCell>
 
-                    <TableCell>{revenue.revenue_id}</TableCell>
+                    <TableCell align="right">{revenue.title}</TableCell>
 
-                    <TableCell>{revenue.amount}</TableCell>
+                    <TableCell align="right">{revenue.amount}</TableCell>
                   </TableRow>
                 </>
               );

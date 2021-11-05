@@ -50,7 +50,7 @@ const Form = () => {
             .then((data) => {
               if (data.success === true) {
                 setUser({ stakeholder: data.data, token });
-                console.log(user, ":user");
+                console.log(data.data, ":user");
               } else {
                 setError(data.error);
                 setIsLoading(false);

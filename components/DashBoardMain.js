@@ -4,13 +4,17 @@ import Wallet from "./Wallet";
 import GridCard from "./GridCard";
 import Graph from "./Graph";
 import MainWrapper from "./MainWrapper";
-import { baseUrl } from "../context/baseUrl";
 import React from "react";
+import { useGlobalContext } from "../context/context";
 const DashBoardMain = () => {
   React.useEffect(() => {}, []);
+  const { user } = useGlobalContext();
+  console.log(user);
   return (
     <MainWrapper>
-      <span>WELCOME USER</span>
+      <span className={classes.name}>
+        WELCOME {user && user.stakeholder.name.toUpperCase()}
+      </span>
       <div className={classes.cont}>
         <Cards />
         <div>

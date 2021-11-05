@@ -1,8 +1,8 @@
 import classes from "./DashBoardHeader.module.css";
-import { RiAlignLeft } from "react-icons/ri";
+import { RiAlignLeft, RiNotification3Line } from "react-icons/ri";
 import { GiExpand, GiPerson } from "react-icons/gi";
 import { GrSearch, GrNotification } from "react-icons/gr";
-import { BsChatDotsFill } from "react-icons/bs";
+import { BsChatDotsFill, BsFillPersonFill, BsPerson } from "react-icons/bs";
 import React from "react";
 
 const DashBoardHeader = () => {
@@ -11,8 +11,8 @@ const DashBoardHeader = () => {
     { id: 2, icon: <BsChatDotsFill /> },
   ];
   const rightIcons = [
-    { id: 1, icon: <GrNotification /> },
-    { id: 2, icon: <GiPerson /> },
+    { id: 1, icon: <RiNotification3Line /> },
+    { id: 2, icon: <BsPerson /> },
   ];
 
   // var elem = document.documentElement;

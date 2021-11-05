@@ -4,3 +4,6 @@
   grid-template-rows: 300px;
   background-color: white;
 }
+.name {
+  font-weight: 600;
+}
