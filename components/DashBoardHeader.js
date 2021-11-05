@@ -8,7 +8,7 @@ import React from "react";
 const DashBoardHeader = () => {
   const data = [
     { id: 1, icon: <RiAlignLeft /> },
-    { id: 2, icon: <BsChatDotsFill /> },
+    { id: 2, icon: <BsChatDotsFill />, type: "lg" },
   ];
   const rightIcons = [
     { id: 1, icon: <RiNotification3Line /> },
@@ -51,7 +51,12 @@ const DashBoardHeader = () => {
         {React.Children.toArray(
           data.map((icon) => {
             return (
-              <span key={icon.id} className={classes.icon}>
+              <span
+                key={icon.id}
+                className={`${classes.icon} ${
+                  icon.type === "lg" ? classes.lg : ""
+                }`}
+              >
                 {icon.icon}
               </span>
             );
@@ -60,7 +65,10 @@ const DashBoardHeader = () => {
       </div>
 
       <div className={classes.header_right}>
-        <span onClick={() => alert("Expanded")} className={classes.icon}>
+        <span
+          onClick={() => alert("Expanded")}
+          className={`${classes.icon} ${classes.lg}`}
+        >
           <GiExpand />
         </span>
         <div className={classes.header_search}>

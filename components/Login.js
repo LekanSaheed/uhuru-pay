@@ -55,6 +55,9 @@ const Form = () => {
                 setError(data.error);
                 setIsLoading(false);
               }
+            })
+            .catch((err) => {
+              alert(err);
             });
         }
         if (data.success === false) {
