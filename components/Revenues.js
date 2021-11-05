@@ -10,10 +10,23 @@ import {
   TableCell,
   TableBody,
   Paper,
-} from "@mui/material";
+  makeStyles,
+} from "@material-ui/core";
 
 const url = `${baseUrl}/revenue/list`;
 const Revenues = () => {
+  const useStyle = makeStyles((theme) => ({
+    pending: {
+      color: "goldenrod !important",
+    },
+    approved: {
+      color: "green !important",
+    },
+    rejected: {
+      color: "red !important",
+    },
+  }));
+  const classes = useStyle();
   const { user } = useGlobalContext();
   const [loading, setLoading] = useState(true);
   const [revenues, setRevenues] = useState([]);
@@ -53,6 +66,7 @@ const Revenues = () => {
 
               <TableCell>Category</TableCell>
               <TableCell>Date Created</TableCell>
+              <TableCell>Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -70,6 +84,15 @@ const Revenues = () => {
 
                   <TableCell>{revenue.category}</TableCell>
                   <TableCell>{revenue.created_At}</TableCell>
+                  <TableCell
+                    className={
+                      (revenue.status === "Rejected" && classes.rejected) ||
+                      (revenue.status === "Approved" && classes.approved) ||
+                      (revenue.status === "Pending" && classes.pending)
+                    }
+                  >
+                    {revenue.status}
+                  </TableCell>
                 </TableRow>
               );
             })}
