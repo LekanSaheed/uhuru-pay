@@ -2,14 +2,13 @@ import DashBoardWrapper from "../../components/DashBoardWrapper";
 import { baseUrl } from "../../context/baseUrl";
 import { useState } from "react";
 export default function AddRevenue() {
+  const url = `${baseUrl}/revenue/all`;
+  const [title, setTitle] = useState("");
+  const [amount, setAmount] = useState("");
+  const [comment, setComment] = useState("");
+  const [category, setCategory] = useState("");
+  const [sharing, setSharing] = useState("");
   const addRevenue = async () => {
-    const url = `${baseUrl}/revenue/all`;
-    const [title, setTitle] = useState("");
-    const [amount, setAmount] = useState("");
-    const [comment, setComment] = useState("");
-    const [category, setCategory] = useState("");
-    const [sharing, setSharing] = useState("");
-
     const requestOptions = {
       method: "POST",
       headers: {
@@ -38,6 +37,7 @@ export default function AddRevenue() {
         <div>
           <input />
         </div>
+        <button onClick={addRevenue}>Add revenue</button>
       </form>
     </DashBoardWrapper>
   );
