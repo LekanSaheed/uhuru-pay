@@ -4,6 +4,7 @@ import { useState } from "react";
 import { baseUrl, token } from "../context/baseUrl";
 import Select from "react-select";
 import { state as stateOptions } from "./state";
+import { useGlobalContext } from "../context/context";
 const AddStakeholder = () => {
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
@@ -12,6 +13,8 @@ const AddStakeholder = () => {
   const [email, setEmail] = useState("");
   const [state, setState] = useState({});
   const [loading, setLoading] = useState(false);
+  const roleOptions = [];
+  const { user } = useGlobalContext();
   const newOptions = stateOptions.map((state) => {
     return {
       label: state.toUpperCase(),
@@ -61,16 +64,35 @@ const AddStakeholder = () => {
         console.log(err);
       });
   };
-  const roleOptions = [
-    { label: "Admin", value: "admin" },
-    { label: "State Government", value: "state" },
-    { label: "Local Government", value: "local" },
+  if (user.stakeholder.role === "admin") {
+    roleOptions.push(
+      { label: "Admin", value: "admin" },
+      { label: "State Government", value: "state" }
+    );
+  } else if (user.stakeholder.role === "state") {
+    roleOptions.push(
+      { label: "Local Government", value: "local" },
+      { label: "Union", value: "union" },
+      { label: "Agent", value: "agent" },
+      { label: "Collector", value: "collector" }
+    );
+  } else if (user.stakeholder.role === "local") {
+    roleOptions.push(
+      { label: "Union", value: "union" },
+      { label: "Agent", value: "agent" },
+      { label: "Collector", value: "collector" }
+    );
+  } else if (user.stakeholder.role === "union") {
+    roleOptions.push(
+      { label: "Agent", value: "agent" },
+      { label: "Collector", value: "collector" }
+    );
+  } else if (user.stakeholder.role === "agent") {
+    roleOptions.push({ label: "Collector", value: "collector" });
+  } else {
+    return roleOptions;
+  }
 
-    { label: "Union", value: "union" },
-
-    { label: "Agent", value: "agent" },
-    { label: "Collector", value: "collector" },
-  ];
   return (
     <>
       <form className={classes.form}>
@@ -119,7 +141,7 @@ const AddStakeholder = () => {
               </div>
             </div>
 
-            <section classname={classes.emailandrole}>
+            <section className={classes.emailandrole}>
               <div className={classes.input_container}>
                 <label>Email.</label>
                 <input
