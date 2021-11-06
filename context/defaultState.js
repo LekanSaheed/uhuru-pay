@@ -9,6 +9,7 @@ export const defaultState = {
   isDropdown: true,
   user: {},
   isUser: false,
+  isToggledProfile: false,
   asideContents: [
     {
       text: "Dashboard",

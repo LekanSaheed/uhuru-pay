@@ -11,11 +11,16 @@ import {
   TableBody,
   Paper,
   makeStyles,
+  CircularProgress,
+  LinearProgress,
 } from "@material-ui/core";
 
 const url = `${baseUrl}/revenue/list`;
 const Revenues = () => {
   const useStyle = makeStyles((theme) => ({
+    root: {
+      fontFamily: "brFirma",
+    },
     pending: {
       color: "goldenrod !important",
     },
@@ -55,7 +60,7 @@ const Revenues = () => {
   return (
     <section>
       <span>All Revenues</span>
-      <TableContainer component={Paper}>
+      <TableContainer className={classes.root} component={Paper}>
         <Table sx={{ minWidth: 650 }}>
           <TableHead>
             <TableRow>
@@ -99,6 +104,23 @@ const Revenues = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      {loading && <LinearProgress />}
+      {loading && (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            position: "absolute",
+            top: "0",
+            left: "280px",
+            right: "0",
+            bottom: "0",
+          }}
+        >
+          <CircularProgress />
+        </div>
+      )}
     </section>
   );
 };

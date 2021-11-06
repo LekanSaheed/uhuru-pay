@@ -16,10 +16,14 @@ const AddStakeholder = () => {
   const [state, setState] = useState({});
   const [streams, setStream] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [revenues, setRevenues] = useState([]);
 
   const roleOptions = [];
   const { user } = useGlobalContext();
   const isServer = typeof window === "undefined";
+  const newStream = streams.map((i) => {
+    return i.value;
+  });
   useEffect(async () => {
     const url = `${baseUrl}/revenue/all`;
     const requestOptions = {
@@ -30,25 +34,44 @@ const AddStakeholder = () => {
     };
     await fetch(url, requestOptions)
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => {
+        if (data.success) {
+          const newRev = data.data.map((rev) => {
+            return {
+              label: rev.title,
+              value: rev.revenue_id,
+            };
+          });
+          const filtered = newRev.filter((rev) => {
+            return user.stakeholder.revenueStreams.includes(rev.value);
+          });
+          setRevenues(filtered);
+        } else {
+          toast.error(data.error);
+        }
+      });
   }, []);
-  const newOptions = stateOptions.map((state) => {
+  const myOptions = stateOptions.map((state) => {
     return {
       label: state.toUpperCase(),
       value: state.toLowerCase(),
     };
   });
+  const newOptions =
+    user.stakeholder.role !== "admin"
+      ? myOptions.filter((i) => i.value === user.stakeholder.state)
+      : myOptions;
+
   const handleStream = (stream) => {
     setStream(stream);
   };
+
   const handleRole = (role) => {
     setRole(role);
-    console.log(role);
   };
   const handleState = (state) => {
     setState(state);
   };
-  const streamOptions = [{ label: "Transport" }, { value: "transport" }];
 
   const add = async (e) => {
     setLoading(true);
@@ -68,13 +91,14 @@ const AddStakeholder = () => {
         email: email,
         state: state.value,
         role: role.value,
+        revenueStreams: newStream,
       }),
     };
     await fetch(url, requestOptions)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (data.success) {
+          console.log(data);
           setLoading(false);
           toast.success("Stakeholder Registered Successfully");
         } else {
@@ -118,104 +142,102 @@ const AddStakeholder = () => {
 
   return (
     <>
-      {isServer && (
-        <form className={classes.form}>
-          <div className={classes.header}>
-            <span>Add Stakeholder</span>
-          </div>
-          <div className={classes.group}>
-            <div className={classes.colrow}>
-              <div className={classes.columns}>
-                <div className={classes.column}>
-                  <div className={classes.input_container}>
-                    <label>Name.</label>
-                    <input
-                      value={name}
-                      placeholder="Name"
-                      onChange={(e) => setName(e.target.value)}
-                    />
-                    <label>Full Name e.g (John Doe Peters)</label>
-                  </div>
-                  <div className={classes.input_container}>
-                    <label>Username.</label>
-                    <input
-                      value={username}
-                      placeholder="User Name"
-                      onChange={(e) => setUsername(e.target.value)}
-                    />
-                  </div>
-                </div>
-                <div className={classes.column}>
-                  <div className={classes.input_container}>
-                    <label>Phone No.</label>
-                    <input
-                      value={phone}
-                      placeholder="Phone"
-                      onChange={(e) => setPhone(e.target.value)}
-                    />
-                    <label>
-                      Phone number must start with country code e.g (234)
-                    </label>
-                  </div>
-                  <div className={classes.input_container}>
-                    <label>State.</label>
-                    <Select
-                      value={state}
-                      placeholder="Choose a State"
-                      onChange={handleState}
-                      options={newOptions}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <section className={classes.emailandrole}>
+      <form className={classes.form}>
+        <div className={classes.header}>
+          <span>Add Stakeholder</span>
+        </div>
+        <div className={classes.group}>
+          <div className={classes.colrow}>
+            <div className={classes.columns}>
+              <div className={classes.column}>
                 <div className={classes.input_container}>
-                  <label>Email.</label>
+                  <label>Name.</label>
                   <input
-                    value={email}
-                    placeholder="Email Address"
-                    onChange={(e) => setEmail(e.target.value)}
+                    value={name}
+                    placeholder="Name"
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                  <label>Full Name e.g (John Doe Peters)</label>
+                </div>
+                <div className={classes.input_container}>
+                  <label>Username.</label>
+                  <input
+                    value={username}
+                    placeholder="User Name"
+                    onChange={(e) => setUsername(e.target.value)}
                   />
                 </div>
-                <div className={classes.columns}>
-                  <div className={classes.input_container}>
-                    <label>Role.</label>
-                    <Select
-                      value={role}
-                      placeholder="Choose a Role"
-                      onChange={handleRole}
-                      options={roleOptions}
-                    />
-                    {/* <input
+              </div>
+              <div className={classes.column}>
+                <div className={classes.input_container}>
+                  <label>Phone No.</label>
+                  <input
+                    value={phone}
+                    placeholder="Phone"
+                    onChange={(e) => setPhone(e.target.value)}
+                  />
+                  <label>
+                    Phone number must start with country code e.g (234)
+                  </label>
+                </div>
+                <div className={classes.input_container}>
+                  <label>State.</label>
+                  <Select
+                    value={state}
+                    placeholder="Choose a State"
+                    onChange={handleState}
+                    options={newOptions}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <section className={classes.emailandrole}>
+              <div className={classes.input_container}>
+                <label>Email.</label>
+                <input
+                  value={email}
+                  placeholder="Email Address"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <div className={classes.columns}>
+                <div className={classes.input_container}>
+                  <label>Role.</label>
+                  <Select
+                    value={role}
+                    placeholder="Choose a Role"
+                    onChange={handleRole}
+                    options={roleOptions}
+                  />
+                  {/* <input
                 value={role}
                 placeholder="Role"
                 onChange={(e) => setRole(e.target.value)}
               /> */}
-                  </div>
-                  {user.stakeholder.role !== "admin" && (
-                    <div className={classes.input_container}>
-                      <label>Revenue Streams.</label>
-                      <Select
-                        value={streams}
-                        isMulti={true}
-                        onChange={handleStream}
-                        isSearchable={true}
-                        options={streamOptions}
-                      />
-                    </div>
-                  )}
                 </div>
-              </section>
-            </div>
-            <div></div>
+                {user.stakeholder.role !== "admin" && (
+                  <div className={classes.input_container}>
+                    <label>Revenue Streams.</label>
+                    <Select
+                      value={streams}
+                      isMulti={true}
+                      onChange={handleStream}
+                      isSearchable={true}
+                      options={revenues}
+                    />
+                  </div>
+                )}
+              </div>
+            </section>
           </div>
+          <div></div>
+        </div>
 
-          <button onClick={add}>
-            {loading ? "Registering..." : " Register Stakeholder"}
-          </button>
-        </form>
-      )}
+        <button onClick={add}>
+          {loading ? "Registering..." : " Register Stakeholder"}
+        </button>
+      </form>
     </>
   );
 };

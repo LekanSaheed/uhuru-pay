@@ -9,13 +9,24 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: brFirma;
+  src: url("./brFirma/BR\ Firma\ Light.woff") format("woff");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: brFBold;
+  src: url("./brFirma/BR\ Firma\ Black.woff") format("woff");
+  font-weight: 500;
+}
+
 html,
 body {
   width: 100%;
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: brFirma, sans-serif;
 }
 
 a {

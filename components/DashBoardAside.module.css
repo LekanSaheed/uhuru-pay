@@ -4,6 +4,8 @@
   gap: 30px;
   flex-direction: column;
   width: 85%;
+  line-height: 40px;
+  margin-top: 130px;
 }
 .asideContainer li {
   display: inline-block;
@@ -28,7 +30,7 @@
   transition: 0.2s;
 }
 .asideHeader {
-  padding: 20px;
+  padding: 2px;
 }
 .icon {
   font-size: 22px;
@@ -40,6 +42,8 @@
   justify-content: space-between;
   gap: 10px;
   transition: 0.2s ease-in-out;
+  font-size: 16px;
+  font-weight: 600;
 }
 .active {
   color: goldenrod !important;
@@ -51,8 +55,15 @@
   margin-top: 10px;
   gap: 10px;
 }
+.asideFooter {
+  justify-self: flex-end;
+  padding: 20px;
+  position: absolute;
+  bottom: 0;
+}
 .dropdown span {
-  font-size: 10px;
+  font-size: 14px;
+  font-weight: 600;
 }
 .asideLink {
   cursor: pointer;

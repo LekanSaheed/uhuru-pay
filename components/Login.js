@@ -8,6 +8,7 @@ import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { ImSpinner } from "react-icons/im";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import toast from "react-hot-toast";
 const Form = () => {
   const router = useRouter();
 
@@ -33,38 +34,51 @@ const Form = () => {
       body: JSON.stringify({ username: username, password: password }),
     };
     const url = `${baseUrl}/stakeholder/login`;
-    await fetch(url, requestOptions)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success === true) {
-          const token = data.token;
-          const requestOptions = {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          };
-          fetch(`${baseUrl}/stakeholder/me`, requestOptions)
-            .then((res) => res.json())
-            .then((data) => {
-              if (data.success === true) {
-                setUser({ stakeholder: data.data, token });
-                console.log(data.data, ":user");
-              } else {
-                setError(data.error);
+    const fetchDetails = async () => {
+      await fetch(url, requestOptions)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success === true) {
+            const token = data.token;
+            const requestOptions = {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            };
+            fetch(`${baseUrl}/stakeholder/me`, requestOptions)
+              .then((res) => res.json())
+              .then((data) => {
+                if (data.success === true) {
+                  setUser({ stakeholder: data.data, token });
+                  console.log(data.data, ":user");
+                } else {
+                  setError(data.error);
+                  setIsLoading(false);
+                  toast.error(data.error);
+                }
+              })
+              .catch((err) => {
+                alert(err);
+                setError(err.message);
                 setIsLoading(false);
-              }
-            })
-            .catch((err) => {
-              alert(err);
-            });
-        }
-        if (data.success === false) {
-          setError(data.error);
-          setIsLoading(false);
-        }
-      });
+                toast.error(err.message);
+              });
+          }
+          if (data.success === false) {
+            setError(data.error);
+            setIsLoading(false);
+          }
+        });
+    };
+    fetchDetails();
+    const resolvePromise = fetchDetails();
+    toast.promise(resolvePromise, {
+      loading: "Loading...",
+      success: "Successfully Logged In",
+      error: "An error occured",
+    });
   };
   return (
     <div className={classes.login_container}>
@@ -117,7 +131,11 @@ const Form = () => {
           </span>
         </div>
 
-        <button onClick={login}>
+        <button
+          className={isLoading ? classes.disabled : ""}
+          disabled={isLoading}
+          onClick={login}
+        >
           {isLoading ? (
             <span className={classes.spinner}>
               <ImSpinner />

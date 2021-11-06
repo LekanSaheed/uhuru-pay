@@ -1,18 +1,17 @@
 .container {
   display: flex;
   width: 100%;
-  font-family: "IBM Plex Sans", sans-serif;
   flex-basis: 100%;
   flex-direction: column;
 }
 .main {
-  background-color: #f4f6f8;
+  background-color: #fff;
   width: 100%;
   min-height: 100%;
 }
 .side_nav {
   /* background-color: #2a3042; */
-  background-color: #ffffff;
+  background-color: #f4f6f8;
 
   color: rgba(0, 0, 0, 0.5);
 }

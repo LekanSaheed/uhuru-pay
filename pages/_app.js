@@ -15,7 +15,9 @@ function MyApp({ Component, pageProps, router }) {
   const setUser = (profile) => {
     dispatch({ type: "SET_USER", payload: profile });
   };
-
+  const toggleProfile = () => {
+    dispatch({ type: "TOGGLE_PROFILE" });
+  };
   React.useEffect(() => {
     // const localUser = JSON.parse(localStorage.getItem("stakeholder"));
     // setUser(localUser);
@@ -27,6 +29,7 @@ function MyApp({ Component, pageProps, router }) {
         value={{
           ...state,
           toggleDropdown,
+          toggleProfile,
           setUser,
         }}
       >

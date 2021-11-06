@@ -160,6 +160,10 @@
     background-color: #5bddd6;
     transform: scale(1.01);
   }
+
+  .disabled {
+    background-color: #a8fdf9 !important;
+  }
   .input_container input {
     width: 100%;
     box-sizing: border-box;

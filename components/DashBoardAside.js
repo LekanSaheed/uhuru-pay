@@ -6,6 +6,8 @@ import { useGlobalContext } from "../context/context";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import ProfileBox from "./ProfileBox";
+
 const DashBoardAside = () => {
   const router = useRouter();
   const { toggleDropdown, isDropdown, asideContents } = useGlobalContext();
@@ -13,9 +15,7 @@ const DashBoardAside = () => {
   return (
     <div className={classes.asideMain}>
       <header className={classes.asideHeader}>
-        <div style={{ padding: "10px" }}>
-          <Image width={200} height={50} src="/WORDMARK.png" />
-        </div>
+        <ProfileBox />
       </header>
 
       <ul className={classes.asideContainer}>
@@ -60,7 +60,15 @@ const DashBoardAside = () => {
                       alignItems: "center",
                     }}
                   >
-                    <span>
+                    <span
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        gap: "16px",
+                        alignItems: "center",
+                        fontSize: "14px",
+                      }}
+                    >
                       <i className={classes.icon}>{aside.icon}</i>
                       {aside.text}
                     </span>
@@ -116,6 +124,11 @@ const DashBoardAside = () => {
           })
         )}
       </ul>
+      <footer className={classes.asideFooter}>
+        <div style={{ padding: "10px" }}>
+          <Image width={200} height={50} src="/WORDMARK.png" />
+        </div>
+      </footer>
     </div>
   );
 };

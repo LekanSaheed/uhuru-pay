@@ -18,5 +18,11 @@ export const reducer = (state, action) => {
       isUser: true,
     };
   }
+  if(action.type === 'TOGGLE_PROFILE'){
+    return{
+      ...state,
+      isToggledProfile:!state.isToggledProfile
+    }
+  }
   return state;
 };
