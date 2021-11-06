@@ -17,6 +17,10 @@ import { BiCheckCircle, BiEditAlt } from "react-icons/bi";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 
 const AllStakeHolders = () => {
+  if (isServer) {
+    return <h1>Server</h1>;
+  }
+
   const useStyles = makeStyles({
     active: {
       color: "green",
@@ -123,9 +127,7 @@ const AllStakeHolders = () => {
       loading: "De-activating...",
     });
   };
-  if (isServer) {
-    return <h1>Server here</h1>;
-  }
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }}>

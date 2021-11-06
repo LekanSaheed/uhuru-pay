@@ -18,6 +18,10 @@ import {
 const url = `${baseUrl}/revenue/list`;
 const isServer = typeof window === "undefined";
 const Revenues = () => {
+  if (isServer) {
+    return <h1>Server</h1>;
+  }
+
   const useStyle = makeStyles((theme) => ({
     root: {
       fontFamily: "brFirma",
@@ -36,7 +40,7 @@ const Revenues = () => {
   const { user } = useGlobalContext();
   const [loading, setLoading] = useState(true);
   const [revenues, setRevenues] = useState([]);
-  console.log(user.token);
+
   useEffect(async () => {
     const requestOptions = {
       method: "GET",
@@ -57,9 +61,7 @@ const Revenues = () => {
         }
       });
   }, []);
-  if (isServer) {
-    return <h1>Server here</h1>;
-  }
+
   return (
     <section>
       <span>All Revenues</span>

@@ -7,7 +7,11 @@ import { useRouter } from "next/router";
 const ProfileBox = () => {
   const { user, toggleProfile, isToggledProfile, logout } = useGlobalContext();
   const router = useRouter();
-
+  const isServer = typeof window === "undefined";
+  console.log(isServer);
+  if (isServer) {
+    return <h1>Server</h1>;
+  }
   return (
     <div className={classes.full_cont}>
       <div onClick={() => toggleProfile()} className={classes.container}>

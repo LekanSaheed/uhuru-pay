@@ -8,6 +8,10 @@ import { useGlobalContext } from "../context/context";
 import toast from "react-hot-toast";
 
 const AddStakeholder = (props) => {
+   if (isServer) {
+     return <h1>Server</h1>;
+   }
+
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [role, setRole] = useState({});
@@ -140,9 +144,7 @@ const AddStakeholder = (props) => {
   } else {
     return roleOptions;
   }
-  if (isServer) {
-    return <h1>Server</h1>;
-  }
+ 
   return (
     <>
       <form className={classes.form}>
