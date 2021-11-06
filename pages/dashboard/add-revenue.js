@@ -11,7 +11,9 @@ export default function AddRevenue() {
   const [amount, setAmount] = useState("");
   const [comment, setComment] = useState("");
   const [category, setCategory] = useState([]);
-
+  if (isServer) {
+    return <h1>Server</h1>;
+  }
   const options = [
     { label: "Transport", value: "transport" },
     { label: "Street Naming", value: "street_naming" },
@@ -43,9 +45,6 @@ export default function AddRevenue() {
       .then((res) => res.json())
       .then((data) => console.log(data));
   };
-  if (isServer) {
-    return <h1>Server</h1>;
-  }
 
   return (
     <DashBoardWrapper>
