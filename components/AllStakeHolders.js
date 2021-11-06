@@ -17,10 +17,6 @@ import { BiCheckCircle, BiEditAlt } from "react-icons/bi";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 
 const AllStakeHolders = () => {
-  if (isServer) {
-    return <h1>Server</h1>;
-  }
-
   const useStyles = makeStyles({
     active: {
       color: "green",
@@ -77,7 +73,9 @@ const AllStakeHolders = () => {
       error: "An error occured",
     });
   }, []);
-
+  if (isServer) {
+    return <h1>Server</h1>;
+  }
   const activate = async (id) => {
     const fetchProfile = async () => {
       await fetch(`${baseUrl}/stakeholder/${id}/activate`, {

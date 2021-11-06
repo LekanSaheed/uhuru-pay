@@ -18,10 +18,6 @@ import {
 const url = `${baseUrl}/revenue/list`;
 const isServer = typeof window === "undefined";
 const Revenues = () => {
-  if (isServer) {
-    return <h1>Server</h1>;
-  }
-
   const useStyle = makeStyles((theme) => ({
     root: {
       fontFamily: "brFirma",
@@ -61,6 +57,9 @@ const Revenues = () => {
         }
       });
   }, []);
+  if (isServer) {
+    return <h1>Server</h1>;
+  }
 
   return (
     <section>

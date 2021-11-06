@@ -8,10 +8,6 @@ import { useGlobalContext } from "../context/context";
 import toast from "react-hot-toast";
 
 const AddStakeholder = (props) => {
-   if (isServer) {
-     return <h1>Server</h1>;
-   }
-
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [role, setRole] = useState({});
@@ -62,6 +58,9 @@ const AddStakeholder = (props) => {
       value: state.toLowerCase(),
     };
   });
+  if (isServer) {
+    return <h1>Server</h1>;
+  }
   const newOptions =
     stakeholder.stakeholder.role !== "admin"
       ? myOptions.filter((i) => i.value === stakeholder.stakeholder.state)
@@ -144,7 +143,7 @@ const AddStakeholder = (props) => {
   } else {
     return roleOptions;
   }
- 
+
   return (
     <>
       <form className={classes.form}>
