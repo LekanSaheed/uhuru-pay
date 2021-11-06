@@ -7,7 +7,7 @@ import { state as stateOptions } from "./state";
 import { useGlobalContext } from "../context/context";
 import toast from "react-hot-toast";
 
-const AddStakeholder = () => {
+const AddStakeholder = (props) => {
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [role, setRole] = useState({});
@@ -244,3 +244,8 @@ const AddStakeholder = () => {
 };
 
 export default AddStakeholder;
+export function getInitialProps() {
+  return {
+    props: {},
+  };
+}
