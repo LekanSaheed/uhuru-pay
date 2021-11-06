@@ -16,6 +16,7 @@ import {
 } from "@material-ui/core";
 
 const url = `${baseUrl}/revenue/list`;
+const isServer = typeof window === "undefined";
 const Revenues = () => {
   const useStyle = makeStyles((theme) => ({
     root: {
@@ -56,7 +57,9 @@ const Revenues = () => {
         }
       });
   }, []);
-
+  if (isServer) {
+    return <h1>Server here</h1>;
+  }
   return (
     <section>
       <span>All Revenues</span>

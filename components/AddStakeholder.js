@@ -140,7 +140,9 @@ const AddStakeholder = (props) => {
   } else {
     return roleOptions;
   }
-
+  if (isServer) {
+    return <h1>Server</h1>;
+  }
   return (
     <>
       <form className={classes.form}>

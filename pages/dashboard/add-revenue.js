@@ -43,6 +43,9 @@ export default function AddRevenue() {
       .then((res) => res.json())
       .then((data) => console.log(data));
   };
+  if (isServer) {
+    return <h1>Server</h1>;
+  }
 
   return (
     <DashBoardWrapper>

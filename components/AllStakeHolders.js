@@ -39,6 +39,7 @@ const AllStakeHolders = () => {
   const url = `${baseUrl}/stakeholder/list`;
 
   const { user } = useGlobalContext();
+  const isServer = typeof window === "undefined";
   const [stakeholders, setStakeholders] = useState([]);
   React.useEffect(async () => {
     const requestOptions = {
@@ -122,6 +123,9 @@ const AllStakeHolders = () => {
       loading: "De-activating...",
     });
   };
+  if (isServer) {
+    return <h1>Server here</h1>;
+  }
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }}>
