@@ -91,9 +91,9 @@ const Revenues = () => {
                   <TableCell>{revenue.created_At}</TableCell>
                   <TableCell
                     className={
-                      (revenue.status === "Rejected" && classes.rejected) ||
-                      (revenue.status === "Approved" && classes.approved) ||
-                      (revenue.status === "Pending" && classes.pending)
+                      (revenue.status === "rejected" && classes.rejected) ||
+                      (revenue.status === "approved" && classes.approved) ||
+                      (revenue.status === "pending" && classes.pending)
                     }
                   >
                     {revenue.status}

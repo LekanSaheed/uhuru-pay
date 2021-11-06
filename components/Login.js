@@ -23,6 +23,11 @@ const Form = () => {
       router.push("/dashboard");
     }
   });
+
+  const saveUser = (profile) => {
+    dispatch({ type: "SET_USER", payload: profile });
+  };
+
   const login = async (e) => {
     setIsLoading(true);
     e.preventDefault();
@@ -37,7 +42,7 @@ const Form = () => {
     const fetchDetails = async () => {
       await fetch(url, requestOptions)
         .then((res) => res.json())
-        .then((data) => {
+        .then(async (data) => {
           if (data.success === true) {
             const token = data.token;
             const requestOptions = {
@@ -47,12 +52,12 @@ const Form = () => {
                 Authorization: `Bearer ${token}`,
               },
             };
-            fetch(`${baseUrl}/stakeholder/me`, requestOptions)
+            await fetch(`${baseUrl}/stakeholder/me`, requestOptions)
               .then((res) => res.json())
               .then((data) => {
                 if (data.success === true) {
                   setUser({ stakeholder: data.data, token });
-                  console.log(data.data, ":user");
+                  // console.log(data.data, ":user");
                 } else {
                   setError(data.error);
                   setIsLoading(false);
@@ -80,6 +85,7 @@ const Form = () => {
       error: "An error occured",
     });
   };
+
   return (
     <div className={classes.login_container}>
       <div style={{ padding: "10px" }}>

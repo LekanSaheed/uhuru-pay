@@ -2,8 +2,12 @@ import classes from "./ProfileBox.module.css";
 import { GoPerson } from "react-icons/go";
 import { useGlobalContext } from "../context/context";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
+import { useRouter } from "next/router";
+
 const ProfileBox = () => {
-  const { user, toggleProfile, isToggledProfile } = useGlobalContext();
+  const { user, toggleProfile, isToggledProfile, logout } = useGlobalContext();
+  const router = useRouter();
+
   return (
     <div className={classes.full_cont}>
       <div onClick={() => toggleProfile()} className={classes.container}>
@@ -12,14 +16,18 @@ const ProfileBox = () => {
         </div>
         <div className={classes.headFlex}>
           <div className={classes.name}>
-            {user !== {} && user.stakeholder.name}
+            {user !== null && user.stakeholder.name !== undefined
+              ? user.stakeholder.name
+              : null}
           </div>
           <div className={classes.role}>
-            {user !== {} && user.stakeholder.role}
+            {user !== null &&
+              user.stakeholder.role !== undefined &&
+              user.stakeholder.role}
           </div>
         </div>
         <div>
-          <MdKeyboardArrowDown />
+          {isToggledProfile ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />}
         </div>
       </div>
       <div
@@ -29,8 +37,18 @@ const ProfileBox = () => {
             : ` ${classes.dropdown} ${classes.hideProfile}`
         }
       >
-        <div>settings</div>
-        <div>Logout</div>
+        <div style={{ marginBlock: 10 }}>settings</div>
+        <div
+          onClick={async () => {
+            // logout();
+            await router.push("/login").then(() => {
+              logout();
+            });
+          }}
+          style={{ marginBlock: 10 }}
+        >
+          Logout
+        </div>
       </div>
     </div>
   );

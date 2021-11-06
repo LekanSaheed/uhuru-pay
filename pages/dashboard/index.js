@@ -4,17 +4,19 @@ import { useRouter } from "next/router";
 import { useGlobalContext } from "../../context/context";
 import React from "react";
 const DashBoard = () => {
-  const { isUser } = useGlobalContext();
+  const { isUser, user, setUser } = useGlobalContext();
   const [auth, setAuth] = React.useState(false);
   const router = useRouter();
   React.useEffect(() => {
-    if (isUser) {
+    const localUser = JSON.parse(localStorage.getItem("stakeholder"));
+    if (localUser !== null) {
+      setUser(localUser);
       setAuth(true);
     } else {
       setAuth(false);
       router.push("/login");
     }
-  }, [isUser, setAuth]);
+  }, []);
 
   return (
     <>

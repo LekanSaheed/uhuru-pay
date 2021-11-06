@@ -8,11 +8,14 @@ import React from "react";
 import { useGlobalContext } from "../context/context";
 const DashBoardMain = () => {
   const { user } = useGlobalContext();
-  console.log(user);
+
   return (
     <MainWrapper>
       <span className={classes.name}>
-        WELCOME {user === {} ? "USER" : user.stakeholder.name}
+        WELCOME{" "}
+        {user !== null && user.stakeholder !== null
+          ? user.stakeholder.name
+          : "USER"}
       </span>
       <div className={classes.cont}>
         <Cards />

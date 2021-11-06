@@ -1,11 +1,14 @@
 import "../styles/globals.css";
 import { AppContext } from "../context/context";
-import { useReducer } from "react";
+import { useReducer, useEffect } from "react";
 import { defaultState } from "../context/defaultState";
 import { reducer } from "../context/reducer";
 import React from "react";
 import { motion } from "framer-motion";
 import { Toaster } from "react-hot-toast";
+// import { useRouter } from 'next/router'
+
+// const router = useRouter();
 
 function MyApp({ Component, pageProps, router }) {
   const [state, dispatch] = useReducer(reducer, defaultState);
@@ -18,11 +21,20 @@ function MyApp({ Component, pageProps, router }) {
   const toggleProfile = () => {
     dispatch({ type: "TOGGLE_PROFILE" });
   };
-  React.useEffect(() => {
-    // const localUser = JSON.parse(localStorage.getItem("stakeholder"));
-    // setUser(localUser);
-    // localStorage.removeItem("stakeholder");
+  const logout = () => {
+    dispatch({ type: "LOGOUT" });
+  };
+
+  useEffect(() => {
+    const localUser = JSON.parse(localStorage.getItem("stakeholder"));
+    if (localUser !== null) {
+      setUser(localUser);
+      router.push("/dashboard");
+    } else {
+      router.push("/login");
+    }
   }, []);
+
   return (
     <React.StrictMode>
       <AppContext.Provider
@@ -31,6 +43,7 @@ function MyApp({ Component, pageProps, router }) {
           toggleDropdown,
           toggleProfile,
           setUser,
+          logout,
         }}
       >
         {" "}
