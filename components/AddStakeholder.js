@@ -17,7 +17,9 @@ const AddStakeholder = (props) => {
   const [streams, setStream] = useState([]);
   const [loading, setLoading] = useState(false);
   const [revenues, setRevenues] = useState([]);
-  const [stakeholder, setStakeholder] = useState({});
+  const [stakeholder, setStakeholder] = useState({
+    stakeholder: { role: null },
+  });
   const roleOptions = [];
   const { user } = useGlobalContext();
   const isServer = typeof window === "undefined";
