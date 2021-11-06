@@ -17,7 +17,7 @@ const AddStakeholder = () => {
   const [streams, setStream] = useState([]);
   const [loading, setLoading] = useState(false);
   const [revenues, setRevenues] = useState([]);
-
+  const [stakeholder, setStakeholder] = useState({});
   const roleOptions = [];
   const { user } = useGlobalContext();
   const isServer = typeof window === "undefined";
@@ -25,11 +25,12 @@ const AddStakeholder = () => {
     return i.value;
   });
   useEffect(async () => {
+    setStakeholder(user);
     const url = `${baseUrl}/revenue/all`;
     const requestOptions = {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${user.token}`,
+        Authorization: `Bearer ${stakeholder.token}`,
       },
     };
     await fetch(url, requestOptions)
@@ -43,7 +44,7 @@ const AddStakeholder = () => {
             };
           });
           const filtered = newRev.filter((rev) => {
-            return user.stakeholder.revenueStreams.includes(rev.value);
+            return stakeholder.stakeholder.revenueStreams.includes(rev.value);
           });
           setRevenues(filtered);
         } else {
@@ -58,8 +59,8 @@ const AddStakeholder = () => {
     };
   });
   const newOptions =
-    user.stakeholder.role !== "admin"
-      ? myOptions.filter((i) => i.value === user.stakeholder.state)
+    stakeholder.stakeholder.role !== "admin"
+      ? myOptions.filter((i) => i.value === stakeholder.stakeholder.state)
       : myOptions;
 
   const handleStream = (stream) => {
@@ -81,7 +82,7 @@ const AddStakeholder = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
+        Authorization: `Bearer ${stakeholder.token}`,
         Accept: "application/json",
       },
       body: JSON.stringify({
@@ -111,30 +112,30 @@ const AddStakeholder = () => {
         toast.error(err.message);
       });
   };
-  if (user.stakeholder.role === "admin") {
+  if (stakeholder.stakeholder.role === "admin") {
     roleOptions.push(
       { label: "Admin", value: "admin" },
       { label: "State Government", value: "state" }
     );
-  } else if (user.stakeholder.role === "state") {
+  } else if (stakeholder.stakeholder.role === "state") {
     roleOptions.push(
       { label: "Local Government", value: "local" },
       { label: "Union", value: "union" },
       { label: "Agent", value: "agent" },
       { label: "Collector", value: "collector" }
     );
-  } else if (user.stakeholder.role === "local") {
+  } else if (stakeholder.stakeholder.role === "local") {
     roleOptions.push(
       { label: "Union", value: "union" },
       { label: "Agent", value: "agent" },
       { label: "Collector", value: "collector" }
     );
-  } else if (user.stakeholder.role === "union") {
+  } else if (stakeholder.stakeholder.role === "union") {
     roleOptions.push(
       { label: "Agent", value: "agent" },
       { label: "Collector", value: "collector" }
     );
-  } else if (user.stakeholder.role === "agent") {
+  } else if (stakeholder.stakeholder.role === "agent") {
     roleOptions.push({ label: "Collector", value: "collector" });
   } else {
     return roleOptions;
@@ -216,7 +217,7 @@ const AddStakeholder = () => {
                 onChange={(e) => setRole(e.target.value)}
               /> */}
                 </div>
-                {user.stakeholder.role !== "admin" && (
+                {stakeholder.stakeholder.role !== "admin" && (
                   <div className={classes.input_container}>
                     <label>Revenue Streams.</label>
                     <Select
