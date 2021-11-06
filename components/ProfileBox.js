@@ -3,9 +3,14 @@ import { GoPerson } from "react-icons/go";
 import { useGlobalContext } from "../context/context";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 import { useRouter } from "next/router";
-
+import { useEffect, useState } from "react";
 const ProfileBox = () => {
   const { user, toggleProfile, isToggledProfile, logout } = useGlobalContext();
+  const [me, setMe] = useState({ stakeholder: { name: "" } });
+  useEffect(() => {
+    setMe(user);
+  }, []);
+
   const router = useRouter();
   const isServer = typeof window === "undefined";
   console.log(isServer);
@@ -20,14 +25,14 @@ const ProfileBox = () => {
         </div>
         <div className={classes.headFlex}>
           <div className={classes.name}>
-            {user !== null && user.stakeholder.name !== undefined
-              ? user.stakeholder.name
+            {me !== null && me.stakeholder.name !== undefined
+              ? me.stakeholder.name
               : null}
           </div>
           <div className={classes.role}>
-            {user !== null &&
-              user.stakeholder.role !== undefined &&
-              user.stakeholder.role}
+            {me !== null &&
+              me.stakeholder.role !== undefined &&
+              me.stakeholder.role}
           </div>
         </div>
         <div>
