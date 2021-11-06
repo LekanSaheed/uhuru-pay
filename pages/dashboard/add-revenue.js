@@ -5,6 +5,7 @@ import Select from "react-select";
 import { useGlobalContext } from "../../context/context";
 
 export default function AddRevenue() {
+  const isServer = typeof window === "undefined";
   const { user } = useGlobalContext();
   const url = `${baseUrl}/revenue/new`;
   const [title, setTitle] = useState("");
