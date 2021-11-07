@@ -20,7 +20,7 @@ const PinManagement = ({ allRevenues }) => {
     const filtered = allRevenues.map((rev) => {
       return {
         label: rev.title,
-        value: rev.revenue_id,
+        value: rev._id,
       };
     });
 
@@ -69,9 +69,7 @@ const PinManagement = ({ allRevenues }) => {
             <Select
               onChange={handleRevenues}
               value={selected}
-              options={revenues.filter((rev) => {
-                return user.revenueStreams.includes(rev.value);
-              })}
+              options={revenues}
               placeholder="Select a revenue"
             />
           </div>
@@ -82,7 +80,7 @@ const PinManagement = ({ allRevenues }) => {
               defaultValue={
                 selected
                   ? allRevenues
-                      .filter((rev) => rev.revenue_id === selected.value)
+                      .filter((rev) => rev._id === selected.value)
                       .map((i) => i.amount)
                   : 0
               }
@@ -126,15 +124,16 @@ const PinManagement = ({ allRevenues }) => {
           </Button>
         </div>
         {selected && (
-          <div>
-            {" "}
+          <div className={classes.card}>
+            <div className={classes.details}>Details</div>{" "}
             {allRevenues
-              .filter((rev) => rev.revenue_id === selected.value)
+              .filter((rev) => rev._id === selected.value)
               .map((rev, idx) => {
                 return (
                   <div key={idx}>
                     <div>
-                      <span>Revenue title: </span>T{rev.title}
+                      <span>Revenue title: </span>
+                      {rev.title}
                     </div>
                     <div>
                       <span>Amount: </span>

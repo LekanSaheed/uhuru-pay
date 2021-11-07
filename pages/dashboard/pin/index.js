@@ -21,7 +21,7 @@ export async function getServerSideProps(context) {
       Authorization: `Bearer ${header.accessToken}`,
     },
   };
-  const url = `${baseUrl}/revenue/all`;
+  const url = `${baseUrl}/revenue/list`;
   const data = await fetch(url, requestOptions).then((res) => res.json());
   console.log(data);
   if (!data) {

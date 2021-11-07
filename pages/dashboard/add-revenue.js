@@ -21,7 +21,7 @@ export default function AddRevenue() {
     { label: "School Fees", value: "school_fees" },
     { label: "Market", value: "market" },
   ];
-  const token = process.browser && sessionStorage.getItem("accessToken");
+  const token = process.browser && localStorage.getItem("accessToken");
   const handleCategory = (category) => {
     setCategory(category);
   };
