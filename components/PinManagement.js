@@ -9,8 +9,10 @@ import { Button } from "@material-ui/core";
 import { motion } from "framer-motion";
 import classes from "./PinManagement.module.css";
 
-const PinManagement = ({ allRevenues }) => {
-  const { user, logout } = useGlobalContext();
+const PinManagement = () => {
+  const [allRevenues, setAllRevenues] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+  const { logout } = useGlobalContext();
   const [revenues, setRevenues] = React.useState([]);
   const router = useRouter();
   const [selected, setSelected] = React.useState("");
@@ -19,15 +21,46 @@ const PinManagement = ({ allRevenues }) => {
   const [discount, setDiscount] = React.useState(null);
 
   React.useEffect(() => {
-    const filtered = allRevenues.map((rev) => {
-      return {
-        label: rev.title,
-        value: rev._id,
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      const fetchData = async () => {
+        const requestOptions = {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        const url = `${baseUrl}/revenue/list`;
+        await fetch(url, requestOptions)
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.success === true) {
+              setAllRevenues(
+                data.data.map((rev) => {
+                  return {
+                    label: rev.title,
+                    value: rev._id,
+                  };
+                })
+              );
+              setLoading(false);
+            } else {
+              setLoading(false);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            setLoading(false);
+          });
       };
-    });
-
-    setRevenues(filtered);
+      fetchData();
+    }
+    if (!token) {
+      logout();
+    }
+    console.log(revenues);
   }, []);
+
   const handleRevenues = (current) => {
     setSelected(current);
   };
@@ -68,11 +101,12 @@ const PinManagement = ({ allRevenues }) => {
       Pin Management
       <form className={classes.form}>
         <div className={classes.group}>
+          {loading && "loading please wait."}
           <div style={{ width: "60%" }}>
             <Select
               onChange={handleRevenues}
               value={selected}
-              options={revenues}
+              options={loading ? [] : allRevenues}
               placeholder="Select a revenue"
             />
           </div>
