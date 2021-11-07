@@ -16,11 +16,11 @@ import {
 } from "@material-ui/core";
 
 const url = `${baseUrl}/revenue/list`;
-const isServer = typeof window === "undefined";
+
 const Revenues = () => {
   const useStyle = makeStyles((theme) => ({
     root: {
-      fontFamily: "brFirma",
+      marginTop: "20px",
     },
     pending: {
       color: "goldenrod !important",
@@ -36,15 +36,21 @@ const Revenues = () => {
   const { user } = useGlobalContext();
   const [loading, setLoading] = useState(true);
   const [revenues, setRevenues] = useState([]);
-
-  useEffect(async () => {
+  // const [token, setToken] = useState("");
+  // useEffect(() => {
+  //   const accessToken = sessionStorage.getItem("accessToken");
+  //   setToken(accessToken);
+  //   console.log(accessToken);
+  // }, []);
+  const token = process.browser && sessionStorage.getItem("accessToken");
+  useEffect(() => {
     const requestOptions = {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${user.token}`,
+        Authorization: `Bearer ${token}`,
       },
     };
-    await fetch(url, requestOptions)
+    fetch(url, requestOptions)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -54,12 +60,10 @@ const Revenues = () => {
         } else {
           setLoading(false);
           console.log(data.error);
+          console.log(token);
         }
       });
   }, []);
-  if (isServer) {
-    return <h1>Server</h1>;
-  }
 
   return (
     <section>
@@ -95,9 +99,9 @@ const Revenues = () => {
                   <TableCell>{revenue.created_At}</TableCell>
                   <TableCell
                     className={
-                      (revenue.status === "rejected" && classes.rejected) ||
-                      (revenue.status === "approved" && classes.approved) ||
-                      (revenue.status === "pending" && classes.pending)
+                      (revenue.status === "rejected" ? classes.rejected : "") ||
+                      (revenue.status === "approved" ? classes.approved : "") ||
+                      (revenue.status === "pending" ? classes.pending : "")
                     }
                   >
                     {revenue.status}

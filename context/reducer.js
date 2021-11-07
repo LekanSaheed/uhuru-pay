@@ -1,4 +1,5 @@
 import { defaultState } from "./defaultState";
+import deleteAllCookiesFactory from "delete-all-cookies";
 
 export const reducer = (state = defaultState, action) => {
   if (action.type === "TOGGLE_DROPDOWN") {
@@ -11,8 +12,17 @@ export const reducer = (state = defaultState, action) => {
       asideContents: state.asideContents,
     };
   }
+  if (action.type === "SET_TOKEN") {
+    document.cookie = `accessToken=${action.payload}`;
+    sessionStorage.setItem("accessToken", action.payload);
+    return {
+      ...state,
+      token: action.payload,
+    };
+  }
   if (action.type === "SET_USER") {
-    localStorage.setItem("stakeholder", JSON.stringify(action.payload));
+    localStorage.setItem("user", JSON.stringify(action.payload));
+
     return {
       ...state,
       user: action.payload,
@@ -20,8 +30,10 @@ export const reducer = (state = defaultState, action) => {
     };
   }
   if (action.type === "LOGOUT") {
+    localStorage.removeItem("user");
     localStorage.clear();
-    console.log(state.user, "reducer");
+    typeof window !== "undefined" && deleteAllCookiesFactory(window);
+    console.log(document.cookie);
     return {
       ...state,
       user: {},

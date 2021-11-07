@@ -6,17 +6,9 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 const ProfileBox = () => {
   const { user, toggleProfile, isToggledProfile, logout } = useGlobalContext();
-  const [me, setMe] = useState({ stakeholder: { name: "" } });
-  useEffect(() => {
-    setMe(user);
-  }, []);
 
   const router = useRouter();
-  const isServer = typeof window === "undefined";
-  console.log(isServer);
-  if (isServer) {
-    return <h1>Server</h1>;
-  }
+
   return (
     <div className={classes.full_cont}>
       <div onClick={() => toggleProfile()} className={classes.container}>
@@ -25,14 +17,10 @@ const ProfileBox = () => {
         </div>
         <div className={classes.headFlex}>
           <div className={classes.name}>
-            {me !== null && me.stakeholder.name !== undefined
-              ? me.stakeholder.name
-              : null}
+            {user !== null && user.name !== undefined ? user.name : null}
           </div>
           <div className={classes.role}>
-            {me !== null &&
-              me.stakeholder.role !== undefined &&
-              me.stakeholder.role}
+            {user !== null && user.role !== undefined && user.role}
           </div>
         </div>
         <div>
@@ -49,7 +37,7 @@ const ProfileBox = () => {
         <div style={{ marginBlock: 10 }}>settings</div>
         <div
           onClick={async () => {
-            // logout();
+            logout();
             await router.push("/login").then(() => {
               logout();
             });

@@ -24,12 +24,24 @@ function MyApp({ Component, pageProps, router }) {
   const logout = () => {
     dispatch({ type: "LOGOUT" });
   };
+  const setToken = (token) => {
+    dispatch({ type: "SET_TOKEN", payload: token });
+  };
 
   useEffect(() => {
-    const localUser = JSON.parse(localStorage.getItem("stakeholder"));
-    if (localUser !== null) {
-      setUser(localUser);
+    // document.cookie = "name=saheed; path=/";
+    // const cookie = document.cookie;
+    // console.log(cookie);
+    // if (localUser !== null) {
+    //   setUser(localUser);
+    //   router.push("/dashboard");
+    // } else {
+    //   router.push("/login");
+    // }
+    const localUser = JSON.parse(localStorage.getItem("user"));
+    if (localUser !== null && localUser.name !== null) {
       router.push("/dashboard");
+      setUser(localUser);
     } else {
       router.push("/login");
     }
@@ -44,6 +56,7 @@ function MyApp({ Component, pageProps, router }) {
           toggleProfile,
           setUser,
           logout,
+          setToken,
         }}
       >
         {" "}

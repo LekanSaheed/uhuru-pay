@@ -16,18 +16,13 @@ const Form = () => {
   const [password, setPassword] = useState("");
   const [type, setType] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const { setUser, user, isUser } = useGlobalContext();
+  const { user, isUser, setToken } = useGlobalContext();
   const [error, setError] = useState("");
   React.useEffect(() => {
-    if (isUser) {
+    if (isUser || user.name !== undefined) {
       router.push("/dashboard");
     }
   });
-
-  const saveUser = (profile) => {
-    dispatch({ type: "SET_USER", payload: profile });
-  };
-
   const login = async (e) => {
     setIsLoading(true);
     e.preventDefault();
@@ -56,7 +51,10 @@ const Form = () => {
               .then((res) => res.json())
               .then((data) => {
                 if (data.success === true) {
-                  setUser({ stakeholder: data.data, token });
+                  setToken(token);
+                  router.push("/dashboard");
+                  toast.success("Successfully logged in");
+                  setError("");
                   // console.log(data.data, ":user");
                 } else {
                   setError(data.error);
@@ -65,7 +63,6 @@ const Form = () => {
                 }
               })
               .catch((err) => {
-                alert(err);
                 setError(err.message);
                 setIsLoading(false);
                 toast.error(err.message);
@@ -78,12 +75,10 @@ const Form = () => {
         });
     };
     fetchDetails();
-    const resolvePromise = fetchDetails();
-    toast.promise(resolvePromise, {
-      loading: "Loading...",
-      success: "Successfully Logged In",
-      error: "An error occured",
-    });
+    // const resolvePromise = fetchDetails();
+    // toast.promise(resolvePromise, {
+    //   loading: "Loading...",
+    // });
   };
 
   return (

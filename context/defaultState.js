@@ -8,6 +8,7 @@ import {
 export const defaultState = {
   isDropdown: true,
   user: {},
+  token: "",
   isUser: false,
   isToggledProfile: false,
   asideContents: [

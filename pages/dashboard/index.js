@@ -3,24 +3,34 @@ import DashBoardWrapper from "../../components/DashBoardWrapper";
 import { useRouter } from "next/router";
 import { useGlobalContext } from "../../context/context";
 import React from "react";
-const DashBoard = () => {
-  const { isUser, user, setUser } = useGlobalContext();
-  const [auth, setAuth] = React.useState(false);
+import * as cookie from "cookie";
+import { baseUrl } from "../../context/baseUrl";
+const DashBoard = (props) => {
+  const { isUser, setUser } = useGlobalContext();
+  const [auth, setAuth] = React.useState(true);
   const router = useRouter();
+  // React.useEffect(() => {
+  //   const localUser = JSON.parse(localStorage.getItem("stakeholder"));
+  //   if (localUser !== null) {
+  //     setUser(localUser);
+  //     setAuth(true);
+  //   } else {
+  //     setAuth(false);
+  //     router.push("/login");
+  //   }
+  // }, []);
   React.useEffect(() => {
-    const localUser = JSON.parse(localStorage.getItem("stakeholder"));
-    if (localUser !== null) {
-      setUser(localUser);
-      setAuth(true);
+    setUser(props.user);
+    if (isUser) {
+      router.push("/dashboard");
     } else {
-      setAuth(false);
       router.push("/login");
     }
   }, []);
 
   return (
     <>
-      {auth && (
+      {isUser && (
         <DashBoardWrapper>
           <DashBoardMain />
         </DashBoardWrapper>
@@ -30,3 +40,31 @@ const DashBoard = () => {
 };
 
 export default DashBoard;
+export async function getServerSideProps(context) {
+  const header = cookie.parse(context.req.headers.cookie);
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${header.accessToken}`,
+    },
+  };
+  const url = `${baseUrl}/stakeholder/me`;
+  const res = await fetch(url, requestOptions);
+  const data = await res.json();
+  const user = data.data;
+  console.log(header);
+
+  if (!data) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {
+      user: data.success ? user : {},
+    },
+  };
+}

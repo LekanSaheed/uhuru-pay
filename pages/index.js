@@ -10,12 +10,9 @@ const Home = () => {
   const { isUser, setUser } = useGlobalContext();
   const [loading, setLoading] = useState(true);
   const [aUser, setAUser] = useState(null);
-  const [state, dispatch] = useReducer(reducer, defaultState);
 
   useEffect(() => {
-    const localUser = JSON.parse(localStorage.getItem("stakeholder"));
-    if (localUser !== null) {
-      setUser(localUser);
+    if (isUser) {
       setAUser(true);
       setLoading(false);
     } else {

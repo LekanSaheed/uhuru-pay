@@ -1,4 +1,3 @@
-import MainWrapper from "./MainWrapper";
 import classes from "./AddStakeholder.module.css";
 import { useState, useEffect } from "react";
 import { baseUrl } from "../context/baseUrl";
@@ -7,7 +6,7 @@ import { state as stateOptions } from "./state";
 import { useGlobalContext } from "../context/context";
 import toast from "react-hot-toast";
 
-const AddStakeholder = (props) => {
+const AddStakeholder = () => {
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [role, setRole] = useState({});
@@ -17,42 +16,44 @@ const AddStakeholder = (props) => {
   const [streams, setStream] = useState([]);
   const [loading, setLoading] = useState(false);
   const [revenues, setRevenues] = useState([]);
-  const [stakeholder, setStakeholder] = useState({
-    stakeholder: { role: null },
-  });
+  const [token, setToken] = useState("");
   const roleOptions = [];
   const { user } = useGlobalContext();
-  const isServer = typeof window === "undefined";
+
+  useEffect(() => {
+    const accessToken = sessionStorage.getItem("accessToken");
+    setToken(accessToken);
+  }, []);
   const newStream = streams.map((i) => {
     return i.value;
   });
-  useEffect(async () => {
-    setStakeholder(user);
+  useEffect(() => {
     const url = `${baseUrl}/revenue/all`;
     const requestOptions = {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${stakeholder.token}`,
+        Authorization: `Bearer ${token}`,
       },
     };
-    await fetch(url, requestOptions)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          const newRev = data.data.map((rev) => {
-            return {
-              label: rev.title,
-              value: rev.revenue_id,
-            };
-          });
-          const filtered = newRev.filter((rev) => {
-            return stakeholder.stakeholder.revenueStreams.includes(rev.value);
-          });
-          setRevenues(filtered);
-        } else {
-          toast.error(data.error);
-        }
-      });
+    const fetchData = async () => {
+      await fetch(url, requestOptions)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            const newRev = data.data.map((rev) => {
+              return {
+                label: rev.title,
+                value: rev.revenue_id,
+              };
+            });
+
+            setRevenues(newRev);
+          } else {
+            toast.error(data.error);
+          }
+        });
+    };
+    fetchData();
   }, []);
   const myOptions = stateOptions.map((state) => {
     return {
@@ -60,12 +61,10 @@ const AddStakeholder = (props) => {
       value: state.toLowerCase(),
     };
   });
-  if (isServer) {
-    return <h1>Server</h1>;
-  }
+
   const newOptions =
-    stakeholder.stakeholder.role !== "admin"
-      ? myOptions.filter((i) => i.value === stakeholder.stakeholder.state)
+    user.role !== "admin"
+      ? myOptions.filter((i) => i.value === user.state)
       : myOptions;
 
   const handleStream = (stream) => {
@@ -87,7 +86,7 @@ const AddStakeholder = (props) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${stakeholder.token}`,
+        Authorization: `Bearer ${token}`,
         Accept: "application/json",
       },
       body: JSON.stringify({
@@ -117,30 +116,30 @@ const AddStakeholder = (props) => {
         toast.error(err.message);
       });
   };
-  if (stakeholder.stakeholder.role === "admin") {
+  if (user.role === "admin") {
     roleOptions.push(
       { label: "Admin", value: "admin" },
       { label: "State Government", value: "state" }
     );
-  } else if (stakeholder.stakeholder.role === "state") {
+  } else if (user.role === "state") {
     roleOptions.push(
       { label: "Local Government", value: "local" },
       { label: "Union", value: "union" },
       { label: "Agent", value: "agent" },
       { label: "Collector", value: "collector" }
     );
-  } else if (stakeholder.stakeholder.role === "local") {
+  } else if (user.role === "local") {
     roleOptions.push(
       { label: "Union", value: "union" },
       { label: "Agent", value: "agent" },
       { label: "Collector", value: "collector" }
     );
-  } else if (stakeholder.stakeholder.role === "union") {
+  } else if (user.role === "union") {
     roleOptions.push(
       { label: "Agent", value: "agent" },
       { label: "Collector", value: "collector" }
     );
-  } else if (stakeholder.stakeholder.role === "agent") {
+  } else if (user.role === "agent") {
     roleOptions.push({ label: "Collector", value: "collector" });
   } else {
     return roleOptions;
@@ -222,7 +221,7 @@ const AddStakeholder = (props) => {
                 onChange={(e) => setRole(e.target.value)}
               /> */}
                 </div>
-                {stakeholder.stakeholder.role !== "admin" && (
+                {user.role !== "admin" && (
                   <div className={classes.input_container}>
                     <label>Revenue Streams.</label>
                     <Select
@@ -230,7 +229,9 @@ const AddStakeholder = (props) => {
                       isMulti={true}
                       onChange={handleStream}
                       isSearchable={true}
-                      options={revenues}
+                      options={revenues.filter((rev) => {
+                        return user.revenueStreams.includes(rev.value);
+                      })}
                     />
                   </div>
                 )}
@@ -249,8 +250,3 @@ const AddStakeholder = (props) => {
 };
 
 export default AddStakeholder;
-export function getInitialProps() {
-  return {
-    props: {},
-  };
-}

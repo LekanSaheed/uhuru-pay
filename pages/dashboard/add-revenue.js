@@ -3,18 +3,16 @@ import { baseUrl } from "../../context/baseUrl";
 import { useState } from "react";
 import Select from "react-select";
 import { useGlobalContext } from "../../context/context";
+import classes from "./add-revenue.module.css";
 
 export default function AddRevenue() {
-  const isServer = typeof window === "undefined";
-  const { user } = useGlobalContext();
+  const { user, token } = useGlobalContext();
   const url = `${baseUrl}/revenue/new`;
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [comment, setComment] = useState("");
   const [category, setCategory] = useState([]);
-  if (isServer) {
-    return <h1>Server</h1>;
-  }
+
   const options = [
     { label: "Transport", value: "transport" },
     { label: "Street Naming", value: "street_naming" },
@@ -32,7 +30,7 @@ export default function AddRevenue() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
+        Authorization: `Bearer ${token}`,
         Accept: "application/json",
       },
       body: JSON.stringify({
@@ -49,41 +47,48 @@ export default function AddRevenue() {
 
   return (
     <DashBoardWrapper>
-      <form>
-        <div>
-          <label>Title</label>
-          <input
-            value={title}
-            placeholder="Revenue title"
-            onChange={(e) => setTitle(e.target.value)}
-          />
+      <form className={classes.form}>
+        <header className={classes.form_header}>
+          <div className={classes.main_text}>Add Revenue</div>
+          <div className={classes.sub_text}>
+            Please fill the following fields carefully.
+          </div>
+        </header>
+        <div className={classes.group}>
+          <div className={classes.input_container}>
+            <label>Title</label>
+            <input
+              value={title}
+              placeholder="Revenue title"
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </div>
+          <div className={classes.input_container}>
+            <label>Amount</label>
+            <input
+              value={amount}
+              placeholder="Amount"
+              onChange={(e) => setAmount(e.target.value)}
+            />
+          </div>
+          <div className={classes.input_container}>
+            <label>Category</label>
+            <Select
+              value={category}
+              placeholder="Category"
+              options={options}
+              onChange={handleCategory}
+            />
+          </div>
+          <div className={classes.input_container}>
+            <label>Comment</label>
+            <input
+              value={comment}
+              placeholder="Comment"
+              onChange={(e) => setComment(e.target.value)}
+            />
+          </div>
         </div>
-        <div>
-          <label>Amount</label>
-          <input
-            value={amount}
-            placeholder="Amount"
-            onChange={(e) => setAmount(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Category</label>
-          <Select
-            value={category}
-            placeholder="Category"
-            options={options}
-            onChange={handleCategory}
-          />
-        </div>
-        <div>
-          <label>Comment</label>
-          <input
-            value={comment}
-            placeholder="Comment"
-            onChange={(e) => setComment(e.target.value)}
-          />
-        </div>
-
         <button onClick={addRevenue}>Add revenue</button>
       </form>
     </DashBoardWrapper>
