@@ -1,6 +1,6 @@
-import { createContext, useContext } from "react";
+import React, { useContext } from "react";
 
-const AppContext = createContext();
+const AppContext = React.createContext();
 
 const useGlobalContext = () => {
   return useContext(AppContext);

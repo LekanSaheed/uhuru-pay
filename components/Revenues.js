@@ -42,7 +42,7 @@ const Revenues = () => {
   //   setToken(accessToken);
   //   console.log(accessToken);
   // }, []);
-  const token = process.browser && sessionStorage.getItem("accessToken");
+  const token = process.browser && localStorage.getItem("accessToken");
   useEffect(() => {
     const requestOptions = {
       method: "GET",

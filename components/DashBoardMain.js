@@ -20,7 +20,7 @@ const DashBoardMain = () => {
         </div>
       </div>
       <GridCard />
-      <Graph />
+      {/* <Graph /> */}
     </MainWrapper>
   );
 };

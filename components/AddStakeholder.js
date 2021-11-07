@@ -21,7 +21,8 @@ const AddStakeholder = () => {
   const { user } = useGlobalContext();
 
   useEffect(() => {
-    const accessToken = sessionStorage.getItem("accessToken");
+    const accessToken =
+      typeof window !== "undefined" && localStorage.getItem("accessToken");
     setToken(accessToken);
   }, []);
   const newStream = streams.map((i) => {

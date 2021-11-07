@@ -14,7 +14,7 @@ export const reducer = (state = defaultState, action) => {
   }
   if (action.type === "SET_TOKEN") {
     document.cookie = `accessToken=${action.payload}`;
-    sessionStorage.setItem("accessToken", action.payload);
+    localStorage.setItem("accessToken", action.payload);
     return {
       ...state,
       token: action.payload,

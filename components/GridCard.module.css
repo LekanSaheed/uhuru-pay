@@ -45,6 +45,14 @@
   .card_container {
     flex-wrap: wrap;
   }
+  .cardMain {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    padding: 25px 10px;
+    height: auto;
+  }
 }
 @media (min-width: 1124px) {
   .card {

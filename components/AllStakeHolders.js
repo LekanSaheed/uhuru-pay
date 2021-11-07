@@ -38,7 +38,9 @@ const AllStakeHolders = () => {
   const myClass = useStyles();
   const url = `${baseUrl}/stakeholder/list`;
 
-  const { user, token } = useGlobalContext();
+  const { user } = useGlobalContext();
+  const token =
+    typeof window !== "undefined" && localStorage.getItem("accessToken");
   const isServer = typeof window === "undefined";
   const [stakeholders, setStakeholders] = useState([]);
   React.useEffect(async () => {
