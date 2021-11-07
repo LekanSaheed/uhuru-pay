@@ -19,7 +19,7 @@ const PinManagement = () => {
   const [size, setSize] = React.useState(null);
   const [areaCode, setAreaCode] = React.useState("");
   const [discount, setDiscount] = React.useState(null);
-
+  const [revenues, setRevenues] = React.useState([]);
   React.useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (token) {
@@ -35,21 +35,22 @@ const PinManagement = () => {
           .then((res) => res.json())
           .then((data) => {
             if (data.success === true) {
-              setAllRevenues(
-                data.data.map((rev) => {
-                  return {
-                    label: rev.title,
-                    value: rev._id,
-                  };
-                })
-              );
+              setAllRevenues(data.data);
+              const filtered = allRevenues.map((rev) => {
+                return {
+                  label: rev.title,
+                  value: rev._id,
+                };
+              });
               setLoading(false);
+              setRevenues(filtered);
             } else {
-              setLoading(false);
+              toast.error("Something went wrong");
             }
           })
           .catch((err) => {
             console.log(err);
+            toast.error("Something went wrong");
             setLoading(false);
           });
       };
@@ -106,7 +107,7 @@ const PinManagement = () => {
             <Select
               onChange={handleRevenues}
               value={selected}
-              options={loading ? [] : allRevenues}
+              options={loading ? [] : revenues}
               placeholder="Select a revenue"
             />
           </div>
@@ -162,6 +163,7 @@ const PinManagement = () => {
         </div>
         {selected && (
           <motion.div
+            className={classes.motion}
             animate="visible"
             initial="hidden"
             variants={{
