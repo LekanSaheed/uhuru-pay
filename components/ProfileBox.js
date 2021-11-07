@@ -4,6 +4,7 @@ import { useGlobalContext } from "../context/context";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { FiSettings, FiLogOut } from "react-icons/fi";
 const ProfileBox = () => {
   const { user, toggleProfile, isToggledProfile, logout } = useGlobalContext();
 
@@ -34,7 +35,12 @@ const ProfileBox = () => {
             : ` ${classes.dropdown} ${classes.hideProfile}`
         }
       >
-        <div style={{ marginBlock: 10 }}>settings</div>
+        <div style={{ marginBlock: 10 }}>
+          <span>
+            <FiSettings />
+          </span>
+          <span>Settings</span>
+        </div>
         <div
           onClick={async () => {
             logout();
@@ -44,7 +50,10 @@ const ProfileBox = () => {
           }}
           style={{ marginBlock: 10 }}
         >
-          Logout
+          <span>
+            <FiLogOut />
+          </span>
+          <span>Logout</span>
         </div>
       </div>
     </div>
