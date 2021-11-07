@@ -11,7 +11,7 @@
 
 @font-face {
   font-family: brFirma;
-  src: url("./brFirma/BR\ Firma\ Light.woff") format("woff");
+  src: url("./brFirma/BR\ Firma\ Regular.woff") format("woff");
   font-weight: 500;
 }
 
@@ -19,6 +19,9 @@
   font-family: brFBold;
   src: url("./brFirma/BR\ Firma\ Black.woff") format("woff");
   font-weight: 500;
+}
+body::placeholder {
+  font-family: brFirma;
 }
 
 html,

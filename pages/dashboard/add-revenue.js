@@ -6,7 +6,7 @@ import { useGlobalContext } from "../../context/context";
 import classes from "./add-revenue.module.css";
 
 export default function AddRevenue() {
-  const { user, token } = useGlobalContext();
+  const { user } = useGlobalContext();
   const url = `${baseUrl}/revenue/new`;
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
@@ -21,6 +21,7 @@ export default function AddRevenue() {
     { label: "School Fees", value: "school_fees" },
     { label: "Market", value: "market" },
   ];
+  const token = process.browser && sessionStorage.getItem("accessToken");
   const handleCategory = (category) => {
     setCategory(category);
   };
@@ -74,10 +75,14 @@ export default function AddRevenue() {
           <div className={classes.input_container}>
             <label>Category</label>
             <Select
+              className={classes.select}
               value={category}
               placeholder="Category"
               options={options}
               onChange={handleCategory}
+              styles={{
+                fontSize: "13px",
+              }}
             />
           </div>
           <div className={classes.input_container}>

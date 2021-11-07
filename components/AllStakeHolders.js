@@ -38,7 +38,7 @@ const AllStakeHolders = () => {
   const myClass = useStyles();
   const url = `${baseUrl}/stakeholder/list`;
 
-  const { user } = useGlobalContext();
+  const { user, token } = useGlobalContext();
   const isServer = typeof window === "undefined";
   const [stakeholders, setStakeholders] = useState([]);
   React.useEffect(async () => {
@@ -46,7 +46,7 @@ const AllStakeHolders = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
+        Authorization: `Bearer ${token}`,
         Accept: "application/json",
       },
     };
@@ -73,15 +73,13 @@ const AllStakeHolders = () => {
       error: "An error occured",
     });
   }, []);
-  if (isServer) {
-    return <h1>Server</h1>;
-  }
+
   const activate = async (id) => {
     const fetchProfile = async () => {
       await fetch(`${baseUrl}/stakeholder/${id}/activate`, {
         method: "GET",
         header: {
-          Authorization: `Bearer ${user.token}`,
+          Authorization: `Bearer ${token}`,
         },
       })
         .then((res) => res.json())
@@ -106,7 +104,7 @@ const AllStakeHolders = () => {
       await fetch(`${baseUrl}/stakeholder/${id}/deactivate`, {
         method: "GET",
         header: {
-          Authorization: `Bearer ${user.token}`,
+          Authorization: `Bearer ${token}`,
         },
       })
         .then((res) => res.json())

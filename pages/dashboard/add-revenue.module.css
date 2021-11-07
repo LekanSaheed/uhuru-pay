@@ -11,9 +11,14 @@
   flex: 1 1 70%;
   width: 100%;
 }
-.input_container input {
-  padding: 10px;
+.input_container input,
+.select {
+  padding: 12px;
   width: 100%;
+  font-size: 13px;
+  border: solid 1px #cccccc;
+  border-radius: 3px;
+  margin-bottom: 10px;
 }
 .input_container label {
   display: block;
@@ -29,7 +34,18 @@
 }
 .form_header {
   padding: 15px 20px;
-  background-color: #4cb2bc;
+  background-color: #4bc2bc;
   color: white;
-  text-align: center;
+}
+.form button {
+  padding: 13px;
+  border: none;
+  color: white;
+  align-self: flex-start;
+  background-color: #4bc2bc;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.form button:hover {
+  background-color: #8bf6f1;
 }
