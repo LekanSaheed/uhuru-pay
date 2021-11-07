@@ -42,9 +42,9 @@ const PinManagement = ({ allRevenues }) => {
         Authorization: `Bearer ${token}`,
         Accept: "application/json",
         body: {
-          size: size,
+          size: parseInt(size),
           area_code: areaCode,
-          discount: discount,
+          discount: parseInt(discount),
         },
       },
     };
@@ -63,95 +63,89 @@ const PinManagement = ({ allRevenues }) => {
   return (
     <div>
       Pin Management
-      <form
-        className={classes.form}
-        style={{
-          display: "flex",
-          alignItems: "baseline",
-          width: "100%",
-          justifyContent: "space-between",
-        }}
-      >
-        <div style={{ width: "60%" }}>
-          <Select
-            onChange={handleRevenues}
-            value={selected}
-            options={revenues.filter((rev) => {
-              return user.revenueStreams.includes(rev.value);
-            })}
-            placeholder="Select a revenue"
-          />
+      <form className={classes.form}>
+        <div className={classes.group}>
+          <div style={{ width: "60%" }}>
+            <Select
+              onChange={handleRevenues}
+              value={selected}
+              options={revenues.filter((rev) => {
+                return user.revenueStreams.includes(rev.value);
+              })}
+              placeholder="Select a revenue"
+            />
+          </div>
+          <div className={classes.input_container}>
+            <label>Amount</label>
+            <input
+              type="number"
+              defaultValue={
+                selected
+                  ? allRevenues
+                      .filter((rev) => rev.revenue_id === selected.value)
+                      .map((i) => i.amount)
+                  : 0
+              }
+              disabled={true}
+              placeholder="Amount"
+            />
+          </div>
+          <div className={classes.input_container}>
+            <label>Quantity</label>
+            <input
+              type="number"
+              value={size}
+              onChange={(e) => setSize(e.target.value)}
+              placeholder="Quantity"
+            />
+          </div>
+          <div className={classes.input_container}>
+            <label>Area Code</label>
+            <input
+              value={areaCode}
+              onChange={(e) => setAreaCode(e.target.value)}
+              placeholder="Area Code"
+            />
+          </div>
+          <div className={classes.input_container}>
+            <label>Discount</label>
+            <input
+              type="number"
+              value={discount}
+              onChange={(e) => setDiscount(e.target.value)}
+              placeholder="Discount"
+            />
+          </div>
+          <Button
+            disabled={!selected || !size || !areaCode || size === "0"}
+            onClick={generatePin}
+            variant="contained"
+            color="primary"
+          >
+            Generate Pin
+          </Button>
         </div>
-        <div className={classes.input_container}>
-          <label>Amount</label>
-          <input
-            type="number"
-            defaultValue={
-              selected
-                ? allRevenues
-                    .filter((rev) => rev.revenue_id === selected.value)
-                    .map((i) => i.amount)
-                : 0
-            }
-            disabled={true}
-            placeholder="Amount"
-          />
-        </div>
-        <div className={classes.input_container}>
-          <label>Quantity</label>
-          <input
-            type="number"
-            value={size}
-            onChange={(e) => setSize(e.target.value)}
-            placeholder="Quantity"
-          />
-        </div>
-        <div className={classes.input_container}>
-          <label>Area Code</label>
-          <input
-            value={areaCode}
-            onChange={(e) => setAreaCode(e.target.value)}
-            placeholder="Area Code"
-          />
-        </div>
-        <div className={classes.input_container}>
-          <label>Discount</label>
-          <input
-            type="number"
-            value={discount}
-            onChange={(e) => setDiscount(e.target.value)}
-            placeholder="Discount"
-          />
-        </div>
-        <Button
-          disabled={!selected || !size || !areaCode}
-          onClick={generatePin}
-          variant="contained"
-          color="primary"
-        >
-          Generate Pin
-        </Button>
+        {selected && (
+          <div>
+            {" "}
+            {allRevenues
+              .filter((rev) => rev.revenue_id === selected.value)
+              .map((rev, idx) => {
+                return (
+                  <div key={idx}>
+                    <div>
+                      <span>Revenue title: </span>T{rev.title}
+                    </div>
+                    <div>
+                      <span>Amount: </span>
+                      {rev.amount}
+                    </div>
+                  </div>
+                );
+              })}
+          </div>
+        )}
       </form>
-      {selected && (
-        <div>
-          {" "}
-          {allRevenues
-            .filter((rev) => rev.revenue_id === selected.value)
-            .map((rev) => {
-              return (
-                <div>
-                  <div>
-                    <span>Revenue title: </span>T{rev.title}
-                  </div>
-                  <div>
-                    <span>Amount: </span>
-                    {rev.amount}
-                  </div>
-                </div>
-              );
-            })}
-        </div>
-      )}
     </div>
   );
 };
