@@ -1,5 +1,7 @@
 import DashBoardMain from "../../components/DashBoardMain";
 import DashBoardWrapper from "../../components/DashBoardWrapper";
+import Login from "../../components/Login";
+
 import { useRouter } from "next/router";
 import { useGlobalContext } from "../../context/context";
 import React from "react";
@@ -21,16 +23,13 @@ const DashBoard = (props) => {
   // }, []);
   React.useEffect(() => {
     setUser(props.user);
-    if (isUser) {
-      router.push("/dashboard");
-    } else {
-      router.push("/login");
-    }
   }, []);
 
   return (
     <>
-      {isUser && (
+      {!isUser ? (
+        <Login />
+      ) : (
         <DashBoardWrapper>
           <DashBoardMain />
         </DashBoardWrapper>
@@ -42,6 +41,7 @@ const DashBoard = (props) => {
 export default DashBoard;
 export async function getServerSideProps(context) {
   const header = cookie.parse(context.req.headers.cookie);
+  console.log(header);
   const requestOptions = {
     method: "GET",
     headers: {

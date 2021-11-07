@@ -1,0 +1,158 @@
+import Link from "next/link";
+import { useRouter } from "next/router";
+import Select from "react-select";
+import React from "react";
+import { useGlobalContext } from "../context/context";
+import { baseUrl } from "../context/baseUrl";
+import toast from "react-hot-toast";
+import { Button } from "@material-ui/core";
+
+import classes from "./PinManagement.module.css";
+const PinManagement = ({ allRevenues }) => {
+  const { user, logout } = useGlobalContext();
+  const [revenues, setRevenues] = React.useState([]);
+  const router = useRouter();
+  const [selected, setSelected] = React.useState("");
+  const [size, setSize] = React.useState(null);
+  const [areaCode, setAreaCode] = React.useState("");
+  const [discount, setDiscount] = React.useState(null);
+  React.useEffect(() => {
+    const filtered = allRevenues.map((rev) => {
+      return {
+        label: rev.title,
+        value: rev.revenue_id,
+      };
+    });
+
+    setRevenues(filtered);
+  }, []);
+  const handleRevenues = (current) => {
+    setSelected(current);
+  };
+  const generatePin = async () => {
+    const token =
+      typeof window !== "undefined" && localStorage.getItem("accessToken");
+    if (!token) {
+      logout();
+    }
+    const url = `${baseUrl}/pin/${selected.value}/generate`;
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        body: {
+          size: size,
+          area_code: areaCode,
+          discount: discount,
+        },
+      },
+    };
+    await fetch(url, requestOptions)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          toast.success("Pin generated Successfully");
+          console.log(data.data);
+        } else {
+          toast.error(data.error);
+        }
+      })
+      .catch((err) => toast.error(err.message));
+  };
+  return (
+    <div>
+      Pin Management
+      <form
+        className={classes.form}
+        style={{
+          display: "flex",
+          alignItems: "baseline",
+          width: "100%",
+          justifyContent: "space-between",
+        }}
+      >
+        <div style={{ width: "60%" }}>
+          <Select
+            onChange={handleRevenues}
+            value={selected}
+            options={revenues.filter((rev) => {
+              return user.revenueStreams.includes(rev.value);
+            })}
+            placeholder="Select a revenue"
+          />
+        </div>
+        <div className={classes.input_container}>
+          <label>Amount</label>
+          <input
+            type="number"
+            defaultValue={
+              selected
+                ? allRevenues
+                    .filter((rev) => rev.revenue_id === selected.value)
+                    .map((i) => i.amount)
+                : 0
+            }
+            disabled={true}
+            placeholder="Amount"
+          />
+        </div>
+        <div className={classes.input_container}>
+          <label>Quantity</label>
+          <input
+            type="number"
+            value={size}
+            onChange={(e) => setSize(e.target.value)}
+            placeholder="Quantity"
+          />
+        </div>
+        <div className={classes.input_container}>
+          <label>Area Code</label>
+          <input
+            value={areaCode}
+            onChange={(e) => setAreaCode(e.target.value)}
+            placeholder="Area Code"
+          />
+        </div>
+        <div className={classes.input_container}>
+          <label>Discount</label>
+          <input
+            type="number"
+            value={discount}
+            onChange={(e) => setDiscount(e.target.value)}
+            placeholder="Discount"
+          />
+        </div>
+        <Button
+          disabled={!selected || !size || !areaCode}
+          onClick={generatePin}
+          variant="contained"
+          color="primary"
+        >
+          Generate Pin
+        </Button>
+      </form>
+      {selected && (
+        <div>
+          {" "}
+          {allRevenues
+            .filter((rev) => rev.revenue_id === selected.value)
+            .map((rev) => {
+              return (
+                <div>
+                  <div>
+                    <span>Revenue title: </span>T{rev.title}
+                  </div>
+                  <div>
+                    <span>Amount: </span>
+                    {rev.amount}
+                  </div>
+                </div>
+              );
+            })}
+        </div>
+      )}
+    </div>
+  );
+};
+export default PinManagement;

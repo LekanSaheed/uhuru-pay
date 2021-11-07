@@ -1,0 +1,22 @@
+.form {
+  display: flex;
+  flex-direction: column;
+}
+.input_container {
+  padding: 0px;
+  width: 100%;
+}
+.input_container label {
+  display: block;
+}
+.input_container input {
+  padding: 13px;
+  border: solid 1px #cccccc;
+  border-radius: 3px;
+}
+.form button {
+  background-color: #4bc2bc;
+}
+.form button:hover {
+  background-color: #7eece7;
+}

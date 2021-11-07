@@ -44,7 +44,7 @@ export const defaultState = {
       text: "Pin Management",
       icon: <MdLock />,
       open: true,
-      link: "/pin-management",
+      link: "/pin",
     },
     {
       id: 4,

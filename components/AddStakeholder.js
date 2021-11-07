@@ -25,9 +25,7 @@ const AddStakeholder = () => {
       typeof window !== "undefined" && localStorage.getItem("accessToken");
     setToken(accessToken);
   }, []);
-  const newStream = streams.map((i) => {
-    return i.value;
-  });
+
   useEffect(() => {
     const url = `${baseUrl}/revenue/all`;
     const requestOptions = {
@@ -95,9 +93,9 @@ const AddStakeholder = () => {
         username: username.trim().toLowerCase(),
         phone: phone,
         email: email,
-        state: state.value,
-        role: role.value,
-        revenueStreams: newStream,
+        state: state,
+        role: role,
+        revenueStreams: streams,
       }),
     };
     await fetch(url, requestOptions)
@@ -226,7 +224,7 @@ const AddStakeholder = () => {
                   <div className={classes.input_container}>
                     <label>Revenue Streams.</label>
                     <Select
-                      value={streams}
+                      value={streams.value}
                       isMulti={true}
                       onChange={handleStream}
                       isSearchable={true}

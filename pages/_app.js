@@ -40,7 +40,6 @@ function MyApp({ Component, pageProps, router }) {
     // }
     const localUser = JSON.parse(localStorage.getItem("user"));
     if (localUser !== null && localUser.name !== null) {
-      router.push("/dashboard");
       setUser(localUser);
     } else {
       router.push("/login");
