@@ -53,7 +53,12 @@ export const defaultState = {
       expandable: true,
       icon: <MdStream />,
       dropdown: [
-        { text: "Add New", icons: "", link: "/add-revenue" },
+        {
+          text: "Add New",
+          icons: "",
+          link: "/add-revenue",
+          isConditioned: true,
+        },
         { text: "All Revenues", icons: "", link: "/all-revenues" },
       ],
     },

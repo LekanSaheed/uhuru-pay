@@ -31,3 +31,18 @@
 .form button:hover {
   background-color: #7eece7;
 }
+.details {
+  text-align: center;
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
+  background-color: #4bc2bc;
+  padding: 10px;
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  flex: 1 1 40%;
+  font-size: 13px;
+}

@@ -6,8 +6,9 @@ import { useGlobalContext } from "../context/context";
 import { baseUrl } from "../context/baseUrl";
 import toast from "react-hot-toast";
 import { Button } from "@material-ui/core";
-
+import { motion } from "framer-motion";
 import classes from "./PinManagement.module.css";
+
 const PinManagement = ({ allRevenues }) => {
   const { user, logout } = useGlobalContext();
   const [revenues, setRevenues] = React.useState([]);
@@ -16,6 +17,7 @@ const PinManagement = ({ allRevenues }) => {
   const [size, setSize] = React.useState(null);
   const [areaCode, setAreaCode] = React.useState("");
   const [discount, setDiscount] = React.useState(null);
+
   React.useEffect(() => {
     const filtered = allRevenues.map((rev) => {
       return {
@@ -40,13 +42,12 @@ const PinManagement = ({ allRevenues }) => {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
-        Accept: "application/json",
-        body: {
-          size: parseInt(size),
-          area_code: areaCode,
-          discount: parseInt(discount),
-        },
       },
+      body: JSON.stringify({
+        area_code: areaCode,
+        size: size,
+        discount: parseInt(discount),
+      }),
     };
     await fetch(url, requestOptions)
       .then((res) => res.json())
@@ -59,6 +60,8 @@ const PinManagement = ({ allRevenues }) => {
         }
       })
       .catch((err) => toast.error(err.message));
+    console.log("size:", size, "discount:", discount, "id:", selected.value);
+    console.log(typeof size);
   };
   return (
     <div>
@@ -91,9 +94,9 @@ const PinManagement = ({ allRevenues }) => {
           <div className={classes.input_container}>
             <label>Quantity</label>
             <input
-              type="number"
               value={size}
-              onChange={(e) => setSize(e.target.value)}
+              type="number"
+              onChange={(e) => setSize(parseInt(e.target.value))}
               placeholder="Quantity"
             />
           </div>
@@ -124,25 +127,43 @@ const PinManagement = ({ allRevenues }) => {
           </Button>
         </div>
         {selected && (
-          <div className={classes.card}>
-            <div className={classes.details}>Details</div>{" "}
-            {allRevenues
-              .filter((rev) => rev._id === selected.value)
-              .map((rev, idx) => {
-                return (
-                  <div key={idx}>
-                    <div>
-                      <span>Revenue title: </span>
-                      {rev.title}
+          <motion.div
+            animate="visible"
+            initial="hidden"
+            variants={{
+              hidden: {
+                scale: 0.8,
+                opacity: 0,
+              },
+              visible: {
+                scale: 1,
+                opacity: 1,
+                transition: {
+                  delay: 0.4,
+                },
+              },
+            }}
+          >
+            <div className={classes.card}>
+              <div className={classes.details}>Details</div>{" "}
+              {allRevenues
+                .filter((rev) => rev._id === selected.value)
+                .map((rev, idx) => {
+                  return (
+                    <div key={idx} className={classes.card_main}>
+                      <div>
+                        <span>Revenue title: </span>
+                        {rev.title}
+                      </div>
+                      <div>
+                        <span>Amount: </span>
+                        {rev.amount}
+                      </div>
                     </div>
-                    <div>
-                      <span>Amount: </span>
-                      {rev.amount}
-                    </div>
-                  </div>
-                );
-              })}
-          </div>
+                  );
+                })}
+            </div>
+          </motion.div>
         )}
       </form>
     </div>

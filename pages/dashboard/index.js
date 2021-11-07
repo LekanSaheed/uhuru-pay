@@ -11,16 +11,23 @@ const DashBoard = (props) => {
   const { isUser, setUser } = useGlobalContext();
   const [auth, setAuth] = React.useState(true);
   const router = useRouter();
-  // React.useEffect(() => {
-  //   const localUser = JSON.parse(localStorage.getItem("stakeholder"));
-  //   if (localUser !== null) {
-  //     setUser(localUser);
-  //     setAuth(true);
-  //   } else {
-  //     setAuth(false);
-  //     router.push("/login");
-  //   }
-  // }, []);
+  React.useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      const requestOptions = {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const url = `${baseUrl}/stakeholder/me`;
+      const res = await fetch(url, requestOptions);
+      const data = await res.json();
+      const user = data.data;
+      if (data.success) setUser(user);
+    }
+    console.log(header);
+  }, []);
   React.useEffect(() => {
     setUser(props.user);
   }, []);
@@ -39,32 +46,32 @@ const DashBoard = (props) => {
 };
 
 export default DashBoard;
-export async function getServerSideProps(context) {
-  const header = cookie.parse(context.req.headers.cookie);
-  console.log(header);
-  const requestOptions = {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${header.accessToken}`,
-    },
-  };
-  const url = `${baseUrl}/stakeholder/me`;
-  const res = await fetch(url, requestOptions);
-  const data = await res.json();
-  const user = data.data;
-  console.log(header);
+// export async function getServerSideProps(context) {
+//   const header = cookie.parse(context.req.headers.cookie);
+//   console.log(header);
+//   const requestOptions = {
+//     method: "GET",
+//     headers: {
+//       Authorization: `Bearer ${header.accessToken}`,
+//     },
+//   };
+//   const url = `${baseUrl}/stakeholder/me`;
+//   const res = await fetch(url, requestOptions);
+//   const data = await res.json();
+//   const user = data.data;
+//   console.log(header);
 
-  if (!data) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
-  return {
-    props: {
-      user: data.success ? user : {},
-    },
-  };
-}
+//   if (!data) {
+//     return {
+//       redirect: {
+//         destination: "/",
+//         permanent: false,
+//       },
+//     };
+//   }
+//   return {
+//     props: {
+//       user: data.success ? user : {},
+//     },
+//   };
+// }
