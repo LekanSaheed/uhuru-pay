@@ -19,7 +19,7 @@ const PinManagement = () => {
   const [size, setSize] = React.useState(null);
   const [areaCode, setAreaCode] = React.useState("");
   const [discount, setDiscount] = React.useState(null);
-  const [revenues, setRevenues] = React.useState([]);
+
   React.useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (token) {
@@ -44,6 +44,7 @@ const PinManagement = () => {
               });
               setLoading(false);
               setRevenues(filtered);
+              console.log(data.data);
             } else {
               toast.error("Something went wrong");
             }
@@ -59,7 +60,6 @@ const PinManagement = () => {
     if (!token) {
       logout();
     }
-    console.log(revenues);
   }, []);
 
   const handleRevenues = (current) => {
