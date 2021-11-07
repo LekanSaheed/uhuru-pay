@@ -43,7 +43,6 @@ const ProfileBox = () => {
         </div>
         <div
           onClick={async () => {
-            logout();
             await router.push("/login").then(() => {
               logout();
             });

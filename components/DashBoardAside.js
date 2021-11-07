@@ -10,7 +10,8 @@ import ProfileBox from "./ProfileBox";
 
 const DashBoardAside = () => {
   const router = useRouter();
-  const { toggleDropdown, isDropdown, asideContents } = useGlobalContext();
+  const { toggleDropdown, isDropdown, asideContents, user } =
+    useGlobalContext();
 
   return (
     <div className={classes.asideMain}>
@@ -94,25 +95,29 @@ const DashBoardAside = () => {
                       {React.Children.toArray(
                         aside.dropdown.map((drop) => {
                           return (
-                            <Link
-                              key={drop.text}
-                              href={"/dashboard" + drop.link}
-                            >
-                              <a
-                                style={{
-                                  display: "flex",
-                                  gap: "15px",
-                                  alignItems: "center",
-                                }}
-                              >
-                                <span>
-                                  <BiLogInCircle />
-                                </span>
-                                <span style={{ fontSize: "13px" }}>
-                                  {drop.text}
-                                </span>
-                              </a>
-                            </Link>
+                            <>
+                              {!drop.isConditioned && user.role !== "admin" && (
+                                <Link
+                                  key={drop.text}
+                                  href={"/dashboard" + drop.link}
+                                >
+                                  <a
+                                    style={{
+                                      display: "flex",
+                                      gap: "15px",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <span>
+                                      <BiLogInCircle />
+                                    </span>
+                                    <span style={{ fontSize: "13px" }}>
+                                      {drop.text}
+                                    </span>
+                                  </a>
+                                </Link>
+                              )}
+                            </>
                           );
                         })
                       )}
@@ -125,7 +130,7 @@ const DashBoardAside = () => {
         )}
       </ul>
       <footer className={classes.asideFooter}>
-        <div style={{ padding: "10px" }}>
+        <div style={{ padding: " 10px" }}>
           <Image width={200} height={50} src="/WORDMARK.png" />
         </div>
       </footer>

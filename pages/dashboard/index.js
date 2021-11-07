@@ -7,29 +7,29 @@ import { useGlobalContext } from "../../context/context";
 import React from "react";
 import * as cookie from "cookie";
 import { baseUrl } from "../../context/baseUrl";
-const DashBoard = (props) => {
-  const { isUser, setUser } = useGlobalContext();
+const DashBoard = () => {
+  const { isUser, setUser, logout } = useGlobalContext();
   const [auth, setAuth] = React.useState(true);
   const router = useRouter();
   React.useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (token) {
-      const requestOptions = {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+      const fetchData = async () => {
+        const requestOptions = {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        const url = `${baseUrl}/stakeholder/me`;
+        const res = await fetch(url, requestOptions);
+        const data = await res.json();
+        const user = data.data;
+        if (data.success) setUser(user);
       };
-      const url = `${baseUrl}/stakeholder/me`;
-      const res = await fetch(url, requestOptions);
-      const data = await res.json();
-      const user = data.data;
-      if (data.success) setUser(user);
+      fetchData();
     }
-    console.log(header);
-  }, []);
-  React.useEffect(() => {
-    setUser(props.user);
+    if (!token) logout();
   }, []);
 
   return (

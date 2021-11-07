@@ -42,8 +42,13 @@ const Revenues = () => {
   //   setToken(accessToken);
   //   console.log(accessToken);
   // }, []);
-  const token = process.browser && localStorage.getItem("accessToken");
+
   useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) {
+      logout();
+      toast.error("You need to log in again");
+    }
     const requestOptions = {
       method: "GET",
       headers: {

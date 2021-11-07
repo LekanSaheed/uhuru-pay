@@ -32,8 +32,7 @@ export const reducer = (state = defaultState, action) => {
   if (action.type === "LOGOUT") {
     localStorage.removeItem("user");
     localStorage.clear();
-    typeof window !== "undefined" && deleteAllCookiesFactory(window);
-    console.log(document.cookie);
+    localStorage.removeItem("accessToken");
     return {
       ...state,
       user: {},
