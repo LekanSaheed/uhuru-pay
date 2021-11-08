@@ -17,11 +17,10 @@
   right: 0;
   left: 0;
   box-sizing: border-box;
-  z-index: 0;
+  z-index: 1;
 }
 .dropdown {
   transition: 0.4s;
-
   margin: 0 10px;
   background: #fff;
   flex-direction: column;

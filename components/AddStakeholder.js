@@ -102,9 +102,15 @@ const AddStakeholder = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
-          console.log(data);
           setLoading(false);
           toast.success("Stakeholder Registered Successfully");
+          setRole({});
+          setName("");
+          setPhone("");
+          setUserName("");
+          setState({});
+          setEmail("");
+          setStream([]);
         } else {
           toast.error(data.error);
           setLoading(false);
