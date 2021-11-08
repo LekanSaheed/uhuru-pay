@@ -44,6 +44,7 @@ const ProfileBox = () => {
         <div
           onClick={() => {
             logout();
+            router.push("/login");
           }}
           style={{ marginBlock: 10 }}
         >
