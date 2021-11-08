@@ -15,7 +15,7 @@ const DashBoardHeader = () => {
     { id: 2, icon: <BsPerson /> },
   ];
 
-  // var elem = document.documentElement;
+  // var elem = typeof window !== 'undefined' &&  document.documentElement;
 
   // /* View in fullscreen */
   // function openFullscreen() {

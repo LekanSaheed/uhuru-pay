@@ -45,7 +45,12 @@ const DashBoardAside = () => {
                           alignItems: "center",
                         }}
                       >
-                        <i className={classes.icon}>{aside.icon}</i>
+                        <i
+                          className={classes.icon}
+                          style={{ display: "block" }}
+                        >
+                          {aside.icon}
+                        </i>
                         <span style={{ fontSize: "14px" }}>{aside.text}</span>
                       </span>{" "}
                     </a>
@@ -107,9 +112,7 @@ const DashBoardAside = () => {
                                     alignItems: "center",
                                   }}
                                 >
-                                  <span>
-                                    <BiLogInCircle />
-                                  </span>
+                                  <span>{drop.icon}</span>
                                   <span style={{ fontSize: "13px" }}>
                                     {drop.text}
                                   </span>

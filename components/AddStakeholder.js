@@ -93,8 +93,8 @@ const AddStakeholder = () => {
         username: username.trim().toLowerCase(),
         phone: phone,
         email: email,
-        state: state,
-        role: role,
+        state: state.value,
+        role: role.value,
         revenueStreams: streams,
       }),
     };

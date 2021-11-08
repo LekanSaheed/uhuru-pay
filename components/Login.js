@@ -16,7 +16,7 @@ const Form = () => {
   const [password, setPassword] = useState("");
   const [type, setType] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const { user, isUser, setToken } = useGlobalContext();
+  const { user, isUser, setToken, setUser } = useGlobalContext();
   const [error, setError] = useState("");
   React.useEffect(() => {
     if (isUser || user.name !== undefined) {
@@ -53,6 +53,7 @@ const Form = () => {
                 if (data.success === true) {
                   setToken(token);
                   router.push("/dashboard");
+                  setUser(data.data);
                   toast.success("Successfully logged in");
                   setError("");
                   // console.log(data.data, ":user");
