@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  width: 100%;
+  flex-basis: 100%;
+  flex-direction: column;
+}
+.main {
+  background-color: #fff;
+  width: 100%;
+  min-height: 100%;
+}
+.side_nav {
+  /* background-color: #2a3042; */
+  background-color: #f4f6f8;
+
+  color: rgba(0, 0, 0, 0.5);
+}
+@media (min-width: 767px) {
+  .container {
+    flex-direction: row;
+  }
+  .side_nav {
+    flex: 1 1 20%;
+    height: 100vh;
+    float: left;
+    width: 280px;
+    position: fixed;
+    min-width: 10%;
+  }
+  .main {
+    flex: 1 1 80%;
+    min-height: 100%;
+    margin-left: 280px;
+    min-width: 500px;
+  }
+}

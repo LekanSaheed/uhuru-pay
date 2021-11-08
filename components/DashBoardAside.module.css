@@ -1,0 +1,79 @@
+.asideContainer {
+  display: flex;
+  list-style: none;
+  gap: 30px;
+  flex-direction: column;
+  width: 85%;
+  line-height: 40px;
+  margin-top: 130px;
+  height: 100%;
+  justify-content: "space-between";
+}
+.asideContainer li {
+  display: inline-block;
+}
+.asideMain {
+  transition: 0.4s;
+}
+.showdrop {
+  height: auto;
+  transition: 0.4s;
+  transform: scaleY(1);
+}
+.hide_drop {
+  transform: scaleY(0);
+  transform-origin: left top;
+  height: 0;
+  transition: 0.2s ease-in-out;
+}
+
+.dropdown a:hover {
+  color: black;
+  transition: 0.2s;
+}
+.asideHeader {
+  padding: 2px;
+}
+.icon {
+  font-size: 22px;
+  color: #c3c4d3;
+}
+.link_flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  transition: 0.2s ease-in-out;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.active {
+  color: goldenrod !important;
+}
+.dropdown {
+  margin-left: 32px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  gap: 10px;
+}
+.asideFooter {
+  justify-self: flex-end;
+  padding: 20px;
+}
+.dropdown span {
+  font-size: 14px;
+  font-weight: 600;
+}
+.asideLink {
+  cursor: pointer;
+  font-weight: 500;
+  color: #a6a7b5;
+  display: flex;
+  gap: 20px;
+  align-items: baseline;
+}
+.link_hover:hover {
+  color: black !important;
+}

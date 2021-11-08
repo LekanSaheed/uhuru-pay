@@ -1,0 +1,104 @@
+.revenue_container {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 100%;
+  padding-top: 20px;
+}
+.active {
+  color: rgb(9, 156, 9);
+  font-weight: 700;
+}
+.notActive {
+  color: rgb(192, 25, 3);
+  font-weight: 700;
+}
+.revenue {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  margin-bottom: 10px;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  box-shadow: 0 0 30px 0 rgba(82 62 105 /5%);
+  background-color: #fff;
+}
+.revenue:hover {
+  transform: scale(1.02);
+  box-shadow: 0px 5px 10px 4px rgba(0 0 0/5%);
+  border-radius: 10px;
+  background-color: #4bc2bc1a;
+  transition: all 0.3s ease-in-out;
+}
+.revenue_header {
+  display: flex;
+  font-weight: 800;
+  font-size: 17px;
+  justify-content: space-between;
+  border-bottom: solid 1px #cccccc;
+  padding: 10px;
+}
+.title {
+  font-weight: 700;
+  font-size: 14px;
+}
+.amount {
+  color: #4bc2bc;
+  font-weight: 700;
+  font-size: 14px;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 80px;
+  gap: 10px;
+  padding: 14px;
+  background-color: #f4f6f81a;
+  min-height: 70vh;
+}
+.root {
+  flex: 1 1 100%;
+}
+.pin_table {
+  flex: 1 1 100%;
+}
+.group {
+  flex: 1 1 100%;
+  display: flex;
+  flex-basis: 100%;
+  flex-direction: column;
+}
+
+@media (min-width: 801px) {
+  .container {
+    flex-direction: column;
+    padding-top: 20px;
+    width: 100%;
+  }
+  .revenue_container {
+    display: flex;
+    flex: 30%;
+    flex-direction: column;
+  }
+
+  .root {
+    flex: 1 1 70%;
+    width: 70%;
+  }
+  .pin_table {
+    flex: 1 1 30%;
+    width: 30%;
+  }
+  .group {
+    flex-direction: row;
+    flex-basis: 100%;
+    flex: 70%;
+  }
+  .revenue {
+    padding: 20px 15px;
+  }
+}
+@media (min-width: 1124px) {
+  .container {
+    width: 100%;
+  }
+}

@@ -1,0 +1,185 @@
+.form {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.login_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #f4f6f8;
+  margin-top: -100px;
+}
+.input_container {
+  width: 100%;
+  padding: 10px;
+}
+.form button {
+  margin: 10px;
+  padding: 20px;
+  color: white;
+  text-align: center;
+  font-weight: 600;
+  border: none;
+  background-color: #4bc2bc;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.1s linear;
+  margin-top: 13px;
+}
+.input_container label {
+  margin-bottom: 7px;
+}
+.spinner {
+  font-size: 20px;
+  animation: spin 0.6s ease-in-out infinite;
+}
+@keyframes spin {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  from {
+    transform: rotateZ(0deg);
+  }
+  to {
+    transform: rotateZ(360deg);
+  }
+}
+@-moz-keyframes spin {
+  from {
+    transform: rotateZ(0deg);
+  }
+  to {
+    transform: rotateZ(360deg);
+  }
+}
+.form button:hover {
+  background-color: #5bddd6;
+  transform: scale(1.01);
+}
+.vis_toggle {
+  position: absolute;
+  margin-left: -50px;
+  cursor: pointer;
+  margin-top: 14px;
+  font-size: 23px;
+}
+.input_container input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  border: solid 1px #4bc2bc;
+  margin-top: 7px;
+  font-size: 14px;
+  border-radius: 5px;
+  outline-color: #6ff1eb;
+  transition: 0.3s;
+  background-color: #fff;
+}
+@media (min-width: 767px) {
+  .form {
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .login_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #f4f6f8;
+    margin-top: -100px;
+  }
+  .input_container {
+    width: 100%;
+    padding: 10px;
+  }
+  .form button {
+    margin: 10px;
+    padding: 25px;
+    color: white;
+    text-align: center;
+    font-weight: 600;
+    border: none;
+    background-color: #4bc2bc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.1s linear;
+    margin-top: 13px;
+  }
+  .input_container label {
+    margin-bottom: 7px;
+  }
+  .spinner {
+    font-size: 20px;
+    animation: spin 0.6s ease-in-out infinite;
+  }
+  @keyframes spin {
+    0% {
+      transform: rotateZ(0deg);
+    }
+    100% {
+      transform: rotateZ(360deg);
+    }
+  }
+  @-webkit-keyframes spin {
+    from {
+      transform: rotateZ(0deg);
+    }
+    to {
+      transform: rotateZ(360deg);
+    }
+  }
+  @-moz-keyframes spin {
+    from {
+      transform: rotateZ(0deg);
+    }
+    to {
+      transform: rotateZ(360deg);
+    }
+  }
+  .form button:hover {
+    background-color: #5bddd6;
+    transform: scale(1.01);
+  }
+
+  .disabled {
+    background-color: #a8fdf9 !important;
+  }
+  .input_container input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 15px;
+    border: solid 2px #4bc2bc;
+    margin-top: 7px;
+    font-size: 18px;
+    border-radius: 5px;
+    outline-color: #6ff1eb;
+    transition: 0.3s;
+  }
+  .vis_toggle {
+    position: absolute;
+    margin-left: -50px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 26px;
+  }
+}
