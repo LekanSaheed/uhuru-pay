@@ -96,7 +96,6 @@ const DashBoardAside = () => {
                         aside.dropdown.map((drop) => {
                           return (
                             <>
-<<<<<<< HEAD
                               <Link
                                 key={drop.text}
                                 href={"/dashboard" + drop.link}
@@ -116,29 +115,6 @@ const DashBoardAside = () => {
                                   </span>
                                 </a>
                               </Link>
-=======
-                              {!drop.isConditioned && user.role !== "admin" && (
-                                <Link
-                                  key={drop.text}
-                                  href={"/dashboard" + drop.link}
-                                >
-                                  <a
-                                    style={{
-                                      display: "flex",
-                                      gap: "15px",
-                                      alignItems: "center",
-                                    }}
-                                  >
-                                    <span>
-                                      <BiLogInCircle />
-                                    </span>
-                                    <span style={{ fontSize: "13px" }}>
-                                      {drop.text}
-                                    </span>
-                                  </a>
-                                </Link>
-                              )}
->>>>>>> f3787032383fa9a63b15341681218f131820bad6
                             </>
                           );
                         })
