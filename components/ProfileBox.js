@@ -42,10 +42,8 @@ const ProfileBox = () => {
           <span>Settings</span>
         </div>
         <div
-          onClick={async () => {
-            await router.push("/login").then(() => {
-              logout();
-            });
+          onClick={() => {
+            logout();
           }}
           style={{ marginBlock: 10 }}
         >

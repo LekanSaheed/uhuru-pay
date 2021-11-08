@@ -103,9 +103,7 @@ const Form = () => {
           },
         }}
       >
-        <span
-          style={{ fontWeight: "600", fontSize: "22px", letterSpacing: "2px" }}
-        >
+        <span style={{ fontWeight: "600", fontSize: "22px" }}>
           Login to your dashboard
         </span>
       </motion.div>

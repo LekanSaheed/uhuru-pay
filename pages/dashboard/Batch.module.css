@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   flex: 1 1 100%;
-  padding-top: 20px;
+  padding-top: 10px;
 }
 .active {
   color: rgb(9, 156, 9);
@@ -35,7 +35,7 @@
   font-size: 17px;
   justify-content: space-between;
   border-bottom: solid 1px #cccccc;
-  padding: 10px;
+  padding: 15px;
 }
 .title {
   font-weight: 700;
@@ -81,13 +81,22 @@
   }
 
   .root {
-    flex: 1 1 70%;
-    width: 70%;
+    flex: 1 1 60%;
+    width: 60%;
+  }
+  .root button {
+    background-color: #4bc2bc;
+    font-size: 10px;
+    font-weight: 600;
+  }
+  .root button:hover {
+    background-color: #61dfd8;
   }
   .pin_table {
-    flex: 1 1 30%;
-    width: 30%;
+    flex: 1 1 40%;
+    width: 40%;
   }
+
   .group {
     flex-direction: row;
     flex-basis: 100%;
@@ -97,8 +106,9 @@
     padding: 20px 15px;
   }
 }
-@media (min-width: 1124px) {
+@media (min-width: 1024px) {
   .container {
     width: 100%;
+    flex-direction: row;
   }
 }

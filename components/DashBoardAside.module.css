@@ -4,10 +4,15 @@
   gap: 30px;
   flex-direction: column;
   width: 85%;
-  line-height: 40px;
+  line-height: 35px;
   margin-top: 130px;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
   height: 100%;
   justify-content: "space-between";
+}
+.asideContainer::-webkit-scrollbar {
+  display: none;
 }
 .asideContainer li {
   display: inline-block;
@@ -61,6 +66,8 @@
 .asideFooter {
   justify-self: flex-end;
   padding: 20px;
+  position: absolute;
+  bottom: 0;
 }
 .dropdown span {
   font-size: 14px;

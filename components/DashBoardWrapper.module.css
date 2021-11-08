@@ -10,10 +10,10 @@
   min-height: 100%;
 }
 .side_nav {
-  /* background-color: #2a3042; */
+  height: 100vh;
   background-color: #f4f6f8;
 
-  color: rgba(0, 0, 0, 0.5);
+  color: rgba(0, 0, 0, 0.794);
 }
 @media (min-width: 767px) {
   .container {

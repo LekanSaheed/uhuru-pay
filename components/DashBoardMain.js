@@ -6,21 +6,42 @@ import Graph from "./Graph";
 import MainWrapper from "./MainWrapper";
 import React from "react";
 import { useGlobalContext } from "../context/context";
+import { motion } from "framer-motion";
 const DashBoardMain = () => {
   const { user } = useGlobalContext();
+  const contVariant = {
+    hidden: {
+      opacity: 0,
+      x: "100vw",
+    },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        type: "spring",
+        mass: 0.3,
+        damping: 8,
+        when: "beforeChildren",
+        staggerChildren: 0.3,
+      },
+    },
+  };
+
   return (
     <MainWrapper>
-      <span className={classes.name}>
-        WELCOME {user !== null ? user.name : "USER"}
-      </span>
-      <div className={classes.cont}>
-        <Cards />
-        <div>
-          <Wallet />
+      <motion.div variants={contVariant}>
+        <span className={classes.name}>
+          WELCOME {user !== null ? user.name : "USER"}
+        </span>
+        <div className={classes.cont}>
+          <Cards />
+          <div>
+            <Wallet />
+          </div>
         </div>
-      </div>
-      <GridCard />
-      {/* <Graph /> */}
+        <GridCard />
+        {/* <Graph /> */}
+      </motion.div>
     </MainWrapper>
   );
 };

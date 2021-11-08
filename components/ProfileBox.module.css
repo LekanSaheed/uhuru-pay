@@ -11,17 +11,17 @@
   margin-bottom: 0;
 }
 .full_cont {
-  display: flex;
+  display: fdlex;
   flex-direction: column;
   position: absolute;
   right: 0;
   left: 0;
   box-sizing: border-box;
+  z-index: 0;
 }
 .dropdown {
   transition: 0.4s;
-  display: flex;
-  padding: 15px;
+
   margin: 0 10px;
   background: #fff;
   flex-direction: column;
@@ -33,6 +33,9 @@
 }
 .showProfile {
   margin-top: 0;
+  display: flex;
+  padding: 15px;
+  transform-origin: top center;
 }
 .hideProfile {
   height: 0%;

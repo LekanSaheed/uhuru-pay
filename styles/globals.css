@@ -23,7 +23,22 @@
 body::placeholder {
   font-family: brFirma;
 }
-
+body::-webkit-scrollbar {
+  background-color: transparent;
+}
+body::-webkit-scrollbar-button {
+  color: tomato;
+  border-radius: 10px;
+}
+body::-webkit-scrollbar-thumb {
+  background-color: #4bc2bc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0 0 0 /17%);
+  width: 3px;
+}
+body::-webkit-scrollbar-corner {
+  border-radius: 10px;
+}
 html,
 body {
   width: 100%;
