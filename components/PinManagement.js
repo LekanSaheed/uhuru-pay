@@ -13,13 +13,12 @@ const PinManagement = () => {
   const [allRevenues, setAllRevenues] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   const { logout } = useGlobalContext();
-  const [revenues, setRevenues] = React.useState([]);
+
   const router = useRouter();
   const [selected, setSelected] = React.useState("");
   const [size, setSize] = React.useState(null);
   const [areaCode, setAreaCode] = React.useState("");
   const [discount, setDiscount] = React.useState(null);
-
   React.useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (token) {
@@ -36,14 +35,9 @@ const PinManagement = () => {
           .then((data) => {
             if (data.success === true) {
               setAllRevenues(data.data);
-              const filtered = allRevenues.map((rev) => {
-                return {
-                  label: rev.title,
-                  value: rev._id,
-                };
-              });
+
               setLoading(false);
-              setRevenues(filtered);
+
               console.log(data.data);
             } else {
               toast.error("Something went wrong");
@@ -107,7 +101,16 @@ const PinManagement = () => {
             <Select
               onChange={handleRevenues}
               value={selected}
-              options={loading ? [] : revenues}
+              options={
+                loading
+                  ? []
+                  : allRevenues.map((rev) => {
+                      return {
+                        label: rev.title,
+                        value: rev._id,
+                      };
+                    })
+              }
               placeholder="Select a revenue"
             />
           </div>
