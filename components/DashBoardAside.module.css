@@ -1,15 +1,19 @@
 .asideContainer {
   display: flex;
   list-style: none;
-  gap: 30px;
+  gap: 20px;
   flex-direction: column;
   line-height: 35px;
   margin-top: 20%;
   flex: 1 1 70%;
   height: 70%;
-  justify-content: space-between;
-  overflow: auto;
+  overflow: hidden;
   scroll-behavior: smooth;
+  transition: all 0.4s ease-in-out;
+}
+.asideContainer:hover {
+  overflow: auto;
+  transition: all 0.4s ease-in-out;
 }
 .asideContainer::-webkit-scrollbar {
   width: 0.8em;
@@ -39,12 +43,6 @@
   transition: 0.4s;
   transform: scaleY(1);
 }
-.hide_drop {
-  transform: scaleY(0);
-  transform-origin: left top;
-  height: 0;
-  transition: 0.2s ease-in-out;
-}
 
 .dropdown a:hover {
   color: black;
@@ -56,17 +54,15 @@
 }
 .icon {
   font-size: 22px;
-  color: #c3c4d3;
+  color: #7e8d8d9d;
   display: block;
 }
-.link_flex span {
-  display: block;
-}
-.link_flex a {
-  display: block;
-}
-.link_flex i {
-  display: block;
+.padText {
+  color: #5ad1ce;
+  font-weight: 500 !important;
+  text-transform: uppercase;
+  font-size: 13px;
+  padding-bottom: 0;
 }
 .link_flex {
   display: flex;
@@ -74,7 +70,7 @@
   justify-content: space-between;
   gap: 10px;
   transition: 0.2s ease-in-out;
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
 }
@@ -82,11 +78,14 @@
   color: goldenrod !important;
 }
 .dropdown {
-  margin-left: 32px;
+  margin-left: 3px;
   display: flex;
   flex-direction: column;
-  margin-top: 10px;
   gap: 10px;
+}
+.dropdown span {
+  display: inline-flex;
+  align-items: center;
 }
 .asideFooter {
   padding: 20px;
@@ -94,7 +93,7 @@
   height: 20%;
 }
 .dropdown span {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
 }
 .asideLink {
@@ -104,6 +103,7 @@
   display: flex;
   gap: 20px;
   align-items: baseline;
+  font-size: 13px;
 }
 .link_hover:hover {
   color: black !important;

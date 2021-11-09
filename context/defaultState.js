@@ -10,7 +10,12 @@ import { BsFillPersonPlusFill } from "react-icons/bs";
 import { IoMdPeople } from "react-icons/io";
 import { BiMessageSquareAdd } from "react-icons/bi";
 import { HiReceiptTax } from "react-icons/hi";
-import { FaReceipt, FaStream } from "react-icons/fa";
+import {
+  FaCalendar,
+  FaCalendarCheck,
+  FaReceipt,
+  FaStream,
+} from "react-icons/fa";
 import { CgPassword } from "react-icons/cg";
 export const defaultState = {
   isDropdown: true,
@@ -31,7 +36,6 @@ export const defaultState = {
       id: 2,
       text: "Stakeholders",
       expandable: true,
-      icon: <MdPeopleAlt />,
       dropdown: [
         {
           text: "Add New",
@@ -51,11 +55,26 @@ export const defaultState = {
     {
       id: 3,
       text: "Pin Management",
-      icon: <FaReceipt />,
       open: true,
       dropdown: [
-        { text: "Batch", icon: <RiBookletFill />, link: "/pin-batch" },
-        { text: "Generate Pin", icon: <CgPassword />, link: "/pin" },
+        {
+          text: "Verify Pin",
+          icon: <FaCalendarCheck />,
+          link: "/verify-pin",
+          access: "admin",
+        },
+        {
+          text: "Batch",
+          icon: <RiBookletFill />,
+          link: "/pin-batch",
+          access: "regular",
+        },
+        {
+          text: "Generate Pin",
+          icon: <CgPassword />,
+          link: "/pin",
+          access: "regular",
+        },
       ],
     },
     {
@@ -63,18 +82,24 @@ export const defaultState = {
       open: true,
       text: "Revenue Streams",
       expandable: true,
-      icon: <MdStream />,
       dropdown: [
         {
           text: "Add New",
           icon: <MdOutlineAddCircle />,
           link: "/add-revenue",
           isConditioned: true,
+          access: "regular",
         },
         {
           text: "All Revenues",
           icon: <HiReceiptTax />,
           link: "/all-revenues",
+        },
+        {
+          text: "Pending Revenues",
+          icon: <FaCalendarCheck />,
+          link: "/pending-revenues",
+          access: "admin",
         },
       ],
     },

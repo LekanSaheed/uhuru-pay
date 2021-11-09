@@ -23,7 +23,12 @@ const DashBoardAside = () => {
         {React.Children.toArray(
           asideContents.map((aside) => {
             return (
-              <li className={classes.aside} key={aside.text}>
+              <li
+                className={`${classes.aside} ${
+                  aside.link === router.pathname ? classes.active : ""
+                }`}
+                key={aside.text}
+              >
                 {aside.link ? (
                   <Link
                     href={"/dashboard" + aside.link}
@@ -31,9 +36,7 @@ const DashBoardAside = () => {
                   >
                     <a
                       className={`${classes.link_flex}  ${
-                        router.pathname == `"/dashboard${aside.link}`
-                          ? classes.active
-                          : ""
+                        router.pathname === `/dashboard` ? classes.active : ""
                       }`}
                     >
                       <span
@@ -51,77 +54,91 @@ const DashBoardAside = () => {
                         >
                           {aside.icon}
                         </i>
-                        <span style={{ fontSize: "14px" }}>{aside.text}</span>
-                      </span>{" "}
+                        <span>{aside.text}</span>
+                      </span>
                     </a>
                   </Link>
                 ) : (
                   <span
-                    onClick={() => toggleDropdown(aside)}
                     className={classes.link_flex}
                     style={{
                       display: "flex",
                       justifyContent: "space-between",
-                      gap: "16px",
+                      gap: "13px",
                       alignItems: "center",
                     }}
                   >
-                    <span
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        gap: "16px",
-                        alignItems: "center",
-                        fontSize: "14px",
-                      }}
-                    >
-                      <i className={classes.icon}>{aside.icon}</i>
+                    {aside.icon && <i className={classes.icon}>{aside.icon}</i>}
+                    <span className={aside.icon ? "" : classes.padText}>
                       {aside.text}
-                    </span>
-                    <span>
-                      {aside.expandable && (
-                        <>
-                          {aside.open ? (
-                            <MdKeyboardArrowDown />
-                          ) : (
-                            <MdKeyboardArrowRight />
-                          )}
-                        </>
-                      )}
                     </span>
                   </span>
                 )}
 
-                <div
-                  className={aside.open ? classes.showdrop : classes.hide_drop}
-                >
+                <div className={classes.showdrop}>
                   {aside.dropdown && (
                     <div className={classes.dropdown}>
-                      {React.Children.toArray(
-                        aside.dropdown.map((drop) => {
-                          return (
-                            <>
-                              <Link
-                                key={drop.text}
-                                href={"/dashboard" + drop.link}
-                              >
-                                <a
-                                  style={{
-                                    display: "flex",
-                                    gap: "15px",
-                                    alignItems: "center",
-                                  }}
-                                >
-                                  <span>{drop.icon}</span>
-                                  <span style={{ fontSize: "13px" }}>
-                                    {drop.text}
-                                  </span>
-                                </a>
-                              </Link>
-                            </>
-                          );
-                        })
-                      )}
+                      {user.role === "admin"
+                        ? aside.dropdown
+                            .filter(
+                              (i) =>
+                                i.access === "admin" || i.access === undefined
+                            )
+                            .map((i) => {
+                              return (
+                                <Link href={"/dashboard" + i.link}>
+                                  <a
+                                    style={{
+                                      display: "flex",
+                                      gap: "15px",
+                                      alignItems: "center",
+                                      cursor: "pointer",
+                                    }}
+                                    className={
+                                      router.pathname === "/dashboard" + i.link
+                                        ? classes.active
+                                        : ""
+                                    }
+                                  >
+                                    <span className={classes.icon}>
+                                      {i.icon}
+                                    </span>
+                                    <span style={{ fontSize: "13px" }}>
+                                      {i.text}
+                                    </span>
+                                  </a>
+                                </Link>
+                              );
+                            })
+                        : aside.dropdown
+                            .filter(
+                              (i) =>
+                                i.access === "regular" || i.access === undefined
+                            )
+                            .map((i) => {
+                              return (
+                                <Link href={"/dashboard" + i.link}>
+                                  <a
+                                    style={{
+                                      display: "flex",
+                                      gap: "15px",
+                                      alignItems: "center",
+                                      cursor: "pointer",
+                                    }}
+                                    className={
+                                      router.pathname === "/dashboard" + i.link
+                                        ? classes.active
+                                        : ""
+                                    }
+                                  >
+                                    <span className={classes.icon}>
+                                      {i.icon}
+                                    </span>
+                                    <span>{i.text}</span>
+                                  </a>
+                                </Link>
+                              );
+                            })}
                     </div>
                   )}
                 </div>
@@ -130,6 +147,7 @@ const DashBoardAside = () => {
           })
         )}
       </ul>
+
       <footer className={classes.asideFooter}>
         <div style={{ padding: " 10px" }}>
           <Image width={200} height={50} src="/WORDMARK.png" />

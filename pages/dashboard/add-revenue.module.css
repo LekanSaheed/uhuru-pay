@@ -6,7 +6,7 @@
   flex-wrap: wrap;
   flex-basis: 100%;
   flex-direction: column;
-  padding: 40px;
+  padding: 10px;
 }
 .input_container {
   flex: 1 1 70%;
@@ -57,7 +57,7 @@
 }
 @media (min-width: 801px) {
   .form {
-    flex-direction: row;
+    padding: 40px;
     width: 70%;
   }
 }

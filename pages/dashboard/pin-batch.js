@@ -20,6 +20,9 @@ import { useGlobalContext } from "../../context/context";
 import classes from "./Batch.module.css";
 import { motion } from "framer-motion";
 import { styled } from "@material-ui/styles";
+import QRCode from "qrcode";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 const Batch = () => {
   const [batch, setBatch] = useState([]);
@@ -169,31 +172,59 @@ const Batch = () => {
       },
     },
   };
-  const childVariants = {
-    hidden: {
-      opacity: 0,
-    },
-    visible: {
-      opacity: 1,
-    },
-  };
+
   const StyledHead = styled(TableHead)(({ theme }) => ({
     "&:nth-of-type(odd)": {
       backgroundColor: "#4bc2bc",
       color: "white",
     },
   }));
-  const StyledRow = styled(TableRow)(({ theme }) => ({
-    "&:nth-of-type(odd)": {
-      backgroundColor: "#4bc2bc",
-      color: "white",
-    },
-  }));
+
+  const downloadPdf = () => {
+    // const qr = new QRCode(document.createElement("div"), {
+    //   text: "Hi",
+    //   width: 128,
+    //   height: 128,
+    //   colorDack: "#0",
+    //   colorLight: "#fff",
+    //   correctLevel: QRCode.Corr,
+    // });
+
+    const qrcode = new QRCode(document.createElement("div"), {
+      text: "HIt",
+      width: 128,
+      height: 128,
+      colorDack: "#000",
+      colorLight: "#fff",
+    });
+    let base4 = qrcode._oDrawing._elimage.currentSrc;
+    console.log(base4);
+    const doc = new jsPDF();
+
+    // It can parse html:
+    // <table id="my-table"><!-- ... --></table>
+    // doc.autoTable({ html: "#my-table" });
+
+    // Or use javascript directly:
+    doc.autoTable({
+      head: [["Name", "Email", "Country"]],
+      body: [
+        ["David", "david@example.com", base4],
+        ["Castille", "castille@example.com", "Spain"],
+        // ...
+      ],
+    });
+
+    doc.save("table.pdf");
+  };
+
   return (
     <DashBoardWrapper>
       {loading && <LinearProgress />}
-      <span>All Revenues</span>
-
+      <span>Batches</span>
+      {/* {Object.entries(pin).length > 0 && (
+        <div onClick={downloadPdf}>Download</div>
+      )} */}
       <motion.div
         variants={contVariant}
         initial="hidden"

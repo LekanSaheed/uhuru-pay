@@ -185,6 +185,7 @@ const AddStakeholder = () => {
                     value={phone}
                     placeholder="Phone"
                     onChange={(e) => setPhone(e.target.value)}
+                    type='number'
                   />
                   <label>
                     Phone number must start with country code e.g (234)
@@ -209,6 +210,7 @@ const AddStakeholder = () => {
                   value={email}
                   placeholder="Email Address"
                   onChange={(e) => setEmail(e.target.value)}
+                  type='email'
                 />
               </div>
               <div className={classes.columns}>
