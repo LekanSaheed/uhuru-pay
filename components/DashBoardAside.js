@@ -84,9 +84,9 @@ const DashBoardAside = () => {
                               (i) =>
                                 i.access === "admin" || i.access === undefined
                             )
-                            .map((i) => {
+                            .map((i, id) => {
                               return (
-                                <Link href={"/dashboard" + i.link}>
+                                <Link key={id} href={"/dashboard" + i.link}>
                                   <a
                                     style={{
                                       display: "flex",
@@ -115,9 +115,9 @@ const DashBoardAside = () => {
                               (i) =>
                                 i.access === "regular" || i.access === undefined
                             )
-                            .map((i) => {
+                            .map((i, id) => {
                               return (
-                                <Link href={"/dashboard" + i.link}>
+                                <Link key={id} href={"/dashboard" + i.link}>
                                   <a
                                     style={{
                                       display: "flex",

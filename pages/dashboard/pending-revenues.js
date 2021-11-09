@@ -191,22 +191,22 @@ const PendingRevenues = () => {
                     <TableCell>
                       <Button
                         variant="contained"
-                        color="primary"
                         size="small"
                         className={classes.accept}
-                        children="Accept"
                         onClick={() => acceptRevenue(revenue._id)}
-                      />
+                      >
+                        Accept
+                      </Button>
                     </TableCell>
                     <TableCell>
                       <Button
                         variant="contained"
-                        color="secondary"
                         size="small"
                         className={classes.reject}
-                        children="Reject"
                         onClick={() => rejectRevenue(revenue._id)}
-                      />
+                      >
+                        Reject
+                      </Button>
                     </TableCell>
                   </TableRow>
                 );
