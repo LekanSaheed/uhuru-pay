@@ -4,15 +4,17 @@
   gap: 20px;
   flex-direction: column;
   line-height: 35px;
-  margin-top: 20%;
   flex: 1 1 70%;
   height: 70%;
   overflow: hidden;
   scroll-behavior: smooth;
   transition: all 0.4s ease-in-out;
+  padding-right: 10px;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 .asideContainer:hover {
-  overflow: auto;
+  overflow-y: auto;
   transition: all 0.4s ease-in-out;
 }
 .asideContainer::-webkit-scrollbar {
@@ -51,9 +53,10 @@
 .asideHeader {
   padding: 2px;
   flex: 1 1 10%;
+  background-color: #f4f6f8;
 }
 .icon {
-  font-size: 22px;
+  font-size: 22px !important;
   color: #7e8d8d9d;
   display: block;
 }
@@ -73,6 +76,28 @@
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
+}
+.hideText {
+  white-space: nowrap;
+  transition: 0.1s ease-in-out;
+  color: #f4f6f8;
+  visibility: hidden;
+}
+.showText {
+  transition: 0.4s ease-in-out;
+  white-space: nowrap;
+}
+.showPad {
+  white-space: nowrap;
+  transition: 0.4s;
+}
+.hidePad {
+  white-space: nowrap;
+  font-size: 0px;
+  color: #f4f6f8;
+  padding: 0%;
+  display: none;
+  transition: 0.01s;
 }
 .active {
   color: goldenrod !important;

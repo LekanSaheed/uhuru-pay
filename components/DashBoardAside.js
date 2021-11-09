@@ -1,7 +1,6 @@
 import classes from "./DashBoardAside.module.css";
 import React from "react";
-import { MdKeyboardArrowDown, MdKeyboardArrowRight } from "react-icons/md";
-import { BiLogInCircle } from "react-icons/bi";
+import { motion } from "framer-motion";
 import { useGlobalContext } from "../context/context";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -10,8 +9,7 @@ import ProfileBox from "./ProfileBox";
 
 const DashBoardAside = () => {
   const router = useRouter();
-  const { toggleDropdown, isDropdown, asideContents, user } =
-    useGlobalContext();
+  const { isToggled, asideContents, user } = useGlobalContext();
 
   return (
     <div className={classes.asideMain}>
@@ -54,7 +52,9 @@ const DashBoardAside = () => {
                         >
                           {aside.icon}
                         </i>
-                        <span>{aside.text}</span>
+                        <span className={isToggled ? classes.hideText : ""}>
+                          {aside.text}
+                        </span>
                       </span>
                     </a>
                   </Link>
@@ -69,9 +69,29 @@ const DashBoardAside = () => {
                     }}
                   >
                     {aside.icon && <i className={classes.icon}>{aside.icon}</i>}
-                    <span className={aside.icon ? "" : classes.padText}>
+
+                    <motion.div
+                      animate="visible"
+                      initial="hidden"
+                      variants={{
+                        hidden: {
+                          scale: 0.8,
+                          opacity: 0,
+                        },
+                        visible: {
+                          scale: 1,
+                          opacity: 1,
+                          transition: {
+                            delay: 0.4,
+                          },
+                        },
+                      }}
+                      className={`${aside.icon ? "" : classes.padText} ${
+                        isToggled ? classes.hidePad : classes.showPad
+                      }`}
+                    >
                       {aside.text}
-                    </span>
+                    </motion.div>
                   </span>
                 )}
 
@@ -103,7 +123,15 @@ const DashBoardAside = () => {
                                     <span className={classes.icon}>
                                       {i.icon}
                                     </span>
-                                    <span style={{ fontSize: "13px" }}>
+
+                                    <span
+                                      className={
+                                        isToggled
+                                          ? classes.hideText
+                                          : classes.showText
+                                      }
+                                      style={{ fontSize: "13px" }}
+                                    >
                                       {i.text}
                                     </span>
                                   </a>
@@ -134,7 +162,17 @@ const DashBoardAside = () => {
                                     <span className={classes.icon}>
                                       {i.icon}
                                     </span>
-                                    <span>{i.text}</span>
+
+                                    <span
+                                      className={
+                                        isToggled
+                                          ? classes.hideText
+                                          : classes.showText
+                                      }
+                                      style={{ fontSize: "13px" }}
+                                    >
+                                      {i.text}
+                                    </span>
                                   </a>
                                 </Link>
                               );

@@ -15,6 +15,7 @@
 
   color: rgba(0, 0, 0, 0.794);
 }
+
 @media (min-width: 767px) {
   .container {
     flex-direction: row;
@@ -25,12 +26,21 @@
     float: left;
     width: 280px;
     position: fixed;
-    min-width: 10%;
+    transition: 0.4s ease-in-out;
   }
   .main {
     flex: 1 1 80%;
     min-height: 100%;
     margin-left: 280px;
     min-width: 500px;
+    transition: 0.4s ease-in-out;
+  }
+  .shrink_main {
+    margin-left: 100px;
+    transition: 0.4s ease-in-out;
+  }
+  .shrink_nav {
+    width: 100px;
+    transition: 0.4s ease-in-out;
   }
 }

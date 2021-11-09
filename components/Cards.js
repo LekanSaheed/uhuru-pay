@@ -1,29 +1,163 @@
 import classes from "./Cards.module.css";
-import React from "react";
-
+import React, { useState } from "react";
+import { baseUrl } from "../context/baseUrl";
+import ACard from "./ACard";
 const Cards = () => {
-  const cardContent = [
-    { id: 1, title: "Total Collection", figure: 4, detail: "10 this month" },
-    { id: 2, title: "Total Payment", figure: 4, detail: "10 this month" },
-    { id: 3, title: "Subscribers rate", figure: 4, detail: "10 this month" },
-    { id: 4, title: "Total Traction rate", figure: 5, detail: "10 this month" },
-  ];
+  const [weekInfo, setWeekInfo] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [totalPins, setTotalPins] = useState([]);
+  const [taxPayers, setTaxPayers] = useState([]);
+  const [collectionRate, setCollectionRate] = useState([]);
+
+  const fetchWeek = () => {
+    const url = `${baseUrl}/info/week`;
+    const token =
+      typeof window !== "undefined" && localStorage.getItem("accessToken");
+    if (!token) {
+      logout();
+      toast.error("You need to log in again");
+    }
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    fetch(url, requestOptions)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setWeekInfo(data.data);
+          setLoading(false);
+          console.log(data);
+        } else {
+          setLoading(false);
+          toast.error(data.error);
+          console.log(data.error);
+        }
+      })
+      .catch((err) => {
+        toast.error("Error Fetching Data: " + err.message);
+      });
+  };
+  const fetchActivePins = () => {
+    const url = `${baseUrl}/info/week`;
+    const token =
+      typeof window !== "undefined" && localStorage.getItem("accessToken");
+    if (!token) {
+      logout();
+      toast.error("You need to log in again");
+    }
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    fetch(url, requestOptions)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success === true) {
+          setTotalPins(data.data);
+          setLoading(false);
+        } else {
+          setLoading(false);
+          toast.error(data.error);
+          console.log(data.error);
+        }
+      })
+      .catch((err) => {
+        toast.error("Error Fetching Data: " + err.message);
+      });
+  };
+  const fetchTaxPayers = () => {
+    const url = `${baseUrl}/payer/list`;
+    const token =
+      typeof window !== "undefined" && localStorage.getItem("accessToken");
+    if (!token) {
+      logout();
+      toast.error("You need to log in again");
+    }
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    fetch(url, requestOptions)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success === true) {
+          setTaxPayers(data.data);
+          setLoading(false);
+        } else {
+          setLoading(false);
+          toast.error(data.error);
+          console.log(data.error);
+        }
+      })
+      .catch((err) => {
+        toast.error("Error Fetching Data: " + err.message);
+      });
+  };
+  const fetchCollectionRate = () => {
+    const url = `${baseUrl}/info/week`;
+    const token =
+      typeof window !== "undefined" && localStorage.getItem("accessToken");
+    if (!token) {
+      logout();
+      toast.error("You need to log in again");
+    }
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    fetch(url, requestOptions)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success === true) {
+          setCollectionRate(data.data);
+          setLoading(false);
+        } else {
+          setLoading(false);
+          toast.error(data.error);
+          console.log(data.error);
+        }
+      })
+      .catch((err) => {
+        toast.error("Error Fetching Data: " + err.message);
+      });
+  };
+  React.useEffect(() => {
+    fetchWeek();
+    fetchActivePins();
+    fetchTaxPayers();
+    fetchCollectionRate();
+  }, []);
 
   return (
     <div className={classes.cardContainer}>
-      {React.Children.toArray(
-        cardContent.map((card) => {
-          return (
-            <div key={card.id} className={classes.cards}>
-              <span className={classes.title}>{card.title}</span>
-              <br />
-              <span className={classes.figure}>{card.figure}</span>
-              <br />
-              <span className={classes.detail}>{card.detail}</span>
-            </div>
-          );
-        })
-      )}
+      <ACard
+        title="Total Collections"
+        type="week"
+        detail="Last 7 days"
+        batch={weekInfo}
+      />
+      <ACard
+        title="Total Active pins"
+        type="pins"
+        detail=""
+        batch={totalPins}
+      />
+      <ACard title="Tax Payers" detail="" type="payers" batch={taxPayers} />
+      <ACard
+        title="Collection Rate"
+        type="rate"
+        detail="Last 7 days"
+        batch={collectionRate}
+      />
     </div>
   );
 };

@@ -8,16 +8,6 @@
   margin: 10px;
   box-sizing: border-box;
   cursor: pointer;
-  margin-bottom: 0;
-}
-.full_cont {
-  display: fdlex;
-  flex-direction: column;
-  position: absolute;
-  right: 0;
-  left: 0;
-  box-sizing: border-box;
-  z-index: 1;
 }
 .dropdown {
   transition: 0.4s;
@@ -46,6 +36,12 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  white-space: nowrap;
+}
+.hideText {
+  visibility: hidden;
+  white-space: nowrap;
+  margin: 12px;
 }
 .icon {
   font-size: 20px;

@@ -56,6 +56,7 @@ function MyApp({ Component, pageProps, router }) {
           setUser,
           logout,
           setToken,
+          dispatch,
         }}
       >
         {" "}

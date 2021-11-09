@@ -1,9 +1,10 @@
 import classes from "./DashBoardHeader.module.css";
 import { RiAlignLeft, RiNotification3Line } from "react-icons/ri";
-import { GiExpand, GiPerson } from "react-icons/gi";
-import { GrSearch, GrNotification } from "react-icons/gr";
-import { BsChatDotsFill, BsFillPersonFill, BsPerson } from "react-icons/bs";
+import { GiExpand } from "react-icons/gi";
+import { GrSearch } from "react-icons/gr";
+import { BsChatDotsFill, BsPerson } from "react-icons/bs";
 import React from "react";
+import { useGlobalContext } from "../context/context";
 
 const DashBoardHeader = () => {
   const data = [
@@ -15,20 +16,19 @@ const DashBoardHeader = () => {
     { id: 2, icon: <BsPerson /> },
   ];
 
-  // var elem = typeof window !== 'undefined' &&  document.documentElement;
-
-  // /* View in fullscreen */
-  // function openFullscreen() {
-  //   if (elem.requestFullscreen) {
-  //     elem.requestFullscreen();
-  //   } else if (elem.webkitRequestFullscreen) {
-  //     /* Safari */
-  //     elem.webkitRequestFullscreen();
-  //   } else if (elem.msRequestFullscreen) {
-  //     /* IE11 */
-  //     elem.msRequestFullscreen();
-  //   }
-  // }
+  /* View in fullscreen */
+  function openFullscreen() {
+    var elem = typeof window !== "undefined" && document;
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.webkitRequestFullscreen) {
+      /* Safari */
+      elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) {
+      /* IE11 */
+      elem.msRequestFullscreen();
+    }
+  }
 
   // /* Close fullscreen */
   // function closeFullscreen() {
@@ -42,9 +42,23 @@ const DashBoardHeader = () => {
   //     document.msExitFullscreen();
   //   }
   // }
-  // React.useEffect(() => {
-  //   openFullscreen();
-  // }, []);
+  const { dispatch } = useGlobalContext();
+
+  React.useEffect(() => {
+    openFullscreen();
+    document.addEventListener("fullscreenerror", () => {
+      alert("Full Screen not available in this mode");
+    });
+    document.addEventListener("mozfullscreenerror", () => {
+      alert("Full Screen not available in this mode");
+    });
+    document.addEventListener("webkitfullscreenerror", () => {
+      alert("Full Screen not available in this mode");
+    });
+    document.addEventListener("msfullscreenerror", () => {
+      alert("Full Screen not available in this mode");
+    });
+  }, []);
   return (
     <nav className={classes.dash_header}>
       <div className={classes.path_container}>
@@ -53,6 +67,9 @@ const DashBoardHeader = () => {
             return (
               <span
                 key={icon.id}
+                onClick={
+                  icon.id === 1 ? () => dispatch({ type: "TOGGLE_NAV" }) : null
+                }
                 className={`${classes.icon} ${
                   icon.type === "lg" ? classes.lg : ""
                 }`}

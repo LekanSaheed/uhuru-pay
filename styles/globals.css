@@ -39,7 +39,6 @@ body::-webkit-scrollbar-corner {
 }
 html,
 body {
-  width: 100%;
   padding: 0;
   margin: 0;
   font-family: brFirma, sans-serif;

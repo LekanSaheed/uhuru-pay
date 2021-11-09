@@ -23,6 +23,7 @@ export const defaultState = {
   token: "",
   isUser: false,
   isToggledProfile: false,
+  isToggled: false,
   asideContents: [
     {
       text: "Dashboard",

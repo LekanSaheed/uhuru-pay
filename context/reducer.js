@@ -45,5 +45,11 @@ export const reducer = (state = defaultState, action) => {
       isToggledProfile: !state.isToggledProfile,
     };
   }
+  if (action.type === "TOGGLE_NAV") {
+    return {
+      ...state,
+      isToggled: !state.isToggled,
+    };
+  }
   return state;
 };

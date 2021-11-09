@@ -25,6 +25,8 @@
   font-size: 40px;
 }
 .detail {
+  font-size: 12px;
+  color: #bb4077;
 }
 @media (min-width: 767px) {
   .cardContainer {
