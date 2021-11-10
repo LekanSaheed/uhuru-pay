@@ -43,7 +43,14 @@ body {
   margin: 0;
   font-family: brFirma, sans-serif;
 }
-
+.theme-color {
+  color: #4bc2bc;
+  padding: 10px;
+}
+.theme-color-bold {
+  color: #4bc2bc;
+  font-weight: 700;
+}
 a {
   color: inherit;
   text-decoration: none;

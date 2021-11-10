@@ -3,18 +3,20 @@ import { RiAlignLeft, RiNotification3Line } from "react-icons/ri";
 import { GiExpand } from "react-icons/gi";
 import { GrSearch } from "react-icons/gr";
 import { BsChatDotsFill, BsPerson } from "react-icons/bs";
+import { BiLogOut } from "react-icons/bi";
 import React from "react";
 import { useGlobalContext } from "../context/context";
-
+import { useRouter } from "next/router";
 const DashBoardHeader = () => {
   const data = [
     { id: 1, icon: <RiAlignLeft /> },
-    { id: 2, icon: <BsChatDotsFill />, type: "lg" },
+    { id: 2, icon: "", type: "lg" },
   ];
   const rightIcons = [
-    { id: 1, icon: <RiNotification3Line /> },
-    { id: 2, icon: <BsPerson /> },
+    { id: 1, icon: "" },
+    { id: 2, icon: <BiLogOut /> },
   ];
+  const { router } = useRouter();
 
   /* View in fullscreen */
   function openFullscreen() {
@@ -83,7 +85,7 @@ const DashBoardHeader = () => {
 
       <div className={classes.header_right}>
         <span
-          onClick={() => alert("Expanded")}
+          onClick={openFullscreen}
           className={`${classes.icon} ${classes.lg}`}
         >
           <GiExpand />
@@ -98,7 +100,18 @@ const DashBoardHeader = () => {
           {React.Children.toArray(
             rightIcons.map((icon) => {
               return (
-                <span onClick={icon.id === 2 ? () => logout() : ''} key={icon.id} className={classes.icon}>
+                <span
+                  onClick={
+                    icon.id === 2
+                      ? () => {
+                          logout();
+                          router.push("/login");
+                        }
+                      : ""
+                  }
+                  key={icon.id}
+                  className={classes.icon}
+                >
                   {icon.icon}
                 </span>
               );

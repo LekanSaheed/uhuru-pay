@@ -3,6 +3,26 @@
   flex-direction: column;
   flex: 1 1 100%;
   padding-top: 10px;
+  overflow: hidden;
+  height: 90vh;
+}
+.revenue_container:hover {
+  overflow-y: auto;
+}
+.revenue_container::-webkit-scrollbar,
+.pin_table::-webkit-scrollbar {
+  width: 0.8em;
+  padding: 10px;
+}
+.revenue_container::-webkit-scrollbar-thumb,
+.pin_table::-webkit-scrollbar {
+  margin: 10px;
+  background-clip: padding-box;
+  border: solid 3px transparent;
+  background-color: #4bc2bc;
+  border-radius: 50px;
+  box-shadow: inset 0 0 10px 0 rgba(0 0 0 /3%);
+  -webkit-box-shadow: inset 0 0 10px 0 rgba(0 0 0 /3%);
 }
 .active {
   color: rgb(9, 156, 9);
@@ -49,8 +69,8 @@
 .container {
   display: flex;
   flex-direction: column;
-  margin-top: 80px;
   gap: 10px;
+  margin-top: 20px;
   padding: 14px;
   background-color: #f4f6f81a;
   min-height: 70vh;
@@ -71,7 +91,6 @@
 @media (min-width: 801px) {
   .container {
     flex-direction: column;
-    padding-top: 20px;
     width: 100%;
   }
   .revenue_container {

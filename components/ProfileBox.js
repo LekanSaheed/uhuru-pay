@@ -29,9 +29,7 @@ const ProfileBox = () => {
         <div className={classes.icon}>
           <GoPerson />
         </div>
-
         <>
-          {" "}
           <motion.div
             animate="visible"
             initial="hidden"

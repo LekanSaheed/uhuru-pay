@@ -13,9 +13,10 @@ const ProfilePage = () => {
   );
   const email = Object.entries(profile).length > 0 ? profile.email : "";
 
-  const phone = useState("");
+  const phone = Object.entries(profile).length > 0 ? profile.phone : "";
   React.useEffect(() => {
     const fetchProfile = async () => {
+      const token = localStorage.getItem("accessToken");
       const requestOptions = {
         method: "GET",
         headers: {
@@ -41,12 +42,29 @@ const ProfilePage = () => {
           toast.error(err.message);
         });
     };
-    fetchProfile;
+    fetchProfile();
   }, []);
+  const contVariant = {
+    hidden: {
+      opacity: 0,
+      x: "100vw",
+    },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        type: "spring",
+        mass: 0.2,
+        damping: 8,
+        when: "beforeChildren",
+        staggerChildren: 0.2,
+      },
+    },
+  };
   return (
     <DashBoardWrapper>
       {loading && <LinearProgress />}
-      <motion.div>
+      <motion.div variants={contVariant} initial="hidden" animate="visible">
         <motion.div>
           <label>Name</label>
           <input value={name} />

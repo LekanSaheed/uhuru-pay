@@ -45,6 +45,9 @@ const Batch = () => {
       fontSize: "12px",
       fontWeight: "500",
     },
+    greenBtn: {
+      backgroundColor: "#4bc2bc",
+    },
   }));
   const myClass = useStyle();
   useEffect(() => {
@@ -204,7 +207,7 @@ const Batch = () => {
   return (
     <DashBoardWrapper>
       {loading && <LinearProgress />}
-      <span>Batches</span>
+      <span className="theme-color-bold">Batches</span>
       {/* {Object.entries(pin).length > 0 && (
         <div onClick={downloadPdf}>Download</div>
       )} */}
@@ -371,6 +374,7 @@ const Batch = () => {
                 </TableContainer>
               </TableContainer>
               <Button
+                className={myClass.greenBtn}
                 color="primary"
                 size="large"
                 variant="contained"
