@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 20px;
-  background: #fff;
+  background: #f6f6f6;
   border-radius: 10px;
   gap: 20px;
   width: 50%;
@@ -34,6 +34,7 @@
   transform-origin: top;
   box-shadow: 0 8px 20px 0 rgba(0 0 0 /15%);
   cursor: pointer;
+  background-color: #fff;
 }
 @media (min-width: 900px) {
   .card {

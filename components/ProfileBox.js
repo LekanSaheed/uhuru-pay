@@ -4,6 +4,7 @@ import { useGlobalContext } from "../context/context";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
+import Link from "next/link";
 const ProfileBox = () => {
   const { user, toggleProfile, isToggledProfile, isToggled, logout } =
     useGlobalContext();
@@ -23,38 +24,35 @@ const ProfileBox = () => {
     },
   };
   return (
-    <div className={classes.full_cont}>
+    <Link href="/profile" className={classes.full_cont}>
       <div onClick={() => toggleProfile()} className={classes.container}>
         <div className={classes.icon}>
           <GoPerson />
         </div>
-        {!isToggled && (
-          <>
-            {" "}
-            <motion.div
-              animate="visible"
-              initial="hidden"
-              variants={variant}
-              className={classes.headFlex}
-            >
-              <div className={classes.name}>
-                {user !== null && user.name !== undefined ? user.name : null}
-              </div>
-              <div className={classes.role}>
-                {user !== null && user.role !== undefined && user.role}
-              </div>
-            </motion.div>
-            <div>
-              {isToggledProfile ? (
-                <MdKeyboardArrowUp />
-              ) : (
-                <MdKeyboardArrowDown />
-              )}
+
+        <>
+          {" "}
+          <motion.div
+            animate="visible"
+            initial="hidden"
+            variants={variant}
+            className={`${classes.headFlex} ${
+              isToggled ? classes.hideText : ""
+            } `}
+          >
+            <div className={classes.name}>
+              {user !== null && user.name !== undefined ? user.name : null}
             </div>
-          </>
-        )}
+            <div className={classes.role}>
+              {user !== null && user.role !== undefined && user.role}
+            </div>
+          </motion.div>
+          <div>
+            {isToggledProfile ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />}
+          </div>
+        </>
       </div>
-    </div>
+    </Link>
   );
 };
 

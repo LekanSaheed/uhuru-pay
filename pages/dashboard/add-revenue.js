@@ -4,14 +4,15 @@ import { useState } from "react";
 import Select from "react-select";
 import { useGlobalContext } from "../../context/context";
 import classes from "./add-revenue.module.css";
-
+import toast from "react-hot-toast";
+import { Button } from "@material-ui/core";
 export default function AddRevenue() {
   const { user } = useGlobalContext();
   const url = `${baseUrl}/revenue/new`;
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [comment, setComment] = useState("");
-  const [category, setCategory] = useState([]);
+  const [category, setCategory] = useState({});
 
   const options = [
     { label: "Transport", value: "transport" },
@@ -43,7 +44,18 @@ export default function AddRevenue() {
     };
     await fetch(url, requestOptions)
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => {
+        if (data.success) {
+          toast.success("Revenue created successfully.");
+          setAmount("");
+          setCategory({});
+          setTitle("");
+          setComment("");
+        } else {
+          toast.error(data.error);
+        }
+      })
+      .catch((err) => toast.error(err.message));
   };
 
   return (
@@ -94,7 +106,12 @@ export default function AddRevenue() {
             />
           </div>
         </div>
-        <button onClick={addRevenue}>Add revenue</button>
+        <Button
+          disabled={(!title, !amount, Object.entries(category).length < 1)}
+          onClick={addRevenue}
+        >
+          Add revenue
+        </Button>
       </form>
     </DashBoardWrapper>
   );

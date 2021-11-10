@@ -22,7 +22,7 @@ const Form = () => {
     if (isUser || user.name !== undefined) {
       router.push("/dashboard");
     }
-  });
+  }, []);
   const login = async (e) => {
     setIsLoading(true);
     e.preventDefault();

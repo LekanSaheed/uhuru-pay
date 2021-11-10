@@ -33,7 +33,7 @@ const Revenues = () => {
     },
   }));
   const classes = useStyle();
-  const { user } = useGlobalContext();
+
   const [loading, setLoading] = useState(true);
   const [revenues, setRevenues] = useState([]);
   // const [token, setToken] = useState("");
@@ -67,7 +67,8 @@ const Revenues = () => {
           console.log(data.error);
           console.log(token);
         }
-      });
+      })
+      .catch((err) => console.log(err.message));
   }, []);
 
   return (
