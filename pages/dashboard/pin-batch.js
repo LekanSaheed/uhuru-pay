@@ -190,32 +190,15 @@ const Batch = () => {
     //   correctLevel: QRCode.Corr,
     // });
 
-    const qrcode = new QRCode(document.createElement("div"), {
-      text: "HIt",
-      width: 128,
-      height: 128,
-      colorDack: "#000",
-      colorLight: "#fff",
-    });
-    let base4 = qrcode._oDrawing._elimage.currentSrc;
-    console.log(base4);
     const doc = new jsPDF();
 
-    // It can parse html:
-    // <table id="my-table"><!-- ... --></table>
-    // doc.autoTable({ html: "#my-table" });
-
-    // Or use javascript directly:
     doc.autoTable({
-      head: [["Name", "Email", "Country"]],
-      body: [
-        ["David", "david@example.com", base4],
-        ["Castille", "castille@example.com", "Spain"],
-        // ...
-      ],
+      head: [["S/N", "Pin"]],
+      body: pin.map((aPin, id) => [id + 1, aPin]),
+      theme: "grid",
     });
-
-    doc.save("table.pdf");
+    const batch = pin[0].slice(-6);
+    doc.save("batch" + batch + ".pdf");
   };
 
   return (
@@ -387,6 +370,14 @@ const Batch = () => {
                   </TableBody>
                 </TableContainer>
               </TableContainer>
+              <Button
+                color="primary"
+                size="large"
+                variant="contained"
+                onClick={downloadPdf}
+              >
+                Download Generated Pin
+              </Button>
             </motion.div>
           )}
         </motion.div>

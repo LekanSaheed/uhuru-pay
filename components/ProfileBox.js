@@ -24,7 +24,7 @@ const ProfileBox = () => {
     },
   };
   return (
-    <Link href="/profile" className={classes.full_cont}>
+    <Link href="/dashboard/profile" className={classes.full_cont}>
       <div onClick={() => toggleProfile()} className={classes.container}>
         <div className={classes.icon}>
           <GoPerson />

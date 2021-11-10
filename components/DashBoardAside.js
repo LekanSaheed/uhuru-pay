@@ -47,7 +47,11 @@ const DashBoardAside = () => {
                         }}
                       >
                         <i
-                          className={classes.icon}
+                          className={`${classes.icon} ${
+                            router.pathname === `/dashboard`
+                              ? classes.active
+                              : ""
+                          }`}
                           style={{ display: "block" }}
                         >
                           {aside.icon}
@@ -120,7 +124,14 @@ const DashBoardAside = () => {
                                         : ""
                                     }
                                   >
-                                    <span className={classes.icon}>
+                                    <span
+                                      className={`${classes.icon}  ${
+                                        router.pathname ===
+                                        "/dashboard" + i.link
+                                          ? classes.active
+                                          : ""
+                                      }`}
+                                    >
                                       {i.icon}
                                     </span>
 
@@ -159,7 +170,14 @@ const DashBoardAside = () => {
                                         : ""
                                     }
                                   >
-                                    <span className={classes.icon}>
+                                    <span
+                                      className={`${classes.icon}  ${
+                                        router.pathname ===
+                                        "/dashboard" + i.link
+                                          ? classes.active
+                                          : ""
+                                      }`}
+                                    >
                                       {i.icon}
                                     </span>
 

@@ -6,6 +6,7 @@ import { reducer } from "../context/reducer";
 import React from "react";
 import { motion } from "framer-motion";
 import { Toaster } from "react-hot-toast";
+import Head from "next/head";
 // import { useRouter } from 'next/router'
 
 // const router = useRouter();
@@ -73,8 +74,13 @@ function MyApp({ Component, pageProps, router }) {
             },
           }}
         >
-          <Toaster position="top-center" />
-          <Component {...pageProps} />
+          <Head>
+            <title>Uhuru pay - Automated Payment Collection.</title>
+          </Head>
+          <main>
+            <Toaster position="top-center" />
+            <Component {...pageProps} />
+          </main>
         </motion.div>
       </AppContext.Provider>
     </React.StrictMode>

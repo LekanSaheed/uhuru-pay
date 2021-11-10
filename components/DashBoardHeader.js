@@ -42,7 +42,7 @@ const DashBoardHeader = () => {
   //     document.msExitFullscreen();
   //   }
   // }
-  const { dispatch } = useGlobalContext();
+  const { dispatch, logout } = useGlobalContext();
 
   React.useEffect(() => {
     openFullscreen();
@@ -98,7 +98,7 @@ const DashBoardHeader = () => {
           {React.Children.toArray(
             rightIcons.map((icon) => {
               return (
-                <span key={icon.id} className={classes.icon}>
+                <span onClick={icon.id === 2 ? () => logout() : ''} key={icon.id} className={classes.icon}>
                   {icon.icon}
                 </span>
               );
