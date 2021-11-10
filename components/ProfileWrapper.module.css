@@ -1,0 +1,94 @@
+.profileWrapper {
+  display: flex;
+  background-color: #f4f6f8;
+  min-height: 100vh;
+}
+.link_text {
+  font-size: 12px;
+  color: #4bc2bc;
+}
+.link_detail {
+  font-size: 12px;
+  color: rgb(102, 102, 102);
+}
+.nav_flex {
+  cursor: pointer;
+  background-color: white;
+  padding: 15px 10px;
+
+  border-bottom: solid 1px #cccccc;
+  gap: 13px;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+}
+.nav_flex:hover {
+  border-right: solid 2px #4bc2bc;
+  transition: all 0.3s ease-in-out;
+  background-color: whitesmoke;
+  transform: scale(1.01);
+}
+.profile_nav {
+  background-color: whitesmoke;
+  padding: 5px;
+}
+.icon {
+  font-size: 20px;
+}
+.active {
+  background-color: #4bc2bc;
+  color: white;
+}
+.active .link_text {
+  color: white !important;
+}
+.active .icon {
+  font-size: 30px;
+}
+.active .link_detail {
+  color: white;
+}
+.active:hover {
+  background-color: #78ddd8;
+}
+
+@media (min-width: 801px) {
+  .nav_flex {
+    display: flex;
+  }
+  .profileWrapper {
+    display: flex;
+  }
+
+  .profile_nav {
+    width: 40%;
+    flex: 1 1 40%;
+  }
+  .link_text {
+    font-size: 12px;
+    color: #4bc2bc;
+  }
+  .link_detail {
+    font-size: 8px;
+  }
+  .profileMain {
+    width: 60%;
+    background-color: #fcfcfc;
+    flex: 1 1 60%;
+  }
+}
+@media (min-width: 1124px) {
+  .flex_column {
+    display: flex;
+    flex-direction: column;
+  }
+  .profileMain {
+    width: 60%;
+    background-color: #fcfcfc;
+  }
+  .link_text {
+    font-size: 12px;
+  }
+  .link_detail {
+    font-size: 12px;
+  }
+}

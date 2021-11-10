@@ -16,7 +16,7 @@ const DashBoardHeader = () => {
     { id: 1, icon: "" },
     { id: 2, icon: <BiLogOut /> },
   ];
-  const { router } = useRouter();
+  const router = useRouter();
 
   /* View in fullscreen */
   function openFullscreen() {
@@ -61,6 +61,7 @@ const DashBoardHeader = () => {
       alert("Full Screen not available in this mode");
     });
   }, []);
+
   return (
     <nav className={classes.dash_header}>
       <div className={classes.path_container}>
@@ -107,7 +108,7 @@ const DashBoardHeader = () => {
                           logout();
                           router.push("/login");
                         }
-                      : ""
+                      : null
                   }
                   key={icon.id}
                   className={classes.icon}

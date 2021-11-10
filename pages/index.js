@@ -19,7 +19,10 @@ const Home = () => {
       setAUser(false);
       setLoading(false);
     }
-  }, []);
+    return () => {
+      isUser;
+    };
+  }, [isUser]);
 
   if (!loading) {
     return <div>{aUser ? <DashBoard /> : <Login />}</div>;

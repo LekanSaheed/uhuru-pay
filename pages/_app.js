@@ -32,7 +32,7 @@ function MyApp({ Component, pageProps, router }) {
   useEffect(() => {
     // document.cookie = "name=saheed; path=/";
     // const cookie = document.cookie;
-    // console.log(cookie);
+
     // if (localUser !== null) {
     //   setUser(localUser);
     //   router.push("/dashboard");

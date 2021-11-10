@@ -5,6 +5,8 @@ import Select from "react-select";
 import { state as stateOptions } from "./state";
 import { useGlobalContext } from "../context/context";
 import toast from "react-hot-toast";
+import { Alert } from "@mui/material/";
+import { CgClose } from "react-icons/cg";
 
 const AddStakeholder = () => {
   const [name, setName] = useState("");
@@ -18,7 +20,9 @@ const AddStakeholder = () => {
   const [revenues, setRevenues] = useState([]);
   const [token, setToken] = useState("");
   const roleOptions = [];
+  const [modal, setModal] = useState(false);
   const { user } = useGlobalContext();
+  const [password, setPassword] = useState("");
 
   useEffect(() => {
     const accessToken =
@@ -54,6 +58,7 @@ const AddStakeholder = () => {
     };
     fetchData();
   }, []);
+
   const myOptions = stateOptions.map((state) => {
     return {
       label: state.toUpperCase(),
@@ -104,10 +109,13 @@ const AddStakeholder = () => {
         if (data.success) {
           setLoading(false);
           toast.success("Stakeholder Registered Successfully");
+          setPassword(data.message);
+
+          setModal(true);
           setRole({});
           setName("");
           setPhone("");
-          setUserName("");
+          setUsername("");
           setState({});
           setEmail("");
           setStream([]);
@@ -153,6 +161,14 @@ const AddStakeholder = () => {
   return (
     <>
       <form className={classes.form}>
+        {modal && (
+          <Alert
+            action={<CgClose onClick={() => setModal(false)} size="small" />}
+            severity="success"
+          >
+            {password} cl
+          </Alert>
+        )}
         <div className={classes.header}>
           <span>Add Stakeholder</span>
         </div>
@@ -185,7 +201,7 @@ const AddStakeholder = () => {
                     value={phone}
                     placeholder="Phone"
                     onChange={(e) => setPhone(e.target.value)}
-                    type='number'
+                    type="number"
                   />
                   <label>
                     Phone number must start with country code e.g (234)
@@ -210,7 +226,7 @@ const AddStakeholder = () => {
                   value={email}
                   placeholder="Email Address"
                   onChange={(e) => setEmail(e.target.value)}
-                  type='email'
+                  type="email"
                 />
               </div>
               <div className={classes.columns}>

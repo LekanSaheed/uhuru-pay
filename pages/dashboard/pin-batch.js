@@ -66,7 +66,6 @@ const Batch = () => {
     fetch(url, requestOptions)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (data.success === true) {
           setRevenues(data.data);
           setLoading(false);
@@ -94,11 +93,10 @@ const Batch = () => {
     fetch(url, requestOptions)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (data.success === true && data.data.length > 0) {
           setBatch(data.data);
           setLoading(false);
-          console.log(data);
+
           setPin([]);
           toast.success("success");
         } else if (data.success && data.data.length < 1) {
@@ -139,11 +137,10 @@ const Batch = () => {
     fetch(url, requestOptions)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (data.success === true && data.data.length > 0) {
           setPin(data.data);
           setLoading(false);
-          console.log(data);
+
           toast.success("success");
         } else {
           setLoading(false);

@@ -40,7 +40,6 @@ const Revenues = () => {
   // useEffect(() => {
   //   const accessToken = sessionStorage.getItem("accessToken");
   //   setToken(accessToken);
-  //   console.log(accessToken);
   // }, []);
 
   useEffect(() => {
@@ -58,14 +57,12 @@ const Revenues = () => {
     fetch(url, requestOptions)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (data.success === true) {
           setRevenues(data.data);
           setLoading(false);
         } else {
           setLoading(false);
           console.log(data.error);
-          console.log(token);
         }
       })
       .catch((err) => console.log(err.message));

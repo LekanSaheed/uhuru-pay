@@ -48,7 +48,7 @@ const DashBoard = () => {
 export default DashBoard;
 // export async function getServerSideProps(context) {
 //   const header = cookie.parse(context.req.headers.cookie);
-//   console.log(header);
+
 //   const requestOptions = {
 //     method: "GET",
 //     headers: {
@@ -59,7 +59,6 @@ export default DashBoard;
 //   const res = await fetch(url, requestOptions);
 //   const data = await res.json();
 //   const user = data.data;
-//   console.log(header);
 
 //   if (!data) {
 //     return {

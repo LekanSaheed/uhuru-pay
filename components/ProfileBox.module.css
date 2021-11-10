@@ -1,6 +1,7 @@
 .container {
   display: flex;
-  justify-content: space-around;
+  /* justify-content: space-around; */
+  gap: 10px;
   align-items: center;
   padding: 15px;
   border-radius: 6px;
@@ -22,7 +23,7 @@
   white-space: nowrap;
 }
 .hideText {
-  visibility: hidden;
+  display: none;
   white-space: nowrap;
   margin: 12px;
 }

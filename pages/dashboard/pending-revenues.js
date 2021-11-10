@@ -95,7 +95,7 @@ const PendingRevenues = () => {
         if (data.success === true) {
           toast.success("Revenue Rejected Successfully");
           fetchPendingRevenues();
-          console.log(data.data);
+
           setLoading(true);
         } else {
           setLoading(false);

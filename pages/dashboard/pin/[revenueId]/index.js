@@ -42,7 +42,6 @@ const ARevenue = (prop) => {
     fetchRevenue();
   }, []);
 
-  console.log(router);
   return (
     <DashBoardWrapper>
       <div>A revenue</div>
@@ -63,9 +62,9 @@ const ARevenue = (prop) => {
 export default ARevenue;
 export async function getServerSideProps(context) {
   // const revenueId = context.query.revenueId;
-  // console.log(revenueId);
+
   // const header = cookie.parse(context.req.headers.cookie);
-  // console.log(header);
+
   // const requestOptions = {
   //   method: "POST",
   //   headers: {
@@ -75,7 +74,7 @@ export async function getServerSideProps(context) {
   // const url = `${baseUrl}/pin/${revenueId}/generate`;
   // const res = await fetch(url, requestOptions);
   // const data = await res.json();
-  // console.log(data);
+
   return {
     props: {},
   };

@@ -7,7 +7,7 @@ const Wallet = () => {
       </div>
       <div className={classes.wallet_main}>
         <div className={classes.wallet_title}>NGN Balance</div>
-        <div className={classes.wallet_balance}>14,000.00</div>
+        <div className={classes.wallet_balance}>0.00</div>
         <span className="icon-Mailbox" data-icon="&#xe001"></span>
       </div>
     </div>

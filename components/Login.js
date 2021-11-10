@@ -56,7 +56,6 @@ const Form = () => {
                   setUser(data.data);
                   toast.success("Successfully logged in");
                   setError("");
-                  // console.log(data.data, ":user");
                 } else {
                   setError(data.error);
                   setIsLoading(false);

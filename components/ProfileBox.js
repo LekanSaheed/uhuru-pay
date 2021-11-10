@@ -23,11 +23,13 @@ const ProfileBox = () => {
       },
     },
   };
+  console.log(user);
+
   return (
     <Link href="/dashboard/profile" className={classes.full_cont}>
       <div onClick={() => toggleProfile()} className={classes.container}>
         <div className={classes.icon}>
-          <GoPerson />
+          {user.name !== undefined && user.name.charAt(0).toUpperCase()}
         </div>
         <>
           <motion.div
@@ -45,9 +47,9 @@ const ProfileBox = () => {
               {user !== null && user.role !== undefined && user.role}
             </div>
           </motion.div>
-          <div>
+          {/* <div>
             {isToggledProfile ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />}
-          </div>
+          </div> */}
         </>
       </div>
     </Link>

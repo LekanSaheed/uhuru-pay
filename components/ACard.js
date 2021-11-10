@@ -23,12 +23,14 @@ const ACard = ({ title, batch, detail, type }) => {
       )}
       {type === "pins" && (
         <span className={classes.figure}>
-          {batch.length > 0 ? batch.reduce((a, b) => a + b.amount, 0) : "0"}
+          {batch.length > 0 && batch.reduce((a, b) => a + b.amount, 0)}
         </span>
       )}{" "}
       {type === "payers" && (
         <span className={classes.figure}>
-          {batch.length > 0 ? batch.reduce((a, b) => a + b.amount, 0) : "0"}
+          {batch.length > 0
+            ? batch.reduce((a, b) => a + b.amount + "%", 0)
+            : "0%"}
         </span>
       )}
       <br />

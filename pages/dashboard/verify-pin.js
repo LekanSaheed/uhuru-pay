@@ -38,8 +38,6 @@ const VerifyPin = () => {
               setAllRevenues(data.data);
 
               setLoading(false);
-
-              console.log(data.data);
             } else {
               toast.error("Something went wrong");
               setLoading(false);
@@ -85,7 +83,6 @@ const VerifyPin = () => {
       .then((data) => {
         if (data.success) {
           toast.success("Pin found");
-          console.log(data);
         } else {
           toast.error(data.error);
         }

@@ -1,10 +1,11 @@
-import DashBoardWrapper from "../../components/DashBoardWrapper";
-import React, { useState } from "react";
-import { LinearProgress } from "@material-ui/core";
 import { motion } from "framer-motion";
-
-import { baseUrl } from "../../context/baseUrl";
-const ProfilePage = () => {
+import ProfileWrapper from "../../../components/ProfileWrapper";
+import React, { useState } from "react";
+import classes from "../profile.module.css";
+import { baseUrl } from "../../../context/baseUrl";
+import toast from "react-hot-toast";
+import { LinearProgress } from "@material-ui/core";
+const EditProfile = () => {
   const [profile, setProfile] = useState({});
   const [loading, setLoading] = useState(true);
   const name = Object.entries(profile).length > 0 ? profile.name : "";
@@ -30,8 +31,6 @@ const ProfilePage = () => {
           if (data.success === true) {
             setLoading(false);
             setProfile(data.data);
-
-            // console.log(data.data, ":user");
           } else {
             setLoading(false);
             toast.error(data.error);
@@ -44,46 +43,28 @@ const ProfilePage = () => {
     };
     fetchProfile();
   }, []);
-  const contVariant = {
-    hidden: {
-      opacity: 0,
-      x: "100vw",
-    },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        type: "spring",
-        mass: 0.2,
-        damping: 8,
-        when: "beforeChildren",
-        staggerChildren: 0.2,
-      },
-    },
-  };
+
   return (
-    <DashBoardWrapper>
-      {loading && <LinearProgress />}
-      <motion.div variants={contVariant} initial="hidden" animate="visible">
-        <motion.div>
-          <label>Name</label>
-          <input value={name} />
-        </motion.div>
-        <motion.div>
-          <label>Email</label>
-          <input value={email} />
-        </motion.div>
-        <motion.div>
-          <label>Phone</label>
-          <input value={phone} />
-        </motion.div>
-        <motion.div>
-          <label>Name</label>
-          <input />
-        </motion.div>
-      </motion.div>
-    </DashBoardWrapper>
+    <ProfileWrapper>
+      <div className={classes.profile_container}>
+        <div className="theme-color-bold">Edit Profile</div>
+        <form className={classes.form}>
+          {" "}
+          <motion.div className={classes.input_container}>
+            <label>Name</label>
+            <input defaultValue={name} />
+          </motion.div>
+          <motion.div className={classes.input_container}>
+            <label>Email</label>
+            <input defaultValue={email} />
+          </motion.div>
+          <motion.div className={classes.input_container}>
+            <label>Phone</label>
+            <input defaultValue={phone} />
+          </motion.div>
+        </form>
+      </div>
+    </ProfileWrapper>
   );
 };
-
-export default ProfilePage;
+export default EditProfile;

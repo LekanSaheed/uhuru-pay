@@ -37,8 +37,6 @@ const PinManagement = () => {
               setAllRevenues(data.data);
 
               setLoading(false);
-
-              console.log(data.data);
             } else {
               toast.error("Something went wrong");
             }
@@ -85,14 +83,11 @@ const PinManagement = () => {
       .then((data) => {
         if (data.success) {
           toast.success("Pin generated Successfully");
-          console.log(data);
         } else {
           toast.error(data.error);
         }
       })
       .catch((err) => toast.error(err.message));
-    console.log("size:", size, "discount:", discount, "id:", selected.value);
-    console.log(typeof size);
   };
   return (
     <div>

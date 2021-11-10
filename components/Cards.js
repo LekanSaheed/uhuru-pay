@@ -2,6 +2,7 @@ import classes from "./Cards.module.css";
 import React, { useState } from "react";
 import { baseUrl } from "../context/baseUrl";
 import ACard from "./ACard";
+import toast from "react-hot-toast";
 const Cards = () => {
   const [weekInfo, setWeekInfo] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -29,7 +30,6 @@ const Cards = () => {
         if (data.success) {
           setWeekInfo(data.data);
           setLoading(false);
-          console.log(data);
         } else {
           setLoading(false);
           toast.error(data.error);
@@ -144,19 +144,28 @@ const Cards = () => {
         type="week"
         detail="Last 7 days"
         batch={weekInfo}
+        loaading={loading}
       />
       <ACard
         title="Total Active pins"
         type="pins"
         detail=""
         batch={totalPins}
+        loaading={loading}
       />
-      <ACard title="Tax Payers" detail="" type="payers" batch={taxPayers} />
+      <ACard
+        title="Tax Payers"
+        detail=""
+        type="payers"
+        batch={taxPayers}
+        loaading={loading}
+      />
       <ACard
         title="Collection Rate"
         type="rate"
         detail="Last 7 days"
         batch={collectionRate}
+        loaading={loading}
       />
     </div>
   );
