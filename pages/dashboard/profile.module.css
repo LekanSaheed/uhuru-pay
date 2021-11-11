@@ -12,9 +12,6 @@
   outline: #4bc2bc;
   width: 100%;
 }
-.profile_container {
-  padding: 20px;
-}
 
 .input_container {
   box-sizing: border-box;
@@ -36,7 +33,17 @@
   padding: 15px 10px;
   text-align: center;
   line-height: 30px;
+  background-color: white;
+  border-radius: 10px;
 }
 .card_container {
   padding: 15px;
+  background-color: whitesmoke;
+  border-radius: 10px;
+}
+@media (min-width: 801px) {
+  .profile_container {
+    padding: 20px;
+    width: 70%;
+  }
 }

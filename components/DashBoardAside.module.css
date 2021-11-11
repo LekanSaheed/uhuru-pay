@@ -12,6 +12,9 @@
   padding-right: 10px;
   overflow-x: hidden;
   overflow-y: hidden;
+  padding-inline-start: 0px;
+  padding-left: 40px;
+  padding-right: 25px;
 }
 .asideContainer:hover {
   overflow-y: auto;
@@ -21,6 +24,7 @@
   width: 0.8em;
   padding: 10px;
 }
+
 .asideContainer::-webkit-scrollbar-thumb {
   margin: 10px;
   background-clip: padding-box;
@@ -86,6 +90,9 @@
 .showText {
   transition: 0.4s ease-in-out;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .showPad {
   white-space: nowrap;
@@ -100,7 +107,13 @@
   transition: 0.01s;
 }
 .active {
-  color: goldenrod !important;
+  color: #4bc2bc !important;
+  padding-left: 10px;
+  margin-left: -10px;
+  background-color: #4bc2bc2a;
+}
+.active .icon {
+  color: #bb4077;
 }
 .dropdown {
   margin-left: 3px;
@@ -114,8 +127,7 @@
 }
 .asideFooter {
   padding: 20px;
-  flex: 1 1 20%;
-  height: 20%;
+  flex: 1 1 10%;
 }
 .dropdown span {
   font-size: 13px;
@@ -127,7 +139,7 @@
   color: #a6a7b5;
   display: flex;
   gap: 20px;
-  align-items: baseline;
+  align-items: center;
   font-size: 13px;
 }
 .link_hover:hover {

@@ -12,6 +12,9 @@
   display: flex;
   gap: 5px;
 }
+.lg_menu {
+  display: none;
+}
 
 .icon {
   font-size: 16px;
@@ -73,4 +76,13 @@
   .icon {
     font-size: 22px;
   }
+  .mobile_menu {
+    display: none;
+  }
+  .lg_menu {
+    display: block;
+  }
+}
+
+@media (min-wdith: 801px) {
 }

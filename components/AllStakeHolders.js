@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { baseUrl } from "../context/baseUrl";
 import toast from "react-hot-toast";
 import classes from "./AllStaker.module.css";
+import Select from "react-select";
 import {
   Table,
   TableContainer,
@@ -10,11 +11,12 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Paper,
   makeStyles,
+  Button,
 } from "@material-ui/core";
 import { BiCheckCircle, BiEditAlt } from "react-icons/bi";
 import { AiOutlineCloseCircle } from "react-icons/ai";
+import TableComponent from "./TableComponent";
 
 const AllStakeHolders = () => {
   const useStyles = makeStyles({
@@ -35,6 +37,7 @@ const AllStakeHolders = () => {
       cursor: "pointer",
     },
   });
+  const [edit, setEdit] = React.useState(false);
   const myClass = useStyles();
   const url = `${baseUrl}/stakeholder/list`;
 
@@ -47,13 +50,11 @@ const AllStakeHolders = () => {
     const requestOptions = {
       method: "GET",
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
-        Accept: "application/json",
       },
     };
 
-    const fetchMembers = async () => {
+    async function fetchMembers() {
       await fetch(url, requestOptions)
         .then((res) => res.json())
         .then((data) => {
@@ -61,44 +62,32 @@ const AllStakeHolders = () => {
           if (data.success) {
             setStakeholders(data.data);
             console.log(data);
+          } else {
+            toast.error(data.error);
           }
         })
         .catch((err) => {
           console.log(err);
         });
-    };
+    }
     fetchMembers();
-    const aPromise = fetchMembers();
-    toast.promise(aPromise, {
-      loading: "Loading please wait...",
-      success: "",
-      error: "An error occured",
-    });
   }, []);
 
   const activate = async (id) => {
-    const fetchProfile = async () => {
-      await fetch(`${baseUrl}/stakeholder/${id}/activate`, {
-        method: "GET",
-        header: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.success) {
-            console.log(data);
-            toast.success("Activated");
-          } else {
-            toast.error(data.error);
-          }
-        });
-    };
-    fetchProfile();
-    const aPromise = fetchProfile();
-    toast.promise(aPromise, {
-      loading: "Activating...",
-    });
+    await fetch(`${baseUrl}/stakeholder/${id}/activate`, {
+      method: "GET",
+      header: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          toast.success("Activated");
+        } else {
+          toast.error(data.error);
+        }
+      });
   };
 
   const deactivate = (id) => {
@@ -111,7 +100,6 @@ const AllStakeHolders = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           if (data.success) {
             toast.success("De-activated");
           } else {
@@ -120,14 +108,10 @@ const AllStakeHolders = () => {
         });
     };
     fetchProfile();
-    const aPromise = fetchProfile();
-    toast.promise(aPromise, {
-      loading: "De-activating...",
-    });
   };
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={TableComponent}>
       <Table sx={{ minWidth: 650 }}>
         <TableHead>
           <TableRow>
@@ -166,11 +150,30 @@ const AllStakeHolders = () => {
                     </span>
                   )}
                 </TableCell>
+                <TableCell>
+                  <Button onClick={() => setEdit(!edit)}>Edit</Button>
+                </TableCell>
               </TableRow>
             );
           })}
         </TableBody>
       </Table>
+      {edit && (
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>State</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableCell>
+                <Select />
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      )}
     </TableContainer>
   );
 };

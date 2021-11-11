@@ -51,5 +51,11 @@ export const reducer = (state = defaultState, action) => {
       isToggled: !state.isToggled,
     };
   }
+  if (action.type === "TOGGLE_MOBILE_NAV") {
+    return {
+      ...state,
+      isToggledMobileNav: !state.isToggledMobileNav,
+    };
+  }
   return state;
 };

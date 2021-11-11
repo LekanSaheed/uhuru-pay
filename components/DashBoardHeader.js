@@ -8,10 +8,7 @@ import React from "react";
 import { useGlobalContext } from "../context/context";
 import { useRouter } from "next/router";
 const DashBoardHeader = () => {
-  const data = [
-    { id: 1, icon: <RiAlignLeft /> },
-    { id: 2, icon: "", type: "lg" },
-  ];
+  const data = [{ id: 1, icon: <RiAlignLeft /> }];
   const rightIcons = [
     { id: 1, icon: "" },
     { id: 2, icon: <BiLogOut /> },
@@ -65,23 +62,18 @@ const DashBoardHeader = () => {
   return (
     <nav className={classes.dash_header}>
       <div className={classes.path_container}>
-        {React.Children.toArray(
-          data.map((icon) => {
-            return (
-              <span
-                key={icon.id}
-                onClick={
-                  icon.id === 1 ? () => dispatch({ type: "TOGGLE_NAV" }) : null
-                }
-                className={`${classes.icon} ${
-                  icon.type === "lg" ? classes.lg : ""
-                }`}
-              >
-                {icon.icon}
-              </span>
-            );
-          })
-        )}
+        <span
+          onClick={() => dispatch({ type: "TOGGLE_NAV" })}
+          className={`${classes.icon} ${classes.lg_menu}`}
+        >
+          <RiAlignLeft />
+        </span>
+        <span
+          onClick={() => dispatch({ type: "TOGGLE_MOBILE_NAV" })}
+          className={`${classes.icon} ${classes.mobile_menu}`}
+        >
+          <RiAlignLeft />
+        </span>
       </div>
 
       <div className={classes.header_right}>

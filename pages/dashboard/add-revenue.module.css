@@ -44,20 +44,15 @@
   color: white;
 }
 .form button {
-  padding: 13px;
-  border: none;
-  color: white;
-  align-self: flex-start;
   background-color: #4bc2bc;
-  cursor: pointer;
-  transition: 0.3s;
 }
 .form button:hover {
-  background-color: #8bf6f1;
+  background-color: #4bc2bc86;
 }
+
 @media (min-width: 801px) {
   .form {
-    padding: 40px;
+    padding: 10px;
     width: 70%;
   }
 }

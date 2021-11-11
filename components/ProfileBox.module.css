@@ -46,3 +46,8 @@
   text-transform: capitalize;
   font-size: 13px;
 }
+@media (min-width: 767px) {
+  .closeBar {
+    display: none;
+  }
+}

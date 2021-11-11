@@ -22,7 +22,7 @@ export const defaultState = {
   user: {},
   token: "",
   isUser: false,
-  isToggledProfile: false,
+  isToggledMobileNav: false,
   isToggled: false,
   asideContents: [
     {

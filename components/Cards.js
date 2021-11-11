@@ -10,7 +10,7 @@ const Cards = () => {
   const [taxPayers, setTaxPayers] = useState([]);
   const [collectionRate, setCollectionRate] = useState([]);
 
-  const fetchWeek = () => {
+  const fetchWeek = async () => {
     const url = `${baseUrl}/info/week`;
     const token =
       typeof window !== "undefined" && localStorage.getItem("accessToken");
@@ -24,7 +24,7 @@ const Cards = () => {
         Authorization: `Bearer ${token}`,
       },
     };
-    fetch(url, requestOptions)
+    await fetch(url, requestOptions)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
@@ -40,7 +40,7 @@ const Cards = () => {
         toast.error("Error Fetching Data: " + err.message);
       });
   };
-  const fetchActivePins = () => {
+  const fetchActivePins = async () => {
     const url = `${baseUrl}/info/week`;
     const token =
       typeof window !== "undefined" && localStorage.getItem("accessToken");
@@ -54,7 +54,7 @@ const Cards = () => {
         Authorization: `Bearer ${token}`,
       },
     };
-    fetch(url, requestOptions)
+    await fetch(url, requestOptions)
       .then((res) => res.json())
       .then((data) => {
         if (data.success === true) {
@@ -70,7 +70,7 @@ const Cards = () => {
         toast.error("Error Fetching Data: " + err.message);
       });
   };
-  const fetchTaxPayers = () => {
+  const fetchTaxPayers = async () => {
     const url = `${baseUrl}/payer/list`;
     const token =
       typeof window !== "undefined" && localStorage.getItem("accessToken");
@@ -84,7 +84,7 @@ const Cards = () => {
         Authorization: `Bearer ${token}`,
       },
     };
-    fetch(url, requestOptions)
+    await fetch(url, requestOptions)
       .then((res) => res.json())
       .then((data) => {
         if (data.success === true) {
@@ -100,7 +100,7 @@ const Cards = () => {
         toast.error("Error Fetching Data: " + err.message);
       });
   };
-  const fetchCollectionRate = () => {
+  const fetchCollectionRate = async () => {
     const url = `${baseUrl}/info/week`;
     const token =
       typeof window !== "undefined" && localStorage.getItem("accessToken");
@@ -114,7 +114,7 @@ const Cards = () => {
         Authorization: `Bearer ${token}`,
       },
     };
-    fetch(url, requestOptions)
+    await fetch(url, requestOptions)
       .then((res) => res.json())
       .then((data) => {
         if (data.success === true) {

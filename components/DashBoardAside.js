@@ -37,7 +37,7 @@ const DashBoardAside = () => {
                         router.pathname === `/dashboard` ? classes.active : ""
                       }`}
                     >
-                      <span
+                      <div
                         className={classes.link_hover}
                         style={{
                           display: "flex",
@@ -46,20 +46,20 @@ const DashBoardAside = () => {
                           alignItems: "center",
                         }}
                       >
-                        <i
-                          className={`${classes.icon} ${
-                            router.pathname === `/dashboard`
-                              ? classes.active
-                              : ""
-                          }`}
-                          style={{ display: "block" }}
+                        <div
+                          className={`${classes.icon}`}
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
                         >
                           {aside.icon}
-                        </i>
+                        </div>
                         <span className={isToggled ? classes.hideText : ""}>
                           {aside.text}
                         </span>
-                      </span>
+                      </div>
                     </a>
                   </Link>
                 ) : (
@@ -124,14 +124,7 @@ const DashBoardAside = () => {
                                         : ""
                                     }
                                   >
-                                    <span
-                                      className={`${classes.icon}  ${
-                                        router.pathname ===
-                                        "/dashboard" + i.link
-                                          ? classes.active
-                                          : ""
-                                      }`}
-                                    >
+                                    <span className={`${classes.icon}  `}>
                                       {i.icon}
                                     </span>
 
@@ -170,14 +163,7 @@ const DashBoardAside = () => {
                                         : ""
                                     }
                                   >
-                                    <span
-                                      className={`${classes.icon}  ${
-                                        router.pathname ===
-                                        "/dashboard" + i.link
-                                          ? classes.active
-                                          : ""
-                                      }`}
-                                    >
+                                    <span className={`${classes.icon} `}>
                                       {i.icon}
                                     </span>
 
@@ -205,8 +191,8 @@ const DashBoardAside = () => {
       </ul>
 
       <footer className={classes.asideFooter}>
-        <div style={{ padding: " 10px" }}>
-          <Image width={200} height={50} src="/WORDMARK.png" />
+        <div>
+          <Image width={220} height={50} src="/WORDMARK.png" alt="upay" />
         </div>
       </footer>
     </div>

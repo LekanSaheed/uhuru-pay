@@ -5,10 +5,12 @@ import { useState } from "react";
 import ProfileWrapper from "../../../components/ProfileWrapper";
 import { Alert } from "@mui/material";
 import classes from "./change-password.module.css";
+import { Button } from "@material-ui/core";
 const url = `${baseUrl}/stakeholder/password`;
 const ChangePassword = () => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewpassword] = useState("");
+  const [confirmNewPassword, setConfirmNewpassword] = useState("");
   const { logout } = useGlobalContext();
   const { setToken } = useGlobalContext();
   const updatePass = async (e) => {
@@ -55,6 +57,7 @@ const ChangePassword = () => {
         <div className={classes.input_container}>
           <label>Current Password</label>
           <input
+            placeholder="Currrent Password"
             value={currentPassword}
             onChange={(e) => setCurrentPassword(e.target.value)}
           />
@@ -62,16 +65,35 @@ const ChangePassword = () => {
         <div className={classes.input_container}>
           <label>New Password</label>
           <input
+            placeholder="New Password"
             value={newPassword}
             onChange={(e) => setNewpassword(e.target.value)}
           />
         </div>
-        <button
-          disabled={!newPassword || !currentPassword}
-          onClick={updatePass}
-        >
-          Update Password
-        </button>
+        <div className={classes.input_container}>
+          <label>Confirm New Password</label>
+          <input
+            placeholder="Confirm New Password"
+            value={confirmNewPassword}
+            onChange={(e) => setConfirmNewpassword(e.target.value)}
+          />
+        </div>
+        <div className={classes.input_container}>
+          <Button
+            size="large"
+            color="primary"
+            variant="contained"
+            disabled={
+              !newPassword ||
+              !currentPassword ||
+              !confirmNewPassword ||
+              newPassword !== confirmNewPassword
+            }
+            onClick={updatePass}
+          >
+            Update Password
+          </Button>
+        </div>
       </form>
     </ProfileWrapper>
   );

@@ -79,6 +79,7 @@ export default function AddRevenue() {
           <div className={classes.input_container}>
             <label>Amount</label>
             <input
+              type="number"
               value={amount}
               placeholder="Amount"
               onChange={(e) => setAmount(e.target.value)}
@@ -92,9 +93,15 @@ export default function AddRevenue() {
               placeholder="Category"
               options={options}
               onChange={handleCategory}
-              styles={{
-                fontSize: "13px",
-              }}
+              theme={(theme) => ({
+                ...theme,
+                outline: "none",
+                colors: {
+                  ...theme.colors,
+                  primary25: "#4bc2bc",
+                  primary: ["#4bc2bc2a", "#000"],
+                },
+              })}
             />
           </div>
           <div className={classes.input_container}>
@@ -107,8 +114,11 @@ export default function AddRevenue() {
           </div>
         </div>
         <Button
+          size="large"
+          color="primary"
           disabled={(!title, !amount, Object.entries(category).length < 1)}
           onClick={addRevenue}
+          variant="contained"
         >
           Add revenue
         </Button>

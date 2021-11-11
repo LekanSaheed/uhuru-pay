@@ -9,6 +9,7 @@ import ProfileWrapper from "../../../components/ProfileWrapper";
 import { FaUserCircle } from "react-icons/fa";
 import { Chip } from "@mui/material";
 import { Box } from "@mui/system";
+import { Skeleton } from "@material-ui/lab";
 const ProfilePage = () => {
   const [profile, setProfile] = useState({});
   const [loading, setLoading] = useState(true);
@@ -65,6 +66,14 @@ const ProfilePage = () => {
       },
     },
   };
+  const Skel = () => {
+    return (
+      <Box display="flex" alignItems="center" justifyContent="center">
+        {" "}
+        <Skeleton width={100} />
+      </Box>
+    );
+  };
   return (
     <ProfileWrapper>
       {loading && <LinearProgress />}
@@ -89,10 +98,10 @@ const ProfilePage = () => {
             </i>
           </div>
           <form className={classes.profile_card}>
-            <div>{name ? name : "loading"}</div>
-            <div>{name ? email : "loading"}</div>
-            <div>{name ? phone : "loading"}</div>
-            <Box display="flex" justifyContent="space-between">
+            <Box display="flex" justifyContent="space-between" padding="15px">
+              <div style={{ fontWeight: "bolder", fontSize: "25px" }}>
+                {name ? name : "loading"}
+              </div>
               <Badge
                 color="secondary"
                 badgeContent={
@@ -102,6 +111,8 @@ const ProfilePage = () => {
                 <Chip label="Total Revenues" />
               </Badge>
             </Box>
+            <div>{name ? email : <Skel />}</div>
+            <div>{name ? phone : <Skel />}</div>
           </form>
         </motion.div>
       </motion.div>
