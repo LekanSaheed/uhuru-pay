@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { baseUrl } from "../context/baseUrl";
 import { useGlobalContext } from "../context/context";
 import * as React from "react";
+import moment from "moment";
+
 import {
   Table,
   TableContainer,
@@ -58,7 +60,11 @@ const Revenues = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.success === true) {
-          setRevenues(data.data);
+          setRevenues(
+            data.data.filter(
+              (i) => i.status === "pending" || i.status === "approved"
+            )
+          );
           setLoading(false);
         } else {
           setLoading(false);
@@ -83,6 +89,7 @@ const Revenues = () => {
               <TableCell>Category</TableCell>
               <TableCell>Date Created</TableCell>
               <TableCell>Status</TableCell>
+              <TableCell>Revenue Code</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -99,16 +106,18 @@ const Revenues = () => {
                   <TableCell>{revenue.amount}</TableCell>
 
                   <TableCell>{revenue.category}</TableCell>
-                  <TableCell>{revenue.created_At}</TableCell>
+                  <TableCell>
+                    {moment(revenue.createdAt).format("MMMM Do YY, h:mm a")}
+                  </TableCell>
                   <TableCell
                     className={
-                      (revenue.status === "rejected" ? classes.rejected : "") ||
                       (revenue.status === "approved" ? classes.approved : "") ||
                       (revenue.status === "pending" ? classes.pending : "")
                     }
                   >
                     {revenue.status}
                   </TableCell>
+                  <TableCell>{revenue.revenue_id}</TableCell>
                 </TableRow>
               );
             })}

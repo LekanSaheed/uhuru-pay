@@ -27,6 +27,7 @@ const Cards = () => {
     await fetch(url, requestOptions)
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         if (data.success) {
           setWeekInfo(data.data);
           setLoading(false);

@@ -7,7 +7,7 @@ import classes from "./add-revenue.module.css";
 import toast from "react-hot-toast";
 import { Button } from "@material-ui/core";
 export default function AddRevenue() {
-  const { user } = useGlobalContext();
+  const { user, setUser } = useGlobalContext();
   const url = `${baseUrl}/revenue/new`;
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
@@ -23,6 +23,27 @@ export default function AddRevenue() {
     { label: "Market", value: "market" },
   ];
   const token = process.browser && localStorage.getItem("accessToken");
+
+  const fetchUser = async () => {
+    const token =
+      typeof window !== "undefined" && localStorage.getItem("accessToken");
+    const url = `${baseUrl}/stakeholder/me`;
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    await fetch(url, requestOptions)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setUser(data.data);
+        } else {
+          toast.error(data.error);
+        }
+      });
+  };
   const handleCategory = (category) => {
     setCategory(category);
   };
@@ -51,6 +72,7 @@ export default function AddRevenue() {
           setCategory({});
           setTitle("");
           setComment("");
+          fetchUser();
         } else {
           toast.error(data.error);
         }

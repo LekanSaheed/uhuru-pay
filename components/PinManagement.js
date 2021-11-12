@@ -112,21 +112,7 @@ const PinManagement = () => {
               placeholder="Select a revenue"
             />
           </div>
-          <div className={classes.input_container}>
-            <label>Amount</label>
-            <input
-              type="number"
-              defaultValue={
-                selected
-                  ? allRevenues
-                      .filter((rev) => rev._id === selected.value)
-                      .map((i) => i.amount)
-                  : 0
-              }
-              disabled={true}
-              placeholder="Amount"
-            />
-          </div>
+
           <div className={classes.input_container}>
             <label>Quantity</label>
             <input

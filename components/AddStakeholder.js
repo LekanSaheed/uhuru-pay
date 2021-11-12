@@ -7,6 +7,7 @@ import { useGlobalContext } from "../context/context";
 import toast from "react-hot-toast";
 import { Alert } from "@mui/material/";
 import { CgClose } from "react-icons/cg";
+import { Box } from "@mui/system";
 
 const AddStakeholder = () => {
   const [name, setName] = useState("");
@@ -21,14 +22,36 @@ const AddStakeholder = () => {
   const [token, setToken] = useState("");
   const roleOptions = [];
   const [modal, setModal] = useState(false);
-  const { user } = useGlobalContext();
+  const { user, setUser } = useGlobalContext();
   const [password, setPassword] = useState("");
-
+  const [revCodes, setRevCodes] = useState([]);
+  const [newStream, setNewStream] = useState([]);
   useEffect(() => {
     const accessToken =
       typeof window !== "undefined" && localStorage.getItem("accessToken");
     setToken(accessToken);
   }, []);
+
+  const fetchUser = async () => {
+    const token =
+      typeof window !== "undefined" && localStorage.getItem("accessToken");
+    const url = `${baseUrl}/stakeholder/me`;
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    await fetch(url, requestOptions)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setUser(data.data);
+        } else {
+          toast.error(data.error);
+        }
+      });
+  };
 
   useEffect(() => {
     const url = `${baseUrl}/revenue/all`;
@@ -73,6 +96,7 @@ const AddStakeholder = () => {
 
   const handleStream = (stream) => {
     setStream(stream);
+    setNewStream(stream.map((i) => i.value));
   };
 
   const handleRole = (role) => {
@@ -100,7 +124,7 @@ const AddStakeholder = () => {
         email: email,
         state: state.value,
         role: role.value,
-        revenueStreams: streams,
+        revenueStreams: newStream,
       }),
     };
     await fetch(url, requestOptions)
@@ -110,7 +134,7 @@ const AddStakeholder = () => {
           setLoading(false);
           toast.success("Stakeholder Registered Successfully");
           setPassword(data.message);
-
+          fetchUser();
           setModal(true);
           setRole({});
           setName("");
@@ -129,6 +153,7 @@ const AddStakeholder = () => {
         toast.error(err.message);
       });
   };
+
   if (user.role === "admin") {
     roleOptions.push(
       { label: "Admin", value: "admin" },
@@ -162,11 +187,11 @@ const AddStakeholder = () => {
     <>
       <form className={classes.form}>
         {modal && (
-          <Alert
-            action={<CgClose onClick={() => setModal(false)} size="small" />}
-            severity="success"
-          >
-            {password} cl
+          <Alert severity="success">
+            <Box display="flex" justifyContent="space-between">
+              {password}{" "}
+              <CgClose onClick={() => setModal(false)} size="small" />
+            </Box>
           </Alert>
         )}
         <div className={classes.header}>
@@ -253,6 +278,7 @@ const AddStakeholder = () => {
                       onChange={handleStream}
                       isSearchable={true}
                       options={revenues.filter((rev) => {
+                        console.log(user.revenueStreams);
                         return user.revenueStreams.includes(rev.value);
                       })}
                     />
