@@ -200,7 +200,7 @@ const AllStakeHolders = () => {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        name: "Lasgidi",
+        aStakeholder,
       }),
     })
       .then((res) => res.json())
