@@ -50,12 +50,25 @@ const Form = () => {
             await fetch(`${baseUrl}/stakeholder/me`, requestOptions)
               .then((res) => res.json())
               .then((data) => {
-                if (data.success === true) {
+                if (data.success) {
+                  // if (
+                  //   data.data.role === "agent" ||
+                  //   data.data.role === "collector"
+                  // ) {
+                  //   toast.error(
+                  //     `${
+                  //       data.data.role.charAt(0).toUpperCase() +
+                  //       data.data.role.slice(1)
+                  //     }  cannot access dashboard`
+                  //   );
+                  //   setError("");
+                  // } else {
                   setToken(token);
                   router.push("/dashboard");
                   setUser(data.data);
                   toast.success("Successfully logged in");
                   setError("");
+                  // }
                 } else {
                   setError(data.error);
                   setIsLoading(false);

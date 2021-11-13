@@ -11,8 +11,8 @@ const ChangePassword = () => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewpassword] = useState("");
   const [confirmNewPassword, setConfirmNewpassword] = useState("");
-  const { logout } = useGlobalContext();
-  const { setToken } = useGlobalContext();
+
+  const { logout, setToken, user } = useGlobalContext();
   const updatePass = async (e) => {
     e.preventDefault();
     const token =
@@ -49,10 +49,12 @@ const ChangePassword = () => {
   };
   return (
     <ProfileWrapper>
-      <Alert severity="info">
-        Note: You can change your password, but only your admin can reset your
-        password if you forget it
-      </Alert>
+      {user.role !== "admin" && (
+        <Alert severity="info">
+          Note: You can change your password, but only your admin can reset your
+          password if you forget it
+        </Alert>
+      )}
       <form className={classes.form}>
         <div className={classes.input_container}>
           <label>Current Password</label>

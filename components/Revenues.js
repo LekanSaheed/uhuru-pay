@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { baseUrl } from "../context/baseUrl";
 import { useGlobalContext } from "../context/context";
 import * as React from "react";
-import moment from "moment";
 
 import {
   Table,
@@ -15,7 +14,14 @@ import {
   makeStyles,
   CircularProgress,
   LinearProgress,
+  Box,
 } from "@material-ui/core";
+import Row from "./TableRow";
+import TableComponent from "./TableComponent";
+import { Tab } from "@mui/material";
+import { TabContext } from "@material-ui/lab";
+import { TabList } from "@material-ui/lab";
+import { TabPanel } from "@material-ui/lab";
 
 const url = `${baseUrl}/revenue/list`;
 
@@ -38,6 +44,12 @@ const Revenues = () => {
 
   const [loading, setLoading] = useState(true);
   const [revenues, setRevenues] = useState([]);
+  const [value, setValue] = React.useState("1");
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
   // const [token, setToken] = useState("");
   // useEffect(() => {
   //   const accessToken = sessionStorage.getItem("accessToken");
@@ -60,11 +72,7 @@ const Revenues = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.success === true) {
-          setRevenues(
-            data.data.filter(
-              (i) => i.status === "pending" || i.status === "approved"
-            )
-          );
+          setRevenues(data.data);
           setLoading(false);
         } else {
           setLoading(false);
@@ -77,53 +85,76 @@ const Revenues = () => {
   return (
     <section>
       <span>All Revenues</span>
-      <TableContainer className={classes.root} component={Paper}>
-        <Table sx={{ minWidth: 650 }}>
-          <TableHead>
-            <TableRow>
-              <TableCell component="th" scope="row">
-                Title
-              </TableCell>
-              <TableCell>Amount</TableCell>
 
-              <TableCell>Category</TableCell>
-              <TableCell>Date Created</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Revenue Code</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {revenues.map((revenue) => {
-              return (
-                <TableRow
-                  key={revenue.revenue_id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    {revenue.title}
-                  </TableCell>
+      <Box sx={{ width: "100%", typography: "body1" }}>
+        <TabContext value={value}>
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <TabList onChange={handleChange} aria-label="lab API tabs example">
+              <Tab label="Revenues" value="1" />
+              <Tab label="Rejected Revenues" value="2" />
+            </TabList>
+          </Box>
+          <TabPanel value="1">
+            <TableContainer className={classes.root} component={TableComponent}>
+              <Table sx={{ minWidth: 650 }}>
+                <TableHead>
+                  <TableRow>
+                    <TableCell />
+                    <TableCell component="th" scope="row">
+                      Title
+                    </TableCell>
 
-                  <TableCell>{revenue.amount}</TableCell>
+                    <TableCell>Category</TableCell>
 
-                  <TableCell>{revenue.category}</TableCell>
-                  <TableCell>
-                    {moment(revenue.createdAt).format("MMMM Do YY, h:mm a")}
-                  </TableCell>
-                  <TableCell
-                    className={
-                      (revenue.status === "approved" ? classes.approved : "") ||
-                      (revenue.status === "pending" ? classes.pending : "")
-                    }
-                  >
-                    {revenue.status}
-                  </TableCell>
-                  <TableCell>{revenue.revenue_id}</TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
+                    <TableCell>Status</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {revenues
+                    ? revenues
+                        .filter(
+                          (i) =>
+                            i.status === "pending" || i.status === "approved"
+                        )
+                        .map((revenue) => {
+                          console.log(revenue);
+                          return <Row key={revenue._id} revenue={revenue} />;
+                        })
+                    : "Revenues will appear here"}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </TabPanel>
+          <TabPanel value="2">
+            {" "}
+            <TableContainer className={classes.root} component={TableComponent}>
+              <Table sx={{ minWidth: 650 }}>
+                <TableHead>
+                  <TableRow>
+                    <TableCell />
+                    <TableCell component="th" scope="row">
+                      Title
+                    </TableCell>
+
+                    <TableCell>Category</TableCell>
+
+                    <TableCell>Status</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {revenues
+                    ? revenues
+                        .filter((i) => i.status === "rejected")
+                        .map((revenue) => {
+                          return <Row key={revenue._id} revenue={revenue} />;
+                        })
+                    : "Rejected revenues will appear here"}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </TabPanel>
+        </TabContext>
+      </Box>
       {loading && <LinearProgress />}
       {loading && (
         <div

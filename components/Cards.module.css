@@ -23,6 +23,7 @@
 .figure {
   font-weight: 600;
   font-size: 40px;
+  transition: 0.3s;
 }
 .detail {
   font-size: 12px;

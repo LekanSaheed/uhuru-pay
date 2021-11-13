@@ -3,13 +3,16 @@ import React, { useState } from "react";
 import { baseUrl } from "../context/baseUrl";
 import ACard from "./ACard";
 import toast from "react-hot-toast";
+import { useGlobalContext } from "../context/context";
 const Cards = () => {
   const [weekInfo, setWeekInfo] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [totalPins, setTotalPins] = useState([]);
+
+  const myPin = [];
   const [taxPayers, setTaxPayers] = useState([]);
   const [collectionRate, setCollectionRate] = useState([]);
-
+  const { user } = useGlobalContext();
+  const [totalPins, setTotalPins] = useState([]);
   const fetchWeek = async () => {
     const url = `${baseUrl}/info/week`;
     const token =
@@ -42,35 +45,51 @@ const Cards = () => {
       });
   };
   const fetchActivePins = async () => {
-    const url = `${baseUrl}/info/week`;
-    const token =
-      typeof window !== "undefined" && localStorage.getItem("accessToken");
-    if (!token) {
-      logout();
-      toast.error("You need to log in again");
-    }
-    const requestOptions = {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-    await fetch(url, requestOptions)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success === true) {
-          setTotalPins(data.data);
-          setLoading(false);
-        } else {
-          setLoading(false);
-          toast.error(data.error);
-          console.log(data.error);
-        }
-      })
-      .catch((err) => {
-        toast.error("Error Fetching Data: " + err.message);
-      });
+    const codes = user.revenueStreams;
+    codes.forEach((code) => {
+      const url = `${baseUrl}/pin/${code}/batchs`;
+      const token =
+        typeof window !== "undefined" && localStorage.getItem("accessToken");
+      if (!token) {
+        logout();
+        toast.error("You need to log in again");
+      }
+      const requestOptions = {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      fetch(url, requestOptions)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            data.data.forEach((item) => {
+              fetch(
+                `https://upay-api.herokuapp.com/pin/${item.batch_no}/info`,
+                { method: "GET", headers: { Authorization: `Bearer ${token}` } }
+              )
+                .then((res) => res.json())
+                .then((data) => {
+                  myPin.push(data.active);
+                  console.log(myPin, "pin");
+                  setTotalPins(myPin.reduce((a, b) => a + b, 0));
+                  console.log(totalPins.reduce((a, b) => a + b, 0));
+                  setLoading(false);
+                });
+            });
+          } else {
+            setLoading(false);
+            toast.error(data.error);
+            console.log(data.error);
+          }
+        })
+        .catch((err) => {
+          toast.error("Error Fetching Data: " + err.message);
+        });
+    });
   };
+
   const fetchTaxPayers = async () => {
     const url = `${baseUrl}/payer/list`;
     const token =
@@ -88,7 +107,7 @@ const Cards = () => {
     await fetch(url, requestOptions)
       .then((res) => res.json())
       .then((data) => {
-        if (data.success === true) {
+        if (data.success) {
           setTaxPayers(data.data);
           setLoading(false);
         } else {
@@ -118,7 +137,7 @@ const Cards = () => {
     await fetch(url, requestOptions)
       .then((res) => res.json())
       .then((data) => {
-        if (data.success === true) {
+        if (data.success) {
           setCollectionRate(data.data);
           setLoading(false);
         } else {
@@ -144,28 +163,28 @@ const Cards = () => {
         title="Total Collections"
         type="week"
         detail="Last 7 days"
-        batch={weekInfo}
+        collection={weekInfo}
         loaading={loading}
       />
       <ACard
         title="Total Active pins"
         type="pins"
         detail=""
-        batch={totalPins}
+        pin={totalPins}
         loaading={loading}
       />
       <ACard
         title="Tax Payers"
         detail=""
         type="payers"
-        batch={taxPayers}
+        payer={taxPayers}
         loaading={loading}
       />
       <ACard
         title="Collection Rate"
         type="rate"
         detail="Last 7 days"
-        batch={collectionRate}
+        rate={collectionRate}
         loaading={loading}
       />
     </div>
