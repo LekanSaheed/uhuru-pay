@@ -110,55 +110,7 @@ const Batch = () => {
         }
       });
   }, []);
-  const getBatch = async (revenueId) => {
-    const batchTable = document.querySelector(".batchTable");
-    setLoading(true);
-    const url = `${baseUrl}/pin/${revenueId}/batchs`;
-    const token =
-      typeof window !== "undefined" && localStorage.getItem("accessToken");
-    if (!token) {
-      logout();
-      toast.error("You need to log in again");
-    }
-    const requestOptions = {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-    fetch(url, requestOptions)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success === true && data.data.length > 0) {
-          batchTable.scrollIntoView({
-            behavior: "smooth",
-            blobk: "end",
-          });
-          setBatch(data.data);
-          setLoading(false);
-          console.log(data);
-          setPin([]);
-          toast.success("success");
-        } else if (data.success && data.data.length < 1) {
-          toast.error("No batch created");
-          setBatch([]);
-          setLoading(false);
-          setPin([]);
-        } else {
-          setLoading(false);
-          console.log(data.error);
-          toast.error(data.error);
-          setBatch([]);
-          setPin([]);
-        }
-      })
-      .catch((err) => {
-        setBatch([]);
-        setPin([]);
-        toast.error(err.message);
-        setLoading(false);
-      });
-  };
+
   const getPin = async (batch) => {
     setLoading(true);
     const url = `${baseUrl}/pin/${batch}/pins`;
@@ -312,7 +264,7 @@ const Batch = () => {
                         Active Pins
                       </TableCell>
                       <TableCell className={myClass.cellHead}>
-                        Unused pins
+                        Used pins
                       </TableCell>
                       <TableCell className={myClass.cellHead}>
                         Discount
@@ -370,7 +322,9 @@ const Batch = () => {
                                 {aBatch.activePins}
                               </TableCell>
                               <TableCell className={myClass.cell}>
-                                {aBatch.size - aBatch.activePins}
+                                {aBatch.isActive === false
+                                  ? 0
+                                  : aBatch.size - aBatch.activePins}
                               </TableCell>
                               <TableCell className={myClass.cell}>
                                 {aBatch.discount === null ||

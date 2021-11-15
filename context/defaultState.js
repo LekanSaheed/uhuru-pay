@@ -1,21 +1,14 @@
 import {
   MdSpaceDashboard,
-  MdPeopleAlt,
-  MdLock,
-  MdStream,
+  MdHistory,
   MdOutlineAddCircle,
 } from "react-icons/md";
 import { RiBookletFill } from "react-icons/ri";
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import { IoMdPeople } from "react-icons/io";
-import { BiMessageSquareAdd } from "react-icons/bi";
+
 import { HiReceiptTax } from "react-icons/hi";
-import {
-  FaCalendar,
-  FaCalendarCheck,
-  FaReceipt,
-  FaStream,
-} from "react-icons/fa";
+import { FaCalendarCheck } from "react-icons/fa";
 import { CgPassword } from "react-icons/cg";
 export const defaultState = {
   isDropdown: true,
@@ -101,6 +94,16 @@ export const defaultState = {
           icon: <FaCalendarCheck />,
           link: "/pending-revenues",
           access: "admin",
+        },
+      ],
+    },
+    {
+      text: "Analytics",
+      dropdown: [
+        {
+          text: "Transaction History",
+          icon: <MdHistory />,
+          link: "/transaction-history",
         },
       ],
     },

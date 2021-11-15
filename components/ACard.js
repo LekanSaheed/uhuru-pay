@@ -21,7 +21,6 @@ const ACard = ({
       <br />
       {type === "week" && (
         <span className={classes.figure}>
-          ₦
           {collection.length > 0
             ? collection.reduce((a, b) => a + b.amount, 0)
             : "0"}
