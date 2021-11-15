@@ -18,12 +18,19 @@ import {
   DialogContent,
   TextField,
   FormControl,
+  DialogTitle,
+  IconButton,
 } from "@material-ui/core";
+import { Alert } from "@mui/material";
 import { BiCheckCircle, BiEditAlt } from "react-icons/bi";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import TableComponent from "./TableComponent";
 import { Box } from "@mui/system";
-
+import { Tab } from "@mui/material";
+import { TabContext } from "@material-ui/lab";
+import { TabList } from "@material-ui/lab";
+import { TabPanel } from "@material-ui/lab";
+import { Close } from "@material-ui/icons";
 const AllStakeHolders = () => {
   const useStyles = makeStyles({
     active: {
@@ -65,6 +72,12 @@ const AllStakeHolders = () => {
   const { user } = useGlobalContext();
   const [revenues, setRevenues] = useState([]);
   const [newRevenues, setNewRevenues] = useState(null);
+  const [newpass, setNewpass] = useState("");
+  const [value, setValue] = React.useState("1");
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   const handleRevenueChanges = (change) => {
     setNewRevenues(change);
@@ -214,6 +227,25 @@ const AllStakeHolders = () => {
       })
       .catch((err) => console.log(err));
   };
+  const resetPass = async () => {
+    const url = `${baseUrl}/stakeholder/${aStakeholder._id}/password`;
+    await fetch(url, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          toast.success(data.message);
+          setNewpass(data.message);
+        } else {
+          toast.error(data.error);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <div className={classes.container}>
       <TableContainer component={TableComponent}>
@@ -275,86 +307,150 @@ const AllStakeHolders = () => {
               <Modal open={edit}>
                 <Dialog fullWidth={true} open={edit}>
                   <DialogContent>
-                    <Box display="flex" flexDirection="column">
-                      <Box
-                        display="flex"
-                        justifyContent="space-between"
-                        alignItems="center"
-                        marginBottom="14px"
-                      >
-                        Edit Stakeholder{" "}
-                        <Button
-                          onClick={() => setEdit(false)}
-                          variant="contained"
-                          color="secondary"
-                          size="small"
+                    <TabContext value={value}>
+                      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                        <TabList
+                          onChange={handleChange}
+                          aria-label="Edit Profile"
                         >
-                          Close
-                        </Button>
+                          <Tab label="Edit Profile" value="1" />
+                          <Tab label="Reset Password" value="2" />
+                        </TabList>
                       </Box>
-                      <Box display="flex" gap="24px" flexDirection="column">
-                        <TextField
-                          className={myClass.input}
-                          label="Name"
-                          variant="outlined"
-                          value={
-                            aStakeholder.name !== undefined && aStakeholder.name
-                          }
-                          fullWidth={true}
-                          size="small"
-                          onChange={(e) =>
-                            handleChanges({ name: e.target.value })
-                          }
-                        />
-                        <TextField
-                          className={myClass.input}
-                          label="Email"
-                          variant="outlined"
-                          value={
-                            aStakeholder.email !== undefined &&
-                            aStakeholder.email
-                          }
-                          fullWidth={true}
-                          size="small"
-                        />
-                        <TextField
-                          className={myClass.input}
-                          label="Phone"
-                          variant="outlined"
-                          value={
-                            aStakeholder.phone !== undefined &&
-                            aStakeholder.phone
-                          }
-                          fullWidth={true}
-                          size="small"
-                          onChange={(e) =>
-                            handleChanges({ phone: e.target.value })
-                          }
-                        />
-                        <FormControl>
-                          <label>Revenue</label>
-                          <Select
-                            onChange={handleRevenueChanges}
-                            value={newRevenues}
-                            isMulti={true}
-                            options={revenues
-                              .filter((rev) => {
-                                return user.revenueStreams.includes(
-                                  rev.revenue_id
-                                );
-                              })
-                              .map((rev) => {
-                                return {
-                                  label: rev.title.toUpperCase(),
-                                  value: rev.revenue_id,
-                                };
-                              })}
-                          />
-                        </FormControl>
+                      <TabPanel value="1">
+                        <Box display="flex" flexDirection="column">
+                          <Box
+                            display="flex"
+                            justifyContent="space-between"
+                            alignItems="center"
+                            marginBottom="14px"
+                          >
+                            Edit Stakeholder{" "}
+                            <Button
+                              onClick={() => setEdit(false)}
+                              variant="contained"
+                              color="secondary"
+                              size="small"
+                            >
+                              Close
+                            </Button>
+                          </Box>
+                          <Box display="flex" gap="24px" flexDirection="column">
+                            <TextField
+                              className={myClass.input}
+                              label="Name"
+                              variant="outlined"
+                              value={
+                                aStakeholder.name !== undefined &&
+                                aStakeholder.name
+                              }
+                              fullWidth={true}
+                              size="small"
+                              onChange={(e) =>
+                                handleChanges({ name: e.target.value })
+                              }
+                            />
+                            <TextField
+                              className={myClass.input}
+                              label="Email"
+                              variant="outlined"
+                              value={
+                                aStakeholder.email !== undefined &&
+                                aStakeholder.email
+                              }
+                              fullWidth={true}
+                              size="small"
+                            />
+                            <TextField
+                              className={myClass.input}
+                              label="Phone"
+                              variant="outlined"
+                              value={
+                                aStakeholder.phone !== undefined &&
+                                aStakeholder.phone
+                              }
+                              fullWidth={true}
+                              size="small"
+                              onChange={(e) =>
+                                handleChanges({ phone: e.target.value })
+                              }
+                            />
+                            <FormControl>
+                              <label>Revenue</label>
+                              <Select
+                                onChange={handleRevenueChanges}
+                                value={newRevenues}
+                                isMulti={true}
+                                options={revenues
+                                  .filter((rev) => {
+                                    return user.revenueStreams.includes(
+                                      rev.revenue_id
+                                    );
+                                  })
+                                  .map((rev) => {
+                                    return {
+                                      label: rev.title.toUpperCase(),
+                                      value: rev.revenue_id,
+                                    };
+                                  })}
+                              />
+                            </FormControl>
 
-                        <Button onClick={editUser}>Update</Button>
-                      </Box>
-                    </Box>
+                            <Button variant="contained" onClick={editUser}>
+                              Update
+                            </Button>
+                          </Box>
+                        </Box>
+                      </TabPanel>
+                      <TabPanel value="2">
+                        <Box display="flex" flexDirection="column">
+                          {!newpass ? (
+                            <>
+                              {" "}
+                              <DialogTitle>
+                                Do you want to reset password for{" "}
+                                {aStakeholder.name}?
+                              </DialogTitle>
+                              <Box
+                                display="flex"
+                                justifyContent="space-between"
+                              >
+                                <Button
+                                  onClick={() => setEdit(false)}
+                                  color="secondary"
+                                  variant="contained"
+                                  size="small"
+                                >
+                                  No
+                                </Button>{" "}
+                                <Button
+                                  onClick={() => {
+                                    resetPass();
+                                  }}
+                                  color="primary"
+                                  variant="contained"
+                                  size="small"
+                                >
+                                  Yes
+                                </Button>
+                              </Box>{" "}
+                            </>
+                          ) : (
+                            <Box display="flex" justifyContent="space-between">
+                              <Alert severity="success"> {newpass}</Alert>
+                              <IconButton
+                                onClick={() => {
+                                  setNewpass("");
+                                  setEdit(false);
+                                }}
+                              >
+                                <Close />
+                              </IconButton>
+                            </Box>
+                          )}
+                        </Box>
+                      </TabPanel>
+                    </TabContext>
                   </DialogContent>
                 </Dialog>
               </Modal>
