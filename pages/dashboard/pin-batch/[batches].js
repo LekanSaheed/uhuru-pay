@@ -220,7 +220,7 @@ const Batches = () => {
                 <TableCell className={myClass.cellHead}>Size</TableCell>
                 <TableCell className={myClass.cellHead}>Amount</TableCell>
                 <TableCell className={myClass.cellHead}>Active Pins</TableCell>
-                <TableCell className={myClass.cellHead}>Unused pins</TableCell>
+                <TableCell className={myClass.cellHead}>Used pins</TableCell>
                 <TableCell className={myClass.cellHead}>Discount</TableCell>
                 <TableCell className={myClass.cellHead}>Area Code</TableCell>
                 <TableCell className={myClass.cellHead}>Date Created</TableCell>
@@ -265,7 +265,9 @@ const Batches = () => {
                           {aBatch.amount}
                         </TableCell>
                         <TableCell className={myClass.cell}>
-                          {aBatch.activePins}
+                          {aBatch.isActive === false
+                            ? 0
+                            : aBatch.size - aBatch.activePins}
                         </TableCell>
                         <TableCell className={myClass.cell}>
                           {aBatch.size - aBatch.activePins}
