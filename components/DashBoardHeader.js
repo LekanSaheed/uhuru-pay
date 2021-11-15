@@ -1,6 +1,6 @@
 import classes from "./DashBoardHeader.module.css";
 import { RiAlignLeft, RiNotification3Line } from "react-icons/ri";
-import { GiExpand } from "react-icons/gi";
+import { GiContract, GiExpand } from "react-icons/gi";
 import { GrSearch } from "react-icons/gr";
 import { BsChatDotsFill, BsPerson } from "react-icons/bs";
 import { BiLogOut } from "react-icons/bi";
@@ -8,6 +8,7 @@ import React from "react";
 import { useGlobalContext } from "../context/context";
 import { useRouter } from "next/router";
 const DashBoardHeader = () => {
+  const [isExpand, setExpand] = React.useState(false);
   const data = [{ id: 1, icon: <RiAlignLeft /> }];
   const rightIcons = [
     { id: 1, icon: "" },
@@ -17,7 +18,7 @@ const DashBoardHeader = () => {
 
   /* View in fullscreen */
   function openFullscreen() {
-    var elem = typeof window !== "undefined" && document;
+    var elem = typeof window !== "undefined" && document.documentElement;
     if (elem.requestFullscreen) {
       elem.requestFullscreen();
     } else if (elem.webkitRequestFullscreen) {
@@ -29,22 +30,21 @@ const DashBoardHeader = () => {
     }
   }
 
-  // /* Close fullscreen */
-  // function closeFullscreen() {
-  //   if (document.exitFullscreen) {
-  //     document.exitFullscreen();
-  //   } else if (document.webkitExitFullscreen) {
-  //     /* Safari */
-  //     document.webkitExitFullscreen();
-  //   } else if (document.msExitFullscreen) {
-  //     /* IE11 */
-  //     document.msExitFullscreen();
-  //   }
-  // }
+  /* Close fullscreen */
+  function closeFullscreen() {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+      /* Safari */
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) {
+      /* IE11 */
+      document.msExitFullscreen();
+    }
+  }
   const { dispatch, logout } = useGlobalContext();
 
   React.useEffect(() => {
-    openFullscreen();
     document.addEventListener("fullscreenerror", () => {
       alert("Full Screen not available in this mode");
     });
@@ -77,18 +77,33 @@ const DashBoardHeader = () => {
       </div>
 
       <div className={classes.header_right}>
-        <span
-          onClick={openFullscreen}
-          className={`${classes.icon} ${classes.lg}`}
-        >
-          <GiExpand />
-        </span>
-        <div className={classes.header_search}>
+        {isExpand ? (
+          <span
+            onClick={() => {
+              closeFullscreen();
+              setExpand(false);
+            }}
+            className={`${classes.icon} ${classes.lg}`}
+          >
+            <GiContract />
+          </span>
+        ) : (
+          <span
+            onClick={() => {
+              openFullscreen();
+              setExpand(true);
+            }}
+            className={`${classes.icon} ${classes.lg}`}
+          >
+            <GiExpand />
+          </span>
+        )}
+        {/* <div className={classes.header_search}>
           <input placeholder="Search" type="search" />
           <span className={classes.icon}>
             <GrSearch />
           </span>
-        </div>
+        </div> */}
         <div className={classes.path_container}>
           {React.Children.toArray(
             rightIcons.map((icon) => {

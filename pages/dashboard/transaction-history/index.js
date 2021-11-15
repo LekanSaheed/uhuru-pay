@@ -18,7 +18,7 @@ const History = () => {
       width: 150,
       editable: true,
       headerClassName: "header",
-      cellClassName: "cell",
+      cellClassName: "cell revenueCell",
     },
     {
       field: "amount",
@@ -105,30 +105,40 @@ const History = () => {
   ];
   const useStyles = makeStyles({
     root: {
+      backgroundColor: "#fff",
+      boxShadow: "0 0 10px rgba(0 0 0 /0.1)",
       "& .header": {
-        background: "#4bc2bc",
-        color: "white",
-        fontWeight: "600",
+        color: "#4bc2bc",
+        fontWeight: "700",
       },
       "& .cell": {
-        borderBottom: "solid 1px #4bc2bc",
+        borderBottom: "solid 1px whitesmoke",
+        fontFamily: "brFirma",
       },
+      "& .revenueCell": {
+        color: "dodgerblue",
+      },
+    },
+    background: {
+      minHeight: "100vh",
     },
   });
   const classes = useStyles();
   return (
     <DashboardWrapper>
-      <ThemedProgress />
-      <div style={{ height: 400, width: "100%" }}>
-        <DataGrid
-          className={classes.root}
-          rows={rows}
-          columns={columns}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
-          checkboxSelection
-          disableSelectionOnClick
-        />
+      <div className={classes.background}>
+        <ThemedProgress />
+        <div style={{ height: 400, width: "100%" }}>
+          <DataGrid
+            className={classes.root}
+            rows={rows}
+            columns={columns}
+            pageSize={5}
+            rowsPerPageOptions={[15]}
+            checkboxSelection
+            disableSelectionOnClick
+          />
+        </div>
       </div>
     </DashboardWrapper>
   );

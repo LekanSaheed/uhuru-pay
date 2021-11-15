@@ -40,7 +40,7 @@ const Wallet = () => {
               .map((i) => i.reduce((a, b) => a + b, 0))
               .reduce((a, b) => a + b, 0);
             setFunds(reducedFunds);
-            console.log(funds);
+
             setLoading(false);
           } else {
             toast.error(data.error);
@@ -51,9 +51,6 @@ const Wallet = () => {
   };
   useEffect(() => {
     fetchFunds();
-    setInterval(() => {
-      fetchFunds();
-    }, 60000);
   }, []);
 
   return (

@@ -5,10 +5,15 @@ import {
   FcPieChart,
   FcSettings,
 } from "react-icons/fc";
+import { AiOutlineSetting } from "react-icons/ai";
+import { BiMessageSquareDetail } from "react-icons/bi";
+import { GrFormView } from "react-icons/gr";
 import React from "react";
 import { useRouter } from "next/router";
 import { Button, Dialog, DialogContent, Modal } from "@material-ui/core";
 import { Box } from "@mui/system";
+import { MdOutlineHistory } from "react-icons/md";
+import { RiEyeLine } from "react-icons/ri";
 
 const GridCard = () => {
   const [modal, setModal] = React.useState(false);
@@ -17,18 +22,18 @@ const GridCard = () => {
       icon: <FcBusinessman />,
       title: "Account Info",
       details:
-        "See your profile data and manage your Account to choose what is saved in our system.",
-      linkText: "Edit",
-      linkIcon: "",
+        "See your profile data and manage your Account to choose what is saved with us.",
+      linkText: "View",
+      linkIcon: <RiEyeLine />,
       link: "/dashboard/profile",
     },
     {
       icon: <FcSettings />,
-      title: "Security Settings",
+      title: "Settings",
       details:
         "You have full control to manage your own account and keep account fully secure.",
-      linkText: "Account Security Settings",
-      linkIcon: "",
+      linkText: "Account Settings",
+      linkIcon: <AiOutlineSetting />,
       link: "/dashboard/profile/change-password",
     },
 
@@ -36,20 +41,20 @@ const GridCard = () => {
       icon: <FcAreaChart />,
       title: "Tax Details",
       details:
-        "Check out all your payment history. You can also download or print your invoice.",
+        "Check out all your slated revenues. You can also generate pins for your revenues.",
       linkText: "Details",
-      linkIcon: "",
-      link: "",
+      linkIcon: <BiMessageSquareDetail />,
+      link: "/dashboard/all-revenues",
     },
 
     {
       icon: <FcPieChart />,
-      title: "Report",
+      title: "History",
       details:
-        "Check your reports of uses and manage your packages or subscriptions that you have.",
+        "Check your history on transactions and manage your packages that you have.",
       linkText: "Details",
-      linkIcon: "",
-      link: "",
+      linkIcon: <MdOutlineHistory />,
+      link: "", //"/dashboard/transaction-history",
     },
   ];
   const router = useRouter();
@@ -88,7 +93,23 @@ const GridCard = () => {
                 <div className={classes.title}>{card.title}</div>
                 <div style={{ textAlign: "center" }}>{card.details}</div>
               </div>
-              <div className={classes.cardBottom}>{card.linkText}</div>
+              <Box
+                display="flex"
+                borderTop="solid 1px #f2f4f4"
+                className={classes.cardBottom}
+                alignItems="center"
+                gap="10px"
+              >
+                <Box
+                  display="flex"
+                  color="#329A92"
+                  alignItems="center"
+                  justifyContent="center"
+                >
+                  {card.linkIcon}
+                </Box>
+                <div style={{ color: "#BB4077" }}>{card.linkText}</div>
+              </Box>
             </div>
           );
         })
