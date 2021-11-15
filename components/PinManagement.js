@@ -63,7 +63,7 @@ const PinManagement = () => {
     if (!token) {
       logout();
     }
-    const num = 10;
+
     const url = `${baseUrl}/pin/${selected.value}/generate`;
     const requestOptions = {
       method: "POST",
@@ -82,6 +82,10 @@ const PinManagement = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
+          setAreaCode("");
+          setDiscount("");
+          setSize("");
+          setSelected("");
           toast.success("Pin generated Successfully");
         } else {
           toast.error(data.error);

@@ -51,6 +51,26 @@ body {
   color: #4bc2bc;
   font-weight: 700;
 }
+input[type="text"],
+textarea {
+  background-color: #fff;
+}
+input[type="color"] {
+  -webkit-appearance: none;
+}
+input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+input[type="color"]::-webkit-color-swatch {
+  border: none;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  box-shadow: 0 0 0 30px white inset !important;
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
 a {
   color: inherit;
   text-decoration: none;

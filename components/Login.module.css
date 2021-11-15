@@ -1,7 +1,19 @@
 .form {
-  width: 300px;
+  width: 350px;
   display: flex;
   flex-direction: column;
+  background-color: white;
+  border-radius: 10px;
+  padding: 17px;
+  border: solid 2px #efefef;
+}
+.input_flex {
+  display: flex;
+  align-items: center;
+  border: solid 2px #4bc2bc;
+  border-radius: 5px;
+  padding: 0 10px;
+  background-color: white;
 }
 
 .login_container {
@@ -16,14 +28,35 @@
   bottom: 0;
   background-color: #f4f6f8;
   margin-top: -100px;
+
+  margin-top: 3px;
 }
 .input_container {
   width: 100%;
+  margin-bottom: 20px;
+}
+.input_container input:focus > .input_flex {
+  border-color: teal;
+}
+
+.input_container input {
+  width: 100%;
+  box-sizing: border-box;
   padding: 10px;
+  border: none;
+  font-size: 14px;
+  outline: none;
+  background: transparent;
+  -webkit-appearance: none;
+  border: none;
+  transition: 0.3s;
 }
 .form button {
-  margin: 10px;
-  padding: 20px;
+  height: 50px;
+  display: flex;
+  box-sizing: content-box;
+  align-items: center;
+  justify-content: center;
   color: white;
   text-align: center;
   font-weight: 600;
@@ -35,7 +68,9 @@
   margin-top: 13px;
 }
 .input_container label {
-  margin-bottom: 7px;
+  margin-bottom: 1px;
+  display: block;
+  font-size: 13px;
 }
 .spinner {
   font-size: 20px;
@@ -70,29 +105,29 @@
   transform: scale(1.01);
 }
 .vis_toggle {
-  position: absolute;
-  margin-left: -50px;
   cursor: pointer;
-  margin-top: 14px;
   font-size: 23px;
 }
-.input_container input {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 10px;
-  border: solid 1px #4bc2bc;
-  margin-top: 7px;
+
+.formText {
+  font-weight: 600;
   font-size: 14px;
-  border-radius: 5px;
-  outline-color: #6ff1eb;
-  transition: 0.3s;
-  background-color: #fff;
 }
 @media (min-width: 767px) {
   .form {
-    width: 500px;
+    width: 550px;
     display: flex;
     flex-direction: column;
+    margin-top: 20px;
+  }
+  .formText {
+    font-weight: 600;
+    font-size: 22px;
+  }
+  .input_container label {
+    margin-bottom: 2px;
+    display: block;
+    font-size: 16px;
   }
 
   .login_container {
@@ -106,15 +141,17 @@
     right: 0;
     bottom: 0;
     background-color: #f4f6f8;
-    margin-top: -100px;
+    padding-top: 70px;
   }
   .input_container {
     width: 100%;
     padding: 10px;
   }
+  .icon {
+    font-size: 20px;
+  }
   .form button {
     margin: 10px;
-    padding: 25px;
     color: white;
     text-align: center;
     font-weight: 600;
@@ -168,18 +205,12 @@
     width: 100%;
     box-sizing: border-box;
     padding: 15px;
-    border: solid 2px #4bc2bc;
-    margin-top: 7px;
-    font-size: 18px;
     border-radius: 5px;
-    outline-color: #6ff1eb;
     transition: 0.3s;
   }
   .vis_toggle {
-    position: absolute;
-    margin-left: -50px;
     cursor: pointer;
-    margin-top: 20px;
+    margin-top: 10px;
     font-size: 26px;
   }
 }

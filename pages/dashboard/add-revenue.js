@@ -5,7 +5,14 @@ import Select from "react-select";
 import { useGlobalContext } from "../../context/context";
 import classes from "./add-revenue.module.css";
 import toast from "react-hot-toast";
-import { Button } from "@material-ui/core";
+import {
+  Button,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+} from "@material-ui/core";
+import { RadioGroup, Radio } from "@material-ui/core";
+import { Box } from "@mui/system";
 export default function AddRevenue() {
   const { user, setUser } = useGlobalContext();
   const url = `${baseUrl}/revenue/new`;
@@ -13,7 +20,7 @@ export default function AddRevenue() {
   const [amount, setAmount] = useState("");
   const [comment, setComment] = useState("");
   const [category, setCategory] = useState({});
-
+  const [isPin, setIsPin] = useState(true);
   const options = [
     { label: "Transport", value: "transport" },
     { label: "Street Naming", value: "street_naming" },
@@ -126,6 +133,37 @@ export default function AddRevenue() {
               })}
             />
           </div>
+          <FormControl component="fieldset">
+            <FormLabel component="legend">Revenue uses pin.</FormLabel>
+            <Box display="flex" flexDirection="column">
+              <label>
+                {" "}
+                <input
+                  name="isPin"
+                  onChange={() => {
+                    setIsPin(true);
+                    console.log(isPin);
+                  }}
+                  value={true}
+                  type="radio"
+                />{" "}
+                Yes
+              </label>
+              <label>
+                {" "}
+                <input
+                  onChange={() => {
+                    setIsPin(false);
+                    console.log(isPin);
+                  }}
+                  name="isPin"
+                  value={false}
+                  type="radio"
+                />{" "}
+                No
+              </label>
+            </Box>
+          </FormControl>
           <div className={classes.input_container}>
             <label>Comment</label>
             <input

@@ -1,8 +1,7 @@
 import Link from "next/link";
 import React, { useEffect, useReducer, useState } from "react";
 import { useGlobalContext } from "../context/context";
-import { defaultState } from "../context/defaultState";
-import { reducer } from "../context/reducer";
+
 import DashBoard from "./dashboard";
 import Login from "./login";
 

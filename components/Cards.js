@@ -12,7 +12,8 @@ const Cards = () => {
   const [taxPayers, setTaxPayers] = useState([]);
   const [collectionRate, setCollectionRate] = useState([]);
   const { user } = useGlobalContext();
-  const [totalPins, setTotalPins] = useState([]);
+  const [activePins, setActivePins] = useState([]);
+
   const fetchWeek = async () => {
     const url = `${baseUrl}/info/week`;
     const token =
@@ -46,7 +47,7 @@ const Cards = () => {
   };
   const fetchActivePins = async () => {
     const codes = user.revenueStreams;
-    codes.forEach((code) => {
+    codes.forEach(async (code) => {
       const url = `${baseUrl}/pin/${code}/batchs`;
       const token =
         typeof window !== "undefined" && localStorage.getItem("accessToken");
@@ -60,33 +61,43 @@ const Cards = () => {
           Authorization: `Bearer ${token}`,
         },
       };
-      fetch(url, requestOptions)
+      await fetch(url, requestOptions)
         .then((res) => res.json())
         .then((data) => {
           if (data.success) {
-            data.data.forEach((item) => {
-              fetch(
-                `https://upay-api.herokuapp.com/pin/${item.batch_no}/info`,
-                { method: "GET", headers: { Authorization: `Bearer ${token}` } }
-              )
-                .then((res) => res.json())
-                .then((data) => {
-                  myPin.push(data.active);
-                  console.log(myPin, "pin");
-                  setTotalPins(myPin.reduce((a, b) => a + b, 0));
-                  console.log(totalPins.reduce((a, b) => a + b, 0));
-                  setLoading(false);
-                });
-            });
-          } else {
+            const activePin = data.data.map((data) => data.activePins);
+            myPin.push(activePin);
+
+            const reducePins = myPin.map((pin) =>
+              pin.reduce((a, b) => a + b, 0)
+            );
+            setActivePins(reducePins);
+            console.log();
             setLoading(false);
-            toast.error(data.error);
-            console.log(data.error);
+            // data.data.forEach((item) => {
+            //   fetch(
+            //     `https://upay-api.herokuapp.com/pin/${item.batch_no}/info`,
+            //     { method: "GET", headers: { Authorization: `Bearer ${token}` } }
+            //   )
+            //     .then((res) => res.json())
+            //     .then((data) => {
+            //       myPin.push(data.active);
+            //       console.log(data, item.batch_no);
+            //       setTotalPins(myPin.reduce((a, b) => a + b, 0));
+            //       console.log(totalPins.reduce((a, b) => a + b, 0));
+            //       setLoading(false);
+            //     });
+            // });
           }
-        })
-        .catch((err) => {
-          toast.error("Error Fetching Data: " + err.message);
+          // else {
+          //   setLoading(false);
+          //   toast.error(data.error);
+          //   console.log(data.error);
+          // }
         });
+      // .catch((err) => {
+      //   toast.error("Error Fetching Data: " + err.message);
+      // });
     });
   };
 
@@ -170,7 +181,7 @@ const Cards = () => {
         title="Total Active pins"
         type="pins"
         detail=""
-        pin={totalPins}
+        pin={activePins.reduce((a, b) => a + b, 0)}
         loaading={loading}
       />
       <ACard

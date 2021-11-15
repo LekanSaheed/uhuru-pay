@@ -4,11 +4,18 @@ import { useGlobalContext } from "../context/context";
 import classes from "./Login.module.css";
 import { useRouter } from "next/router";
 import React from "react";
-import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
+import {
+  AiFillEyeInvisible,
+  AiFillEye,
+  AiOutlineUser,
+  AiOutlineLock,
+  AiOutlineUnlock,
+} from "react-icons/ai";
 import { ImSpinner } from "react-icons/im";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import toast from "react-hot-toast";
+import ThemedProgress from "./ThemedProgress";
 const Form = () => {
   const router = useRouter();
 
@@ -19,7 +26,8 @@ const Form = () => {
   const { user, isUser, setToken, setUser } = useGlobalContext();
   const [error, setError] = useState("");
   React.useEffect(() => {
-    if (isUser || user.name !== undefined) {
+    const token = localStorage.getItem("accessToken");
+    if (token || isUser || user.name !== undefined) {
       router.push("/dashboard");
     }
   }, []);
@@ -38,7 +46,7 @@ const Form = () => {
       await fetch(url, requestOptions)
         .then((res) => res.json())
         .then(async (data) => {
-          if (data.success === true) {
+          if (data.success) {
             const token = data.token;
             const requestOptions = {
               method: "GET",
@@ -96,9 +104,8 @@ const Form = () => {
 
   return (
     <div className={classes.login_container}>
-      <div style={{ padding: "10px" }}>
-        <Image width={200} height={50} src="/WORDMARK.png" alt="Upay logo" />
-      </div>
+      {isLoading && <ThemedProgress />}
+
       <motion.div
         animate="visible"
         initial="hidden"
@@ -116,31 +123,47 @@ const Form = () => {
           },
         }}
       >
-        <span style={{ fontWeight: "600", fontSize: "22px" }}>
-          Login to your dashboard
-        </span>
+        <span className={classes.formText}>Login to your dashboard</span>
       </motion.div>
       <span style={{ color: "red" }}>{error}</span>
       <form className={classes.form}>
+        <div
+          style={{ padding: "10px", display: "flex", justifyContent: "center" }}
+        >
+          <Image width={200} height={50} src="/WORDMARK.png" alt="Upay logo" />
+        </div>
         <div className={classes.input_container}>
           <label>Username</label>
-          <input
-            value={username}
-            placeholder="Username"
-            onChange={(e) => setUsername(e.target.value)}
-          />
+          <div className={classes.input_flex}>
+            {" "}
+            <AiOutlineUser className={classes.icon} />
+            <input
+              value={username}
+              placeholder="Username"
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </div>
         </div>
         <div className={classes.input_container}>
           <label>Password</label>
-          <input
-            value={password}
-            placeholder="Password"
-            type={type ? "password" : "text"}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <span onClick={() => setType(!type)} className={classes.vis_toggle}>
-            {type ? <AiFillEyeInvisible /> : <AiFillEye />}
-          </span>
+
+          <div className={classes.input_flex}>
+            {isUser ? (
+              <AiOutlineUnlock className={classes.icon} />
+            ) : (
+              <AiOutlineLock className={classes.icon} />
+            )}
+            <input
+              value={password}
+              placeholder="Password"
+              type={type ? "password" : "text"}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+
+            <span onClick={() => setType(!type)} className={classes.vis_toggle}>
+              {type ? <AiFillEyeInvisible /> : <AiFillEye />}
+            </span>
+          </div>
         </div>
 
         <button

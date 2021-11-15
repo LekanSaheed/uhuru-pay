@@ -11,7 +11,10 @@ const ACard = ({
   payer,
 }) => {
   // Total Collection || Total active pins || Total Tax Payers \\ Collection rate
-  console.log(collection, pin, rate, payer, "acard");
+  console.log(pin, "acard");
+  if (loading) {
+    return "loading";
+  }
   return (
     <div className={classes.cards}>
       <span className={classes.title}>{title}</span>

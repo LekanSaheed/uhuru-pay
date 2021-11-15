@@ -13,7 +13,6 @@ import {
   Paper,
   makeStyles,
   CircularProgress,
-  LinearProgress,
   Box,
 } from "@material-ui/core";
 import Row from "./TableRow";
@@ -22,6 +21,7 @@ import { Tab } from "@mui/material";
 import { TabContext } from "@material-ui/lab";
 import { TabList } from "@material-ui/lab";
 import { TabPanel } from "@material-ui/lab";
+import ThemedProgress from "./ThemedProgress";
 
 const url = `${baseUrl}/revenue/list`;
 
@@ -155,7 +155,7 @@ const Revenues = () => {
           </TabPanel>
         </TabContext>
       </Box>
-      {loading && <LinearProgress />}
+      {loading && <ThemedProgress />}
       {loading && (
         <div
           style={{
