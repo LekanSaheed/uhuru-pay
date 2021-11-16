@@ -42,10 +42,12 @@ const ACard = ({
             ? // ? rate.reduce((a, b) => a + b.count, 0) / pin &&
               pin
             : 0} */}
-          {(rate * 100).toLocaleString(undefined, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}
+          {rate
+            ? (rate * 100).toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })
+            : "0"}
           %
         </span>
       )}

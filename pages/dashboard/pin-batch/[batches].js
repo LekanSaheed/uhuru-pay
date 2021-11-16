@@ -265,12 +265,12 @@ const Batches = () => {
                           {aBatch.amount}
                         </TableCell>
                         <TableCell className={myClass.cell}>
-                          {aBatch.isActive
-                            ? aBatch.size - aBatch.activePins
-                            : "-"}
+                          {aBatch.isActive ? aBatch.activePins : "-"}
                         </TableCell>
                         <TableCell className={myClass.cell}>
-                          {aBatch.size - aBatch.activePins}
+                          {aBatch.activePins
+                            ? aBatch.size - aBatch.activePins
+                            : "-"}
                         </TableCell>
                         <TableCell className={myClass.cell}>
                           {aBatch.discount === null || aBatch.discount === 0
