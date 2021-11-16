@@ -102,7 +102,7 @@ const Cards = () => {
   };
 
   const fetchTaxPayers = async () => {
-    const url = `${baseUrl}/payer/list`;
+    const url = `${baseUrl}/payer/dash`;
     const token =
       typeof window !== "undefined" && localStorage.getItem("accessToken");
     if (!token) {
@@ -119,6 +119,7 @@ const Cards = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
+          console.log(data, "card");
           setTaxPayers(data.data);
           setLoading(false);
         } else {
@@ -175,32 +176,41 @@ const Cards = () => {
         type="week"
         detail=""
         collection={weekInfo}
-        loaading={loading}
+        loading={loading}
       />
       <ACard
         title="Total Active pins"
         type="pins"
         detail=""
         pin={activePins.reduce((a, b) => a + b, 0)}
-        loaading={loading}
+        loading={loading}
       />
       <ACard
         title="Tax Payers"
         detail=""
         type="payers"
-        payer={taxPayers}
-        loaading={loading}
+        payers={taxPayers.length}
+        loading={loading}
       />
-      <ACard
-        title="Collection Rate"
-        type="rate"
-        detail=""
-        rate={
-          weekInfo.reduce((a, b) => a + b.count, 0) /
-          activePins.reduce((a, b) => a + b, 0)
-        }
-        loaading={loading}
-      />
+      {user.role === "admin" ? (
+        <ACard
+          title="Collection Volume"
+          type="volume"
+          volume={weekInfo.reduce((a, b) => a + b.amount, 0)}
+          loading={loading}
+        />
+      ) : (
+        <ACard
+          title="Collection Rate"
+          type="rate"
+          detail=""
+          rate={
+            weekInfo.reduce((a, b) => a + b.count, 0) /
+            activePins.reduce((a, b) => a + b, 0)
+          }
+          loading={loading}
+        />
+      )}
     </div>
   );
 };

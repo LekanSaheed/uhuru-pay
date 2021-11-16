@@ -97,15 +97,15 @@ export const defaultState = {
         },
       ],
     },
-    {
-      text: "Analytics",
-      dropdown: [
-        {
-          text: "Transaction History",
-          icon: <MdHistory />,
-          link: "/transaction-history",
-        },
-      ],
-    },
+    // {
+    //   text: "Analytics",
+    //   dropdown: [
+    //     {
+    //       text: "Transaction History",
+    //       icon: <MdHistory />,
+    //       link: "/transaction-history",
+    //     },
+    //   ],
+    // },
   ],
 };

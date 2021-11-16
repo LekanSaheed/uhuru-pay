@@ -40,7 +40,7 @@ const DashBoardMain = () => {
           </div>
         </div>
         <GridCard />
-        {/* <Graph /> */}
+        <Graph />
       </motion.div>
     </MainWrapper>
   );

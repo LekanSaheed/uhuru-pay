@@ -31,7 +31,7 @@ const Wallet = () => {
           if (data.success) {
             // console.log(data);
             const filtered = data.data
-              .filter((batch) => batch.isActive)
+              .filter((batch) => batch.isDispatched)
               .map((batch) => (batch.amount - batch.discount) * batch.size);
             // .reduce((a, b) => a + b, 0);
 

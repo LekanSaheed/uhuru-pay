@@ -132,9 +132,6 @@ const AllStakeHolders = () => {
 
   React.useEffect(() => {
     fetchMembers();
-    if (!user.name) {
-      logout();
-    }
   }, []);
 
   const handleChanges = (data) => {

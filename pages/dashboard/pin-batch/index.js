@@ -28,6 +28,8 @@ import SearchBar from "material-ui-search-bar";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import ThemedProgress from "../../../components/ThemedProgress";
+import Select from "react-select";
+
 const Batch = () => {
   const router = useRouter();
   const [batch, setBatch] = useState([]);
@@ -36,7 +38,18 @@ const Batch = () => {
   const [loading, setLoading] = useState(true);
   const { logout } = useGlobalContext();
   const [searched, setSearched] = useState("");
+  const [selected, setSelected] = useState({});
   const oldBatch = batch;
+
+  const options =
+    revenues.length > 0
+      ? revenues.map((rev) => {
+          return {
+            label: rev.title.toUpperCase(),
+            value: rev.revenue_id,
+          };
+        })
+      : [];
   const requestSearch = (e) => {
     batch.filter((aBatch) => {
       const isSearched = aBatch.batch_no
@@ -61,7 +74,7 @@ const Batch = () => {
       fontSize: "13px !important",
     },
     cellHead: {
-      fontWeight: "700",
+      fontWeight: "800",
       color: "#fff",
       fontSize: "11px",
     },
@@ -71,17 +84,26 @@ const Batch = () => {
     },
     greenBtn: {
       backgroundColor: "#4bc2bc",
+      "&:hover": {
+        background: "#4bc2bc90",
+      },
     },
     active: {
       color: "goldenrod",
-      fontWeight: "700",
+      fontWeight: "500",
     },
     inActive: {
       color: "green",
-      fontWeight: "700",
+      fontWeight: "500",
     },
     serial: {
-      fontWeight: "700",
+      fontWeight: "800",
+    },
+    tRow: {
+      "&:hover": {
+        background: "#4bc2bc11",
+        transition: "0.3s",
+      },
     },
   }));
   const myClass = useStyle();
@@ -102,7 +124,7 @@ const Batch = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.success === true) {
-          setRevenues(data.data);
+          setRevenues(data.data.filter((rev) => rev.status === "approved"));
           setLoading(false);
         } else {
           setLoading(false);
@@ -185,7 +207,94 @@ const Batch = () => {
     const batch = pin[0].slice(-6);
     doc.save("batch" + batch + ".pdf");
   };
+  const getBatch = async (revenueCode) => {
+    setLoading(true);
+    setBatch([]);
+    const url = `${baseUrl}/pin/${revenueCode}/batchs`;
+    const token =
+      typeof window !== "undefined" && localStorage.getItem("accessToken");
+    if (!token) {
+      logout();
+      toast.error("You need to log in again");
+    }
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    fetch(url, requestOptions)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && data.data.length > 0) {
+          setBatch(data.data);
+          setLoading(false);
+          console.log(data);
+          setPin([]);
+          toast.success("success");
+        } else if (data.success && data.data.length < 1) {
+          toast.error("No batch created");
+          setBatch([]);
+          setLoading(false);
+          setPin([]);
+        } else {
+          setLoading(false);
+          console.log(data.error);
+          toast.error(data.error);
+          setBatch([]);
+          setPin([]);
+        }
+      })
+      .catch((err) => {
+        setBatch([]);
+        setPin([]);
+        toast.error(err.message);
+        setLoading(false);
+      });
+  };
+  const handleSelected = (current) => {
+    setSelected(current);
 
+    getBatch(current.value);
+  };
+
+  const dispatchBatch = async (batchNo, code) => {
+    const url = `${baseUrl}/pin/${batchNo}/dispatch`;
+    const token =
+      typeof window !== "undefined" && localStorage.getItem("accessToken");
+    if (!token) {
+      logout();
+      toast.error("You need to log in again");
+    }
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    fetch(url, requestOptions)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          toast.success(data.message);
+          setLoading(false);
+          getBatch(code);
+          setPin([]);
+        } else {
+          setLoading(false);
+          console.log(data.error);
+          toast.error(data.error);
+          setBatch([]);
+          setPin([]);
+        }
+      })
+      .catch((err) => {
+        setBatch([]);
+        setPin([]);
+        toast.error(err.message);
+        setLoading(false);
+      });
+  };
   return (
     <DashBoardWrapper>
       {loading && <ThemedProgress />}
@@ -199,14 +308,19 @@ const Batch = () => {
         animate="visible"
         className={classes.container}
       >
-        <motion.div
-          variants={contVariant}
-          className={classes.revenue_container}
-        >
+        <motion.div variants={contVariant}>
           <div className={classes.revenue_header}>
-            <span>Revenue</span> <span>Amount</span>
+            <span>Select Revenue</span>
           </div>
-          {revenues.length > 0
+
+          <Select
+            options={options}
+            value={selected}
+            onChange={handleSelected}
+            menuPortalTarget={typeof window !== "undefined" && document.body}
+            styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
+          />
+          {/* {revenues.length > 0
             ? revenues.map((rev, idx) => {
                 return (
                   <Link key={idx} href={`${router.pathname}/${rev.revenue_id}`}>
@@ -225,140 +339,146 @@ const Batch = () => {
                   // </div>
                 );
               })
-            : `You don't have any revenue to generate a pin`}
+            : `You don't have any revenue to generate a pin`} */}
         </motion.div>
         <motion.div
           variants={contVariant}
           className={`${classes.group} batchTable`}
         >
-          {batch.length > 0 && (
-            <motion.div variant={contVariant} className={classes.root}>
-              {" "}
+          {batch.length > 0 ? (
+            <TableContainer className={myClass.table}>
+              <SearchBar />
               <TableContainer>
-                <SearchBar
-                  value={searched}
-                  onChange={(searchVal) => requestSearch(searchVal)}
-                  onCancelSearch={() => cancelSearch()}
-                />
-                <TableContainer>
-                  <StyledHead>
-                    <TableRow>
-                      <TableCell
-                        className={myClass.cellHead}
-                        component="th"
-                        scope="row"
-                      >
-                        S/N
-                      </TableCell>
-                      <TableCell
-                        className={myClass.cellHead}
-                        component="th"
-                        scope="row"
-                      >
-                        Batch Number
-                      </TableCell>
-                      <TableCell className={myClass.cellHead}>Status</TableCell>
-                      <TableCell className={myClass.cellHead}>Size</TableCell>
-                      <TableCell className={myClass.cellHead}>Amount</TableCell>
-                      <TableCell className={myClass.cellHead}>
-                        Active Pins
-                      </TableCell>
-                      <TableCell className={myClass.cellHead}>
-                        Used pins
-                      </TableCell>
-                      <TableCell className={myClass.cellHead}>
-                        Discount
-                      </TableCell>
-                      <TableCell className={myClass.cellHead}>
-                        Area Code
-                      </TableCell>
-                      <TableCell className={myClass.cellHead}>
-                        Date Created
-                      </TableCell>
-                      <TableCell className={myClass.cellHead}></TableCell>
-                    </TableRow>
-                  </StyledHead>
-                  <TableBody>
-                    {batch.length > 0
-                      ? batch.map((aBatch) => {
-                          return (
-                            <TableRow
-                              key={aBatch.batch_no}
-                              sx={{
-                                "&:last-child td, &:last-child th": {
-                                  border: 0,
-                                },
-                              }}
+                <StyledHead>
+                  <TableRow>
+                    <TableCell
+                      className={myClass.cellHead}
+                      component="th"
+                      scope="row"
+                    >
+                      S/N
+                    </TableCell>
+                    <TableCell
+                      className={myClass.cellHead}
+                      component="th"
+                      scope="row"
+                    >
+                      Batch Number
+                    </TableCell>
+                    <TableCell className={myClass.cellHead}>Status</TableCell>
+                    <TableCell className={myClass.cellHead}>Size</TableCell>
+                    <TableCell className={myClass.cellHead}>Amount</TableCell>
+                    <TableCell className={myClass.cellHead}>
+                      Active Pins
+                    </TableCell>
+                    <TableCell className={myClass.cellHead}>
+                      Used pins
+                    </TableCell>
+                    <TableCell className={myClass.cellHead}>Discount</TableCell>
+                    <TableCell className={myClass.cellHead}>
+                      Area Code
+                    </TableCell>
+                    <TableCell className={myClass.cellHead}>
+                      Date Created
+                    </TableCell>
+                    <TableCell className={myClass.cellHead}></TableCell>
+                  </TableRow>
+                </StyledHead>
+                <TableBody>
+                  {batch.length > 0
+                    ? batch.map((aBatch) => {
+                        return (
+                          <TableRow
+                            className={myClass.tRow}
+                            key={aBatch.batch_no}
+                            sx={{
+                              "&:last-child td, &:last-child th": {
+                                border: 0,
+                              },
+                            }}
+                          >
+                            <TableCell
+                              className={`${myClass.cell} ${myClass.serial}`}
                             >
-                              <TableCell
-                                className={`${myClass.cell} ${myClass.serial}`}
-                              >
-                                {batch.indexOf(aBatch) + 1}
-                              </TableCell>
-                              <TableCell className={myClass.cell}>
-                                {aBatch.batch_no}
-                              </TableCell>
-                              <TableCell
-                                component="th"
-                                scope="row"
-                                className={
-                                  !aBatch.isActive
-                                    ? myClass.active
-                                    : myClass.inActive
+                              {batch.indexOf(aBatch) + 1}
+                            </TableCell>
+                            <TableCell className={myClass.cell}>
+                              {aBatch.batch_no}
+                            </TableCell>
+                            <TableCell
+                              component="th"
+                              scope="row"
+                              className={
+                                !aBatch.isActive
+                                  ? myClass.active
+                                  : myClass.inActive
+                              }
+                            >
+                              {aBatch.isActive ? "Activated" : "Not Activated"}
+                            </TableCell>
+
+                            <TableCell className={myClass.cell}>
+                              {aBatch.size}
+                            </TableCell>
+                            <TableCell className={myClass.cell}>
+                              {aBatch.amount}
+                            </TableCell>
+                            <TableCell className={myClass.cell}>
+                              {aBatch.isActive ? aBatch.activePins : "-"}
+                            </TableCell>
+                            <TableCell className={myClass.cell}>
+                              {aBatch.activePins
+                                ? aBatch.size - aBatch.activePins
+                                : "-"}
+                            </TableCell>
+                            <TableCell className={myClass.cell}>
+                              {aBatch.discount === null || aBatch.discount === 0
+                                ? "No discount"
+                                : aBatch.discount}
+                            </TableCell>
+                            <TableCell className={myClass.cell}>
+                              {aBatch.area_code}
+                            </TableCell>
+
+                            <TableCell className={myClass.cell}>
+                              {moment(aBatch.created_At).format(
+                                "DD MMM YYYY hh:mm a"
+                              )}
+                            </TableCell>
+                            <TableCell className={myClass.cell}>
+                              <Button
+                                disabled={aBatch.isDispatched}
+                                className={myClass.greenBtn}
+                                variant="contained"
+                                color="primary"
+                                size="small"
+                                onClick={() =>
+                                  dispatchBatch(aBatch.batch_no, aBatch.revenue)
                                 }
                               >
-                                {aBatch.isActive
-                                  ? "Activated"
-                                  : "Not Activated"}
-                              </TableCell>
-
-                              <TableCell className={myClass.cell}>
-                                {aBatch.size}
-                              </TableCell>
-                              <TableCell className={myClass.cell}>
-                                {aBatch.amount}
-                              </TableCell>
-                              <TableCell className={myClass.cell}>
-                                {aBatch.activePins}
-                              </TableCell>
-                              <TableCell className={myClass.cell}>
-                                {aBatch.isActive === false
-                                  ? 0
-                                  : aBatch.size - aBatch.activePins}
-                              </TableCell>
-                              <TableCell className={myClass.cell}>
-                                {aBatch.discount === null ||
-                                aBatch.discount === 0
-                                  ? "No discount"
-                                  : aBatch.discount}
-                              </TableCell>
-                              <TableCell className={myClass.cell}>
-                                {aBatch.area_code}
-                              </TableCell>
-
-                              <TableCell className={myClass.cell}>
-                                {moment(aBatch.created_At).format(
-                                  "DD MMM YYYY hh:mm a"
-                                )}
-                              </TableCell>
-                              <TableCell className={myClass.cell}>
-                                <Button
-                                  variant="contained"
-                                  color="primary"
-                                  size="small"
-                                  onClick={() => getPin(aBatch.batch_no)}
-                                >
-                                  View
-                                </Button>
-                              </TableCell>
-                            </TableRow>
-                          );
-                        })
-                      : "No data available for this revenue"}
-                  </TableBody>
-                </TableContainer>
+                                Dispatch
+                              </Button>
+                            </TableCell>
+                            <TableCell className={myClass.cell}>
+                              <Button
+                                className={myClass.greenBtn}
+                                variant="contained"
+                                color="primary"
+                                size="small"
+                                onClick={() => getPin(aBatch.batch_no)}
+                              >
+                                View
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })
+                    : ""}
+                </TableBody>
               </TableContainer>
-            </motion.div>
+            </TableContainer>
+          ) : (
+            ""
           )}
           <div className="pinTable">
             {batch.length > 0 && pin.length > 0 && (

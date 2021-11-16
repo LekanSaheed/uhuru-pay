@@ -8,7 +8,8 @@ const ACard = ({
   loading,
   pin,
   rate,
-  payer,
+  payers,
+  volume,
 }) => {
   // Total Collection || Total active pins || Total Tax Payers \\ Collection rate
 
@@ -51,10 +52,11 @@ const ACard = ({
           %
         </span>
       )}
-
-      {type === "payers" && (
-        <span className={classes.figure}>{/* {payer.payers.length} */}</span>
+      {type === "volume" && (
+        <span className={classes.figure}>₦{volume ? volume : 0}</span>
       )}
+
+      {type === "payers" && <span className={classes.figure}>{payers}</span>}
       <br />
       <span className={classes.detail}>{detail}</span>
     </div>

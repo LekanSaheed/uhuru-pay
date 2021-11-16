@@ -4,7 +4,6 @@
   flex: 1 1 100%;
   padding-top: 10px;
   overflow: hidden;
-  height: 90vh;
 }
 .revenue_container:hover {
   overflow-y: auto;
@@ -95,7 +94,6 @@
   }
   .revenue_container {
     display: flex;
-    flex: 30%;
     flex-direction: column;
   }
 
@@ -131,6 +129,5 @@
     flex-direction: column;
   }
   .revenue_container {
-    width: 30%;
   }
 }
