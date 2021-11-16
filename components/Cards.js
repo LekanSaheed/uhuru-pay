@@ -174,7 +174,12 @@ const Cards = () => {
       <ACard
         title="Total Collections"
         type="week"
-        detail=""
+        detail={`₦${weekInfo
+          .reduce((a, b) => a + b.amount, 0)
+          .toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}`}
         collection={weekInfo}
         loading={loading}
       />
@@ -187,7 +192,6 @@ const Cards = () => {
       />
       <ACard
         title="Tax Payers"
-        detail=""
         type="payers"
         payers={taxPayers.length}
         loading={loading}
@@ -203,7 +207,6 @@ const Cards = () => {
         <ACard
           title="Collection Rate"
           type="rate"
-          detail=""
           rate={
             weekInfo.reduce((a, b) => a + b.count, 0) /
             activePins.reduce((a, b) => a + b, 0)

@@ -26,9 +26,11 @@
   transition: 0.3s;
 }
 .detail {
-  font-size: 12px;
+  font-size: 13px;
   color: #bb4077;
+  font-weight: 700;
 }
+
 @media (min-width: 767px) {
   .cardContainer {
     flex-direction: row;
