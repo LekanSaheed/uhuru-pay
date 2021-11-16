@@ -9,6 +9,7 @@ import { Alert } from "@mui/material/";
 import { CgClose } from "react-icons/cg";
 import { Box } from "@mui/system";
 import { IconButton } from "@material-ui/core";
+import { Close } from "@material-ui/icons";
 
 const AddStakeholder = () => {
   const [name, setName] = useState("");
