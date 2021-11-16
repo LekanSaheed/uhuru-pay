@@ -132,7 +132,7 @@ const AllStakeHolders = () => {
 
   React.useEffect(() => {
     fetchMembers();
-    if (!user.name || !user.revenueStreams) {
+    if (!user.name) {
       logout();
     }
   }, []);
