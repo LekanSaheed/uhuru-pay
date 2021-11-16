@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import { Alert } from "@mui/material/";
 import { CgClose } from "react-icons/cg";
 import { Box } from "@mui/system";
+import { IconButton } from "@material-ui/core";
 
 const AddStakeholder = () => {
   const [name, setName] = useState("");
@@ -187,12 +188,12 @@ const AddStakeholder = () => {
     <>
       <form className={classes.form}>
         {modal && (
-          <Alert severity="success">
-            <Box display="flex" justifyContent="space-between">
-              {password}{" "}
-              <CgClose onClick={() => setModal(false)} size="small" />
-            </Box>
-          </Alert>
+          <Box display="flex" justifyContent="space-between">
+            <Alert severity="success">{password}</Alert>
+            <IconButton onClick={() => setModal(false)}>
+              <Close />
+            </IconButton>
+          </Box>
         )}
         <div className={classes.header}>
           <span>Add Stakeholder</span>
