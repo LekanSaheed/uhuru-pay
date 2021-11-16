@@ -148,6 +148,7 @@ export default function AddRevenue() {
                   }}
                   value={isPin}
                   type="radio"
+                  checked={isPin}
                 />{" "}
                 Yes
               </label>
