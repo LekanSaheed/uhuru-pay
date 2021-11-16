@@ -11,7 +11,7 @@ const ACard = ({
   payer,
 }) => {
   // Total Collection || Total active pins || Total Tax Payers \\ Collection rate
-  console.log(pin, "acard");
+
   if (loading) {
     return "loading";
   }

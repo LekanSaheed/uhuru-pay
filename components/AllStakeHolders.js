@@ -69,7 +69,7 @@ const AllStakeHolders = () => {
   const myClass = useStyles();
   const [edit, setEdit] = React.useState(false);
   const [aStakeholder, setStakeholder] = useState({});
-  const { user } = useGlobalContext();
+  const { user, logout } = useGlobalContext();
   const [revenues, setRevenues] = useState([]);
   const [newRevenues, setNewRevenues] = useState(null);
   const [newpass, setNewpass] = useState("");
@@ -132,6 +132,9 @@ const AllStakeHolders = () => {
 
   React.useEffect(() => {
     fetchMembers();
+    if (!user.name || !user.revenueStreams) {
+      logout();
+    }
   }, []);
 
   const handleChanges = (data) => {
@@ -140,7 +143,6 @@ const AllStakeHolders = () => {
       ...data,
     }));
   };
-  console.log(aStakeholder);
 
   const selectStakeholder = async (stakeholder) => {
     await setStakeholder(stakeholder);
@@ -149,7 +151,9 @@ const AllStakeHolders = () => {
       revenues.length > 0 &&
         revenues
           .filter((rev) => {
-            return user.revenueStreams.includes(rev.revenue_id);
+            if (user.revenueStreams !== undefined) {
+              return user.revenueStreams.includes(rev.revenue_id);
+            }
           })
           .filter(
             (rev) =>
@@ -383,9 +387,11 @@ const AllStakeHolders = () => {
                                 isMulti={true}
                                 options={revenues
                                   .filter((rev) => {
-                                    return user.revenueStreams.includes(
-                                      rev.revenue_id
-                                    );
+                                    if (user.revenueStreams) {
+                                      return user.revenueStreams.includes(
+                                        rev.revenue_id
+                                      );
+                                    }
                                   })
                                   .map((rev) => {
                                     return {
