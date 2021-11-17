@@ -132,7 +132,11 @@ const ProfilePage = () => {
                   profile.revenueStreams ? profile.revenueStreams.length : 0
                 }
               >
-                <Chip className={myClass.revenue} label="Total Revenues" />
+                <Chip
+                  style={{ fontSize: "12px" }}
+                  className={myClass.revenue}
+                  label="Total Revenues"
+                />
               </Badge>
             </Box>
             <div>{name ? email : <Skel />}</div>

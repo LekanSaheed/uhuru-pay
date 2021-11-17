@@ -35,7 +35,7 @@ const ProfileWrapper = ({ children }) => {
     {
       text: "Change Password",
       icon: <RiLockPasswordLine />,
-      detail: "Manage and chnage your password here",
+      detail: "Manage and change your password here",
       link: "/profile/change-password",
     },
   ];

@@ -5,7 +5,7 @@ import { defaultState } from "../context/defaultState";
 import { reducer } from "../context/reducer";
 import React from "react";
 import { motion } from "framer-motion";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster, useToasterStore } from "react-hot-toast";
 import Head from "next/head";
 // import { useRouter } from 'next/router'
 
@@ -46,7 +46,14 @@ function MyApp({ Component, pageProps, router }) {
       router.push("/login");
     }
   }, []);
-
+  const { toasts } = useToasterStore();
+  const limit = 2;
+  useEffect(() => {
+    toasts
+      .filter((t) => t.visible)
+      .filter((_, i) => i >= limit)
+      .forEach((t) => toast.dismiss(t.id));
+  }, [toasts]);
   return (
     <React.StrictMode>
       <AppContext.Provider

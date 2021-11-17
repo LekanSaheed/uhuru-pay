@@ -44,17 +44,29 @@ const ChangePassword = () => {
             console.log(data.error);
           }
         })
-        .catch((err) => toast.error(err.message, "catch"));
+        .catch((err) => toast.error(err, "catch"));
     }
   };
+  if (confirmNewPassword && newPassword !== confirmNewPassword) {
+    toast.error("Passwords do not match");
+  } else {
+    toast.success("Matches");
+  }
+  if (newPassword && newPassword !== confirmNewPassword) {
+    toast.error("Passwords dont match");
+  } else {
+    toast.success("Matches");
+  }
   return (
     <ProfileWrapper>
-      {user.role !== "admin" && (
-        <Alert severity="info">
-          Note: You can change your password, but only your admin can reset your
-          password if you forget it
-        </Alert>
-      )}
+      {!user.role
+        ? ""
+        : user.role !== "admin" && (
+            <Alert severity="info">
+              Note: You can change your password, but only your admin can reset
+              your password if you forget it
+            </Alert>
+          )}
       <form className={classes.form}>
         <div className={classes.input_container}>
           <label>Current Password</label>
@@ -69,7 +81,9 @@ const ChangePassword = () => {
           <input
             placeholder="New Password"
             value={newPassword}
-            onChange={(e) => setNewpassword(e.target.value)}
+            onChange={(e) => {
+              setNewpassword(e.target.value);
+            }}
           />
         </div>
         <div className={classes.input_container}>
@@ -77,7 +91,9 @@ const ChangePassword = () => {
           <input
             placeholder="Confirm New Password"
             value={confirmNewPassword}
-            onChange={(e) => setConfirmNewpassword(e.target.value)}
+            onChange={(e) => {
+              setConfirmNewpassword(e.target.value);
+            }}
           />
         </div>
         <div className={classes.input_container}>

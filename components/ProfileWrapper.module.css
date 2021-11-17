@@ -2,6 +2,7 @@
   display: flex;
   background-color: #f4f6f8;
   min-height: 100vh;
+  flex-direction: column;
 }
 .link_text {
   font-size: 12px;
@@ -50,7 +51,11 @@
 .active:hover {
   background-color: #78ddd8;
 }
-
+@media (min-width: 767px) {
+  .profileWrapper {
+    flex-direction: row;
+  }
+}
 @media (min-width: 801px) {
   .nav_flex {
     display: flex;
