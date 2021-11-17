@@ -39,7 +39,10 @@ const Form = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ username: username, password: password }),
+      body: JSON.stringify({
+        username: username.trim().toLowerCase(),
+        password: password,
+      }),
     };
     const url = `${baseUrl}/stakeholder/login`;
     const fetchDetails = async () => {

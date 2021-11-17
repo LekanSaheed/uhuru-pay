@@ -37,10 +37,12 @@ const EditProfile = () => {
             setEmail(data.data.email);
             setPhone(data.data.phone);
             setRole(data.data.role);
-            setNewState({
-              label: data.data.state.toUpperCase(),
-              value: data.data.state.toLowerCase(),
-            });
+            if (data.data.state) {
+              setNewState({
+                label: data.data.state.toUpperCase(),
+                value: data.data.state.toLowerCase(),
+              });
+            }
           } else {
             setLoading(false);
             toast.error(data.error);
@@ -76,26 +78,28 @@ const EditProfile = () => {
             <label>Phone.</label>
             <input defaultValue={phone} disabled={true} />
           </motion.div>
-          <motion.div className={classes.input_container}>
-            <label>State.</label>
-            <Select
-              options={state.map((s) => {
-                return { label: s.toUpperCase(), value: s.toLowerCase() };
-              })}
-              value={newState}
-              onChange={(e) => setNewState(e)}
-              theme={(theme) => ({
-                ...theme,
-                outline: "none",
-                colors: {
-                  ...theme.colors,
-                  primary25: "#4bc2bc",
-                  primary: ["#4bc2bc2a", "#000"],
-                  neutral5: "#000",
-                },
-              })}
-            />
-          </motion.div>
+          {role !== "admin" && (
+            <motion.div className={classes.input_container}>
+              <label>State.</label>
+              <Select
+                options={state.map((s) => {
+                  return { label: s.toUpperCase(), value: s.toLowerCase() };
+                })}
+                value={newState}
+                onChange={(e) => setNewState(e)}
+                theme={(theme) => ({
+                  ...theme,
+                  outline: "none",
+                  colors: {
+                    ...theme.colors,
+                    primary25: "#4bc2bc",
+                    primary: ["#4bc2bc2a", "#000"],
+                    neutral5: "#000",
+                  },
+                })}
+              />
+            </motion.div>
+          )}
           <Button disabled={true}>Update Profile</Button>
         </form>
       </div>

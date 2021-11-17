@@ -1,6 +1,5 @@
-import DashBoardWrapper from "../../../components/DashBoardWrapper";
 import React, { useState } from "react";
-import { Avatar, Badge, LinearProgress } from "@material-ui/core";
+import { Avatar, Badge, makeStyles } from "@material-ui/core";
 import { motion } from "framer-motion";
 import classes from "../profile.module.css";
 import { baseUrl } from "../../../context/baseUrl";
@@ -10,6 +9,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { Chip } from "@mui/material";
 import { Box } from "@mui/system";
 import { Skeleton } from "@material-ui/lab";
+import ThemedProgress from "../../../components/ThemedProgress";
 const ProfilePage = () => {
   const [profile, setProfile] = useState({});
   const [loading, setLoading] = useState(true);
@@ -44,7 +44,7 @@ const ProfilePage = () => {
         })
         .catch((err) => {
           setLoading(false);
-          toast.error(err.message);
+          console.log(err.message);
         });
     };
     fetchProfile();
@@ -66,6 +66,32 @@ const ProfilePage = () => {
       },
     },
   };
+
+  const useStyles = makeStyles((theme) => ({
+    name: {
+      fontWeight: "700",
+      fontSize: "14px",
+      [theme.breakpoints.up(767)]: {
+        fontSize: "13px",
+      },
+      [theme.breakpoints.up(901)]: {
+        fontSize: "15px",
+      },
+      [theme.breakpoints.up(1024)]: {
+        fontSize: "21px",
+      },
+    },
+    revenue: {
+      fontSize: "11px",
+      [theme.breakpoints.up(901)]: {
+        fontSize: "12px",
+      },
+      [theme.breakpoints.up(1024)]: {
+        fontSize: "13px",
+      },
+    },
+  }));
+  const myClass = useStyles();
   const Skel = () => {
     return (
       <Box display="flex" alignItems="center" justifyContent="center">
@@ -76,7 +102,7 @@ const ProfilePage = () => {
   };
   return (
     <ProfileWrapper>
-      {loading && <LinearProgress />}
+      {loading && <ThemedProgress />}
 
       <motion.div
         variants={contVariant}
@@ -89,7 +115,7 @@ const ProfilePage = () => {
         <motion.div className={classes.card_container}>
           <Chip
             label={role.charAt(0).toUpperCase() + role.slice(1)}
-            avatar={<Avatar>{role.slice(0, 1)}</Avatar>}
+            avatar={<Avatar>{role.slice(0, 1).toUpperCase()}</Avatar>}
             variant="contained"
           />
           <div className={classes.header}>
@@ -99,16 +125,14 @@ const ProfilePage = () => {
           </div>
           <form className={classes.profile_card}>
             <Box display="flex" justifyContent="space-between" padding="15px">
-              <div style={{ fontWeight: "bolder", fontSize: "25px" }}>
-                {name ? name : "loading"}
-              </div>
+              <div className={myClass.name}>{name ? name : <Skel />}</div>
               <Badge
                 color="secondary"
                 badgeContent={
                   profile.revenueStreams ? profile.revenueStreams.length : 0
                 }
               >
-                <Chip label="Total Revenues" />
+                <Chip className={myClass.revenue} label="Total Revenues" />
               </Badge>
             </Box>
             <div>{name ? email : <Skel />}</div>

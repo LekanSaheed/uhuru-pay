@@ -44,6 +44,10 @@
 @media (min-width: 801px) {
   .profile_container {
     padding: 20px;
+  }
+}
+@media (min-width: 1024px) {
+  .profile_container {
     width: 70%;
   }
 }

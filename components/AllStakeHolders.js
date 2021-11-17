@@ -33,6 +33,9 @@ import { TabPanel } from "@material-ui/lab";
 import { Close } from "@material-ui/icons";
 const AllStakeHolders = () => {
   const useStyles = makeStyles({
+    root: {
+      overflow: "scroll",
+    },
     active: {
       color: "green",
       fontSize: "34px",
@@ -74,6 +77,7 @@ const AllStakeHolders = () => {
   const [newRevenues, setNewRevenues] = useState(null);
   const [newpass, setNewpass] = useState("");
   const [value, setValue] = React.useState("1");
+  const [dataSet, setDataset] = useState({});
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -136,6 +140,10 @@ const AllStakeHolders = () => {
 
   const handleChanges = (data) => {
     setStakeholder((state) => ({
+      ...state,
+      ...data,
+    }));
+    setDataset((state) => ({
       ...state,
       ...data,
     }));
@@ -213,13 +221,13 @@ const AllStakeHolders = () => {
         "Content-type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(aStakeholder),
+      body: JSON.stringify(dataSet),
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (data.success) {
           toast.success("Stakeholder edited successfully");
+          fetchMembers();
         } else {
           toast.error(data.error);
         }
@@ -247,7 +255,7 @@ const AllStakeHolders = () => {
   };
   return (
     <div className={classes.container}>
-      <TableContainer component={TableComponent}>
+      <TableContainer component={TableComponent} className={myClass.root}>
         <Table sx={{ minWidth: 650 }}>
           <TableHead>
             <TableRow>
@@ -397,7 +405,12 @@ const AllStakeHolders = () => {
                               />
                             </FormControl>
 
-                            <Button variant="contained" onClick={editUser}>
+                            <Button
+                              color="primary"
+                              variant="contained"
+                              onClick={editUser}
+                              disabled={Object.entries(dataSet).length < 1}
+                            >
                               Update
                             </Button>
                           </Box>
