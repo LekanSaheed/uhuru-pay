@@ -10,11 +10,12 @@ import {
   makeStyles,
   Table,
   CircularProgress,
-  LinearProgress,
   Button,
 } from "@material-ui/core";
 import toast from "react-hot-toast";
 import DashBoardWrapper from "../../components/DashBoardWrapper";
+import ThemedProgress from "../../components/ThemedProgress";
+import moment from "moment";
 
 const PendingRevenues = () => {
   const useStyle = makeStyles((theme) => ({
@@ -153,6 +154,7 @@ const PendingRevenues = () => {
                 <TableCell>Amount</TableCell>
 
                 <TableCell>Category</TableCell>
+                <TableCell>Created By</TableCell>
                 <TableCell>Date Created</TableCell>
                 <TableCell>Status</TableCell>
                 <TableCell>Accept</TableCell>
@@ -173,7 +175,12 @@ const PendingRevenues = () => {
                     <TableCell>{revenue.amount}</TableCell>
 
                     <TableCell>{revenue.category}</TableCell>
-                    <TableCell>{revenue.created_At}</TableCell>
+                    <TableCell>{revenue.created_by.name}</TableCell>
+                    <TableCell>
+                      {moment(revenue.created_At).format(
+                        "MMM DD YYYY, hh:mm a"
+                      )}
+                    </TableCell>
 
                     <TableCell
                       className={
@@ -192,6 +199,7 @@ const PendingRevenues = () => {
                       <Button
                         variant="contained"
                         size="small"
+                        color="primary"
                         className={classes.accept}
                         onClick={() => acceptRevenue(revenue._id)}
                       >
@@ -200,6 +208,7 @@ const PendingRevenues = () => {
                     </TableCell>
                     <TableCell>
                       <Button
+                        color="secondary"
                         variant="contained"
                         size="small"
                         className={classes.reject}
@@ -214,7 +223,7 @@ const PendingRevenues = () => {
             </TableBody>
           </Table>
         </TableContainer>
-        {loading && <LinearProgress />}
+        {loading && <ThemedProgress />}
         {loading && (
           <div
             style={{

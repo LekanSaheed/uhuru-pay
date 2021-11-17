@@ -45,7 +45,7 @@ const Batch = () => {
     revenues.length > 0
       ? revenues.map((rev) => {
           return {
-            label: rev.title.toUpperCase(),
+            label: rev.title.toUpperCase() + " " + rev.revenue_id,
             value: rev.revenue_id,
           };
         })

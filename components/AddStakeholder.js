@@ -70,7 +70,7 @@ const AddStakeholder = () => {
           if (data.success) {
             const newRev = data.data.map((rev) => {
               return {
-                label: rev.title,
+                label: rev.title + " " + rev.revenue_id,
                 value: rev.revenue_id,
               };
             });
