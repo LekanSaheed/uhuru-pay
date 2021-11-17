@@ -229,6 +229,8 @@ const AddStakeholder = () => {
                     placeholder="Phone"
                     onChange={(e) => setPhone(e.target.value)}
                     type="number"
+                    min={0}
+                    maxLength="14"
                   />
                   <label>
                     Phone number must start with country code e.g (234)

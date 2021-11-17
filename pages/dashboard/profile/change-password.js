@@ -78,6 +78,7 @@ const ChangePassword = () => {
             onChange={(e) => {
               setNewpassword(e.target.value);
             }}
+            minLength="6"
           />
         </div>
         <div className={classes.input_container}>
@@ -88,6 +89,7 @@ const ChangePassword = () => {
             onChange={(e) => {
               setConfirmNewpassword(e.target.value);
             }}
+            minLength="6"
           />
         </div>
         <div className={classes.input_container}>
