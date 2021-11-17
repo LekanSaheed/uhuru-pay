@@ -47,16 +47,7 @@ const ChangePassword = () => {
         .catch((err) => toast.error(err, "catch"));
     }
   };
-  if (confirmNewPassword && newPassword !== confirmNewPassword) {
-    toast.error("Passwords do not match");
-  } else {
-    toast.success("Matches");
-  }
-  if (newPassword && newPassword !== confirmNewPassword) {
-    toast.error("Passwords dont match");
-  } else {
-    toast.success("Matches");
-  }
+
   return (
     <ProfileWrapper>
       {!user.role
@@ -68,6 +59,9 @@ const ChangePassword = () => {
             </Alert>
           )}
       <form className={classes.form}>
+        {confirmNewPassword && newPassword !== confirmNewPassword && (
+          <Alert severity="error">Password mismatch</Alert>
+        )}
         <div className={classes.input_container}>
           <label>Current Password</label>
           <input
