@@ -113,18 +113,56 @@ const Graph = () => {
   //     },
   //   ],
   // };
+  //  revenues.map((rev) => {
+  //   return {
+  //     labels: allRevenues
+  //       .filter((i) => {
+  //         return rev._id.includes(i.revenue_id);
+  //       })
+  //       .map((rev) => rev.title),
+  //     datasets: [
+  //       {
+  //         label: "Revenue Distribution",
+  //         data: [8, 8, 8],
+  //         backgroundColor: [
+  //           "rgba(255, 99, 132, 0.2)",
+  //           "rgba(54, 162, 235, 0.2)",
+  //           "rgba(255, 206, 86, 0.2)",
+  //           "rgba(75, 192, 192, 0.2)",
+  //           "rgba(153, 102, 255, 0.2)",
+  //           "rgba(255, 159, 64, 0.2)",
+  //         ],
+  //         borderColor: [
+  //           "rgba(255, 99, 132, 1)",
+  //           "rgba(54, 162, 235, 1)",
+  //           "rgba(255, 206, 86, 1)",
+  //           "rgba(75, 192, 192, 1)",
+  //           "rgba(153, 102, 255, 1)",
+  //           "rgba(255, 159, 64, 1)",
+  //         ],
+  //         borderWidth: 1,
+  //       },
+  //     ],
+  //   };
+  // });
   const _data = {
     labels: allRevenues
       ? allRevenues
           .filter((rev) => {
-            return revId.includes(rev.revenue_id);
+            const id = revenues.map((i) => i._id);
+            return id.includes(rev.revenue_id);
           })
+          .sort((a, b) => (a.revenue_id > b.revenue_id ? 1 : -1))
           .map((rev) => rev.title)
       : [],
     datasets: [
       {
         label: "Revenue Distribution",
-        data: revenues ? revenues.map((rev) => rev.count) : [0],
+        data: revenues
+          ? revenues
+              .sort((a, b) => (a.revenue_id > b.revenue_id ? 1 : -1))
+              .map((rev) => rev.count)
+          : [0],
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
           "rgba(54, 162, 235, 0.2)",

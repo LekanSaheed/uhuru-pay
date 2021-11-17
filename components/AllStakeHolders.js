@@ -213,9 +213,7 @@ const AllStakeHolders = () => {
         "Content-type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({
-        aStakeholder,
-      }),
+      body: JSON.stringify(aStakeholder),
     })
       .then((res) => res.json())
       .then((data) => {
