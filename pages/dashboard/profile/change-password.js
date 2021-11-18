@@ -36,12 +36,13 @@ const ChangePassword = () => {
       await fetch(url, requestOptions)
         .then((res) => res.json())
         .then((data) => {
-          if (data.sucess) {
+          console.log(data);
+          if (data.success) {
             toast.success("Password Successfully changed");
             setToken(data.token);
           } else {
             toast.error(data.error);
-            console.log(data.error);
+            console.log(data.error, "error");
           }
         })
         .catch((err) => toast.error(err, "catch"));

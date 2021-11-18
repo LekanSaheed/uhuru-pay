@@ -227,6 +227,9 @@ const AllStakeHolders = () => {
       .then((data) => {
         if (data.success) {
           toast.success("Stakeholder edited successfully");
+          setStakeholder({});
+          setDataset({});
+          setEdit(false);
           fetchMembers();
         } else {
           toast.error(data.error);
