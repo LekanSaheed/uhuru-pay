@@ -3,7 +3,76 @@ import ThemedProgress from "../../../components/ThemedProgress";
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { makeStyles } from "@material-ui/core";
+import { baseUrl } from "../../../context/baseUrl";
+import { useState, useEffect } from "react";
 const History = () => {
+  const [revenues, setRevenues] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [pagination, setPagination] = useState(1);
+  const transactions = [];
+  const [tranxRow, setTranxRow] = useState([]);
+  const token =
+    typeof window !== "undefined" && localStorage.getItem("accessToken");
+  const fetchHistory = async (revenueId) => {
+    const url = `${baseUrl}/collections/${revenueId}/history?page=${pagination}&limit=13`;
+    await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          data.data
+            .filter((res) => res.paginatedResult.length > 0)
+            .map((res) => res.paginatedResult)
+            .map((t) => {
+              transactions.push(t);
+              console.log(t, "gg");
+            });
+          var merged = [].concat.apply([], transactions);
+          setTranxRow(
+            merged.map((t, id) => {
+              return {
+                ...t,
+                id: id,
+              };
+            })
+          );
+        }
+      });
+  };
+  const fetchRevenue = async () => {
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const url = `${baseUrl}/revenue/list`;
+    fetch(url, requestOptions)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setRevenues(data.data);
+
+          setLoading(false);
+          const revs = data.data;
+          revs.forEach((rev) => {
+            fetchHistory(rev.revenue_id);
+          });
+        } else {
+          setLoading(false);
+          console.log(data.error);
+        }
+      })
+      .catch((err) => console.log(err.message));
+  };
+  useEffect(() => {
+    fetchRevenue();
+  }, []);
+
   const columns = [
     {
       field: "id",
@@ -37,8 +106,8 @@ const History = () => {
       cellClassName: "cell",
     },
     {
-      field: "payer",
-      headerName: "Payer",
+      field: "commission",
+      headerName: "Commission",
       headerClassName: "header",
       cellClassName: "cell",
       width: 150,
@@ -54,7 +123,7 @@ const History = () => {
       cellClassName: "cell",
     },
     {
-      field: "date",
+      field: "created_At",
       headerName: "Date",
       sortable: false,
       width: 160,
@@ -62,14 +131,19 @@ const History = () => {
       cellClassName: "cell",
     },
     {
-      field: "payerDetails",
-      headerName: "Payer Details",
+      field: "pin",
+      headerName: "Pin",
       sortable: false,
       width: 160,
       headerClassName: "header",
       cellClassName: "cell",
     },
   ];
+  transactions &&
+    transactions.map((t) => {
+      console.log(t);
+      return t;
+    });
 
   const rows = [
     {
@@ -131,10 +205,10 @@ const History = () => {
         <div style={{ height: 400, width: "100%" }}>
           <DataGrid
             className={classes.root}
-            rows={rows}
+            rows={tranxRow}
             columns={columns}
-            pageSize={5}
-            rowsPerPageOptions={[15]}
+            pageSize={tranxRow.length}
+            rowsPerPageOptions={[5, 10, 20]}
             checkboxSelection
             disableSelectionOnClick
           />

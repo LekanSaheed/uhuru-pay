@@ -145,6 +145,73 @@ const Graph = () => {
   //     ],
   //   };
   // });
+  const l = [];
+  const d = [];
+  const [labels, setLabels] = useState([]);
+  const transactions = [];
+  const [dataset, setDataset] = useState([]);
+  const fetchHistory = async (revenueId) => {
+    const token =
+      typeof window !== "undefined" && localStorage.getItem("accessToken");
+    const url = `${baseUrl}/collections/${revenueId}/history?page=1&limit=13`;
+    await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          data.data
+            .filter((res) => res.paginatedResult.length > 0)
+            .map((res) => res.paginatedResult)
+            .map((t) => {
+              transactions.push(t);
+            });
+          var merged = [].concat.apply([], transactions);
+
+          merged.map((t, id) => {
+            l.push(t.revenue);
+            d.push(l.amount);
+            setLabels(l);
+            setDataset(d);
+            console.log(labels, "data");
+          });
+        }
+      });
+  };
+  const fetchRevenue = async () => {
+    const token =
+      typeof window !== "undefined" && localStorage.getItem("accessToken");
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const url = `${baseUrl}/revenue/list`;
+    fetch(url, requestOptions)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setRevenues(data.data);
+
+          setLoading(false);
+          const revs = data.data;
+          revs.forEach((rev) => {
+            fetchHistory(rev.revenue_id);
+          });
+        } else {
+          setLoading(false);
+          console.log(data.error);
+        }
+      })
+      .catch((err) => console.log(err.message));
+  };
+  useEffect(() => {
+    fetchRevenue();
+  }, []);
   const _data = {
     labels: allRevenues
       ? allRevenues
@@ -191,11 +258,11 @@ const Graph = () => {
     },
   };
   const line = {
-    labels: [0],
+    labels: labels,
     datasets: [
       {
-        label: "Amount Made",
-        data: [0],
+        label: "Tnx",
+        data: dataset,
         fill: true,
         backgroundColor: "rgba(75,194,188,0.2",
         borderColor: "rgb(75,194,188)",
