@@ -208,7 +208,7 @@ const AddStakeholder = () => {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: "application/json",
-        "content-type": "application/json",
+        "Content-type": "application/json",
       },
       body: JSON.stringify({
         name: comp_name,
