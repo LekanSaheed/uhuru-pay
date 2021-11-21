@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import { Alert } from "@mui/material";
 import { CgClose } from "react-icons/cg";
 import { Box } from "@mui/system";
-import { IconButton } from "@material-ui/core";
+import { IconButton, Button } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
 import { Tab } from "@mui/material";
 import { TabContext } from "@material-ui/lab";
@@ -210,14 +210,14 @@ const AddStakeholder = () => {
         Accept: "application/json",
         "content-type": "application/json",
       },
-      body: {
+      body: JSON.stringify({
         name: comp_name,
         phone: comp_phone,
         address: comp_address,
         email: comp_email,
         username: comp_username,
         reg_no: reg_no,
-      },
+      }),
     })
       .then((res) => res.json())
       .then((res) => {
