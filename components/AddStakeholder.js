@@ -200,7 +200,7 @@ const AddStakeholder = () => {
   };
 
   const addCompany = async () => {
-    const url = `https://stormy-hollows-87790.herokuapp.com/company/register`;
+    const url = `${baseUrl}/company/register`;
     const token =
       typeof window !== "undefined" && localStorage.getItem("accessToken");
     await fetch(url, {
