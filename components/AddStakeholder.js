@@ -200,7 +200,7 @@ const AddStakeholder = () => {
   };
 
   const addCompany = async () => {
-    const url = `${baseUrl}/company/register`;
+    const url = `${baseUrl}/stakeholder/register/company`;
     const token =
       typeof window !== "undefined" && localStorage.getItem("accessToken");
     await fetch(url, {
