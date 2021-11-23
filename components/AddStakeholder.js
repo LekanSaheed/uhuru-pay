@@ -14,13 +14,14 @@ import { Tab } from "@mui/material";
 import { TabContext } from "@material-ui/lab";
 import { TabList } from "@material-ui/lab";
 import { TabPanel } from "@material-ui/lab";
+import { makeStyles } from "@mui/styles";
 const AddStakeholder = () => {
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
-  const [role, setRole] = useState({});
+  const [role, setRole] = useState(null);
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [state, setState] = useState({});
+  const [state, setState] = useState(null);
   const [streams, setStream] = useState([]);
   const [loading, setLoading] = useState(false);
   const [revenues, setRevenues] = useState([]);
@@ -208,7 +209,7 @@ const AddStakeholder = () => {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: "application/json",
-        "content-type": "application/json",
+        "Content-type": "application/json",
       },
       body: JSON.stringify({
         name: comp_name,
@@ -230,6 +231,16 @@ const AddStakeholder = () => {
       })
       .catch((err) => console.log(err));
   };
+
+  const useStyles = makeStyles({
+    root: {
+      "& .Mui-TabPanel-root": {
+        padding: "0",
+      },
+      padding: "0 !important",
+    },
+  });
+  const myClass = useStyles();
   return (
     <TabContext value={tab}>
       <form className={classes.form}>
@@ -241,13 +252,17 @@ const AddStakeholder = () => {
             </IconButton>
           </Box>
         )}
-        <Box>
-          <TabList onChange={handleTabs}>
-            <Tab label="Add Stakeholder" value="1" />
-            {user.role === "admin" && <Tab label="Add Company" value="2" />}
-          </TabList>
-        </Box>
-        <TabPanel value="1">
+        {user.role === "admin" ? (
+          <Box>
+            <TabList onChange={handleTabs}>
+              <Tab label="Add Stakeholder" value="1" />
+              <Tab label="Add Company" value="2" />
+            </TabList>
+          </Box>
+        ) : (
+          ""
+        )}
+        <TabPanel value="1" className={myClass.root}>
           <div className={classes.header}>
             <span>Add Stakeholder</span>
           </div>
@@ -350,7 +365,7 @@ const AddStakeholder = () => {
             {loading ? "Registering..." : " Register Stakeholder"}
           </button>
         </TabPanel>
-        <TabPanel value="2">
+        <TabPanel value="2" className={myClass.root}>
           Add Company
           <div>
             <div className={classes.input_container}>

@@ -106,6 +106,7 @@ const Revenues = () => {
 
                     <TableCell>Category</TableCell>
 
+                    <TableCell>Type</TableCell>
                     <TableCell>Status</TableCell>
                   </TableRow>
                 </TableHead>
@@ -117,7 +118,6 @@ const Revenues = () => {
                             i.status === "pending" || i.status === "approved"
                         )
                         .map((revenue) => {
-                          console.log(revenue);
                           return <Row key={revenue._id} revenue={revenue} />;
                         })
                     : "Revenues will appear here"}
@@ -137,6 +137,7 @@ const Revenues = () => {
                     </TableCell>
 
                     <TableCell>Category</TableCell>
+                    <TableCell>Type</TableCell>
 
                     <TableCell>Status</TableCell>
                   </TableRow>

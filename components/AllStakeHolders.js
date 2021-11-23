@@ -78,7 +78,9 @@ const AllStakeHolders = () => {
   const [newpass, setNewpass] = useState("");
   const [value, setValue] = React.useState("1");
   const [dataSet, setDataset] = useState({});
-
+  const [companyDataSet, setCompanyDataset] = useState({});
+  const [companies, setCompanies] = useState([]);
+  const [aCompany, setCompany] = useState({});
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -96,8 +98,8 @@ const AllStakeHolders = () => {
     const url = `${baseUrl}/revenue/all`;
     await fetch(url, {
       method: "GET",
-      header: {
-        Authorization: `Bearer${token}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((res) => res.json())
@@ -110,7 +112,27 @@ const AllStakeHolders = () => {
       })
       .catch((err) => console.log(err));
   };
+  const fetchCompanies = async () => {
+    var requestOptions = {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
 
+    await fetch(`${baseUrl}/stakeholder/company/list`, requestOptions)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.success) {
+          setCompanies(data.data);
+          console.log(data);
+        } else {
+          user.role === "admin" && toast.error(data.error);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
   async function fetchMembers() {
     const requestOptions = {
       method: "GET",
@@ -136,6 +158,9 @@ const AllStakeHolders = () => {
 
   React.useEffect(() => {
     fetchMembers();
+    if (user.role === "admin") {
+      fetchCompanies();
+    }
   }, []);
 
   const handleChanges = (data) => {
@@ -149,9 +174,20 @@ const AllStakeHolders = () => {
     }));
   };
 
+  const handleCompanyChanges = (data) => {
+    setCompany((state) => ({
+      ...state,
+      ...data,
+    }));
+    setCompanyDataset((state) => ({
+      ...state,
+      ...data,
+    }));
+  };
   const selectStakeholder = async (stakeholder) => {
     await setStakeholder(stakeholder);
     setEdit(true);
+    setCompany({});
     setNewRevenues(
       revenues.length > 0 &&
         revenues
@@ -172,6 +208,11 @@ const AllStakeHolders = () => {
             };
           })
     );
+  };
+  const selectCompany = async (company) => {
+    await setCompany(company);
+    setEdit(true);
+    setStakeholder({});
   };
 
   const activate = async (id) => {
@@ -212,6 +253,41 @@ const AllStakeHolders = () => {
     };
     fetchProfile();
   };
+
+  const activateCompany = async (id) => {
+    await fetch(`${baseUrl}/stakeholder/company/${id}/activate`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          toast.success("Activated");
+          fetchCompanies();
+        } else {
+          toast.error(data.error);
+        }
+      });
+  };
+  const deactivateCompany = async (id) => {
+    await fetch(`${baseUrl}/stakeholder/company/${id}/deactivate`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          toast.success("Deactivated");
+          fetchCompanies();
+        } else {
+          toast.error(data.error);
+        }
+      });
+  };
   const editUser = async () => {
     // const url = `${baseUrl}/stakeholder/${aStakeholder._id}/update`;
     await fetch(`${baseUrl}/stakeholder/${aStakeholder._id}/update`, {
@@ -237,6 +313,32 @@ const AllStakeHolders = () => {
       })
       .catch((err) => console.log(err));
   };
+
+  const editCompany = async () => {
+    await fetch(`${baseUrl}/stakeholder/company/${aCompany._id}/`, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(companyDataSet),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          toast.success("Company edited successfully");
+          setCompany({});
+          setCompanyDataset({});
+          setEdit(false);
+          fetchCompanies();
+        } else {
+          toast.error(data.error);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
   const resetPass = async () => {
     const url = `${baseUrl}/stakeholder/${aStakeholder._id}/password`;
     await fetch(url, {
@@ -256,78 +358,310 @@ const AllStakeHolders = () => {
       })
       .catch((err) => console.log(err));
   };
+  const [tab, setTab] = useState("1");
+
   return (
     <div className={classes.container}>
-      <TableContainer component={TableComponent} className={myClass.root}>
-        <Table sx={{ minWidth: 650 }}>
-          <TableHead>
-            <TableRow>
-              <TableCell>S/N</TableCell>
-              <TableCell component="th" scope="row">
-                Name
-              </TableCell>
-              <TableCell>Username</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Phone</TableCell>
-              <TableCell>Role</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {stakeholders.map((stakeholder, id) => {
-              return (
-                <TableRow
-                  hover
-                  classes={{ hover: myClass.hover }}
-                  key={stakeholder._id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell>{id + 1}</TableCell>
+      <TabContext value={tab}>
+        {user.role === "admin" && (
+          <TabList onChange={(e, val) => setTab(val)} variant="fullWidth">
+            <Tab value="1" label="Stakeholders" />
+            <Tab value="2" label="Companies" />
+          </TabList>
+        )}
+        <TabPanel value="1">
+          <TableContainer component={TableComponent} className={myClass.root}>
+            <Table sx={{ minWidth: 650 }}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>S/N</TableCell>
                   <TableCell component="th" scope="row">
-                    {stakeholder.name}
+                    Name
                   </TableCell>
-
-                  <TableCell>{stakeholder.username}</TableCell>
-                  <TableCell>{stakeholder.email}</TableCell>
-                  <TableCell>{stakeholder.phone}</TableCell>
-                  <TableCell>{stakeholder.role}</TableCell>
-                  <TableCell>
-                    {stakeholder.isActive ? (
-                      <span onClick={() => deactivate(stakeholder._id)}>
-                        <AiOutlineCloseCircle className={myClass.deactivate} />
-                      </span>
-                    ) : (
-                      <span onClick={() => activate(stakeholder._id)}>
-                        <BiCheckCircle className={myClass.active} />
-                      </span>
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    <Button
-                      onClick={() => {
-                        selectStakeholder(stakeholder);
-                      }}
-                    >
-                      Edit
-                    </Button>
-                  </TableCell>
+                  <TableCell>Username</TableCell>
+                  <TableCell>Email</TableCell>
+                  <TableCell>Phone</TableCell>
+                  <TableCell>Role</TableCell>
                 </TableRow>
-              );
-            })}
-            {
-              <Modal open={edit}>
-                <Dialog fullWidth={true} open={edit}>
-                  <DialogContent>
-                    <TabContext value={value}>
-                      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                        <TabList
-                          onChange={handleChange}
-                          aria-label="Edit Profile"
+              </TableHead>
+              <TableBody>
+                {stakeholders.map((stakeholder, id) => {
+                  return (
+                    <TableRow
+                      hover
+                      classes={{ hover: myClass.hover }}
+                      key={stakeholder._id}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell>{id + 1}</TableCell>
+                      <TableCell component="th" scope="row">
+                        {stakeholder.name}
+                      </TableCell>
+
+                      <TableCell>{stakeholder.username}</TableCell>
+                      <TableCell>{stakeholder.email}</TableCell>
+                      <TableCell>{stakeholder.phone}</TableCell>
+                      <TableCell>{stakeholder.role}</TableCell>
+                      <TableCell>
+                        {stakeholder.isActive ? (
+                          <span onClick={() => deactivate(stakeholder._id)}>
+                            <AiOutlineCloseCircle
+                              className={myClass.deactivate}
+                            />
+                          </span>
+                        ) : (
+                          <span onClick={() => activate(stakeholder._id)}>
+                            <BiCheckCircle className={myClass.active} />
+                          </span>
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        <Button
+                          onClick={() => {
+                            selectStakeholder(stakeholder);
+                          }}
                         >
-                          <Tab label="Edit Profile" value="1" />
-                          <Tab label="Reset Password" value="2" />
-                        </TabList>
-                      </Box>
-                      <TabPanel value="1">
+                          Edit
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+                {
+                  <Modal open={edit}>
+                    <Dialog fullWidth={true} open={edit}>
+                      <DialogContent>
+                        <TabContext value={value}>
+                          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                            <TabList
+                              onChange={handleChange}
+                              aria-label="Edit Profile"
+                            >
+                              <Tab label="Edit Profile" value="1" />
+                              <Tab label="Reset Password" value="2" />
+                            </TabList>
+                          </Box>
+                          <TabPanel value="1">
+                            <Box display="flex" flexDirection="column">
+                              <Box
+                                display="flex"
+                                justifyContent="space-between"
+                                alignItems="center"
+                                marginBottom="14px"
+                              >
+                                Edit Stakeholder{" "}
+                                <Button
+                                  onClick={() => setEdit(false)}
+                                  variant="contained"
+                                  color="secondary"
+                                  size="small"
+                                >
+                                  Close
+                                </Button>
+                              </Box>
+                              <Box
+                                display="flex"
+                                gap="24px"
+                                flexDirection="column"
+                              >
+                                <TextField
+                                  className={myClass.input}
+                                  label="Name"
+                                  variant="outlined"
+                                  value={
+                                    aStakeholder.name !== undefined &&
+                                    aStakeholder.name
+                                  }
+                                  fullWidth={true}
+                                  size="small"
+                                  onChange={(e) =>
+                                    handleChanges({ name: e.target.value })
+                                  }
+                                />
+                                <TextField
+                                  className={myClass.input}
+                                  label="Email"
+                                  variant="outlined"
+                                  value={
+                                    aStakeholder.email !== undefined &&
+                                    aStakeholder.email
+                                  }
+                                  fullWidth={true}
+                                  size="small"
+                                />
+                                <TextField
+                                  className={myClass.input}
+                                  label="Phone"
+                                  variant="outlined"
+                                  value={
+                                    aStakeholder.phone !== undefined &&
+                                    aStakeholder.phone
+                                  }
+                                  fullWidth={true}
+                                  size="small"
+                                  onChange={(e) =>
+                                    handleChanges({ phone: e.target.value })
+                                  }
+                                />
+                                <FormControl>
+                                  <label>Revenue</label>
+                                  <Select
+                                    onChange={handleRevenueChanges}
+                                    value={newRevenues}
+                                    isMulti={true}
+                                    options={revenues
+                                      .filter((rev) => {
+                                        if (user.revenueStreams) {
+                                          return user.revenueStreams.includes(
+                                            rev.revenue_id
+                                          );
+                                        }
+                                      })
+                                      .map((rev) => {
+                                        return {
+                                          label: rev.title.toUpperCase(),
+                                          value: rev.revenue_id,
+                                        };
+                                      })}
+                                  />
+                                </FormControl>
+
+                                <Button
+                                  color="primary"
+                                  variant="contained"
+                                  onClick={editUser}
+                                  disabled={Object.entries(dataSet).length < 1}
+                                >
+                                  Update
+                                </Button>
+                              </Box>
+                            </Box>
+                          </TabPanel>
+                          <TabPanel value="2">
+                            <Box display="flex" flexDirection="column">
+                              {!newpass ? (
+                                <>
+                                  {" "}
+                                  <DialogTitle>
+                                    Do you want to reset password for{" "}
+                                    {aStakeholder.name}?
+                                  </DialogTitle>
+                                  <Box
+                                    display="flex"
+                                    justifyContent="space-between"
+                                  >
+                                    <Button
+                                      onClick={() => setEdit(false)}
+                                      color="secondary"
+                                      variant="contained"
+                                      size="small"
+                                    >
+                                      No
+                                    </Button>{" "}
+                                    <Button
+                                      onClick={() => {
+                                        resetPass();
+                                      }}
+                                      color="primary"
+                                      variant="contained"
+                                      size="small"
+                                    >
+                                      Yes
+                                    </Button>
+                                  </Box>{" "}
+                                </>
+                              ) : (
+                                <Box
+                                  display="flex"
+                                  justifyContent="space-between"
+                                >
+                                  <Alert severity="success"> {newpass}</Alert>
+                                  <IconButton
+                                    onClick={() => {
+                                      setNewpass("");
+                                      setEdit(false);
+                                    }}
+                                  >
+                                    <Close />
+                                  </IconButton>
+                                </Box>
+                              )}
+                            </Box>
+                          </TabPanel>
+                        </TabContext>
+                      </DialogContent>
+                    </Dialog>
+                  </Modal>
+                }
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </TabPanel>
+
+        {/* Company Table */}
+
+        <TabPanel value="2">
+          <TableContainer component={TableComponent} className={myClass.root}>
+            <Table sx={{ minWidth: 650 }}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>S/N</TableCell>
+                  <TableCell component="th" scope="row">
+                    Name
+                  </TableCell>
+                  <TableCell>Username</TableCell>
+                  <TableCell>Email</TableCell>
+                  <TableCell>Phone</TableCell>
+                  <TableCell>Reg No</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {companies.map((company, id) => {
+                  return (
+                    <TableRow
+                      hover
+                      classes={{ hover: myClass.hover }}
+                      key={company._id}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell>{id + 1}</TableCell>
+                      <TableCell component="th" scope="row">
+                        {company.name}
+                      </TableCell>
+
+                      <TableCell>{company.username}</TableCell>
+                      <TableCell>{company.email}</TableCell>
+                      <TableCell>{company.phone}</TableCell>
+                      <TableCell>{company.reg_no}</TableCell>
+                      <TableCell>
+                        {company.isActive ? (
+                          <span onClick={() => deactivateCompany(company._id)}>
+                            <AiOutlineCloseCircle
+                              className={myClass.deactivate}
+                            />
+                          </span>
+                        ) : (
+                          <span onClick={() => activateCompany(company._id)}>
+                            <BiCheckCircle className={myClass.active} />
+                          </span>
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        <Button
+                          onClick={() => {
+                            selectCompany(company);
+                          }}
+                        >
+                          Edit
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+                {
+                  <Modal open={edit}>
+                    <Dialog fullWidth={true} open={edit}>
+                      <DialogContent>
                         <Box display="flex" flexDirection="column">
                           <Box
                             display="flex"
@@ -335,7 +669,7 @@ const AllStakeHolders = () => {
                             alignItems="center"
                             marginBottom="14px"
                           >
-                            Edit Stakeholder{" "}
+                            Edit Company{" "}
                             <Button
                               onClick={() => setEdit(false)}
                               variant="contained"
@@ -351,13 +685,14 @@ const AllStakeHolders = () => {
                               label="Name"
                               variant="outlined"
                               value={
-                                aStakeholder.name !== undefined &&
-                                aStakeholder.name
+                                aCompany.name !== undefined && aCompany.name
                               }
                               fullWidth={true}
                               size="small"
                               onChange={(e) =>
-                                handleChanges({ name: e.target.value })
+                                handleCompanyChanges({
+                                  name: e.target.value,
+                                })
                               }
                             />
                             <TextField
@@ -365,8 +700,7 @@ const AllStakeHolders = () => {
                               label="Email"
                               variant="outlined"
                               value={
-                                aStakeholder.email !== undefined &&
-                                aStakeholder.email
+                                aCompany.email !== undefined && aCompany.email
                               }
                               fullWidth={true}
                               size="small"
@@ -376,105 +710,38 @@ const AllStakeHolders = () => {
                               label="Phone"
                               variant="outlined"
                               value={
-                                aStakeholder.phone !== undefined &&
-                                aStakeholder.phone
+                                aCompany.phone !== undefined && aCompany.phone
                               }
                               fullWidth={true}
                               size="small"
                               onChange={(e) =>
-                                handleChanges({ phone: e.target.value })
+                                handleCompanyChanges({
+                                  phone: e.target.value,
+                                })
                               }
                             />
-                            <FormControl>
-                              <label>Revenue</label>
-                              <Select
-                                onChange={handleRevenueChanges}
-                                value={newRevenues}
-                                isMulti={true}
-                                options={revenues
-                                  .filter((rev) => {
-                                    if (user.revenueStreams) {
-                                      return user.revenueStreams.includes(
-                                        rev.revenue_id
-                                      );
-                                    }
-                                  })
-                                  .map((rev) => {
-                                    return {
-                                      label: rev.title.toUpperCase(),
-                                      value: rev.revenue_id,
-                                    };
-                                  })}
-                              />
-                            </FormControl>
 
                             <Button
                               color="primary"
                               variant="contained"
-                              onClick={editUser}
-                              disabled={Object.entries(dataSet).length < 1}
+                              onClick={editCompany}
+                              disabled={
+                                Object.entries(companyDataSet).length < 1
+                              }
                             >
                               Update
                             </Button>
                           </Box>
                         </Box>
-                      </TabPanel>
-                      <TabPanel value="2">
-                        <Box display="flex" flexDirection="column">
-                          {!newpass ? (
-                            <>
-                              {" "}
-                              <DialogTitle>
-                                Do you want to reset password for{" "}
-                                {aStakeholder.name}?
-                              </DialogTitle>
-                              <Box
-                                display="flex"
-                                justifyContent="space-between"
-                              >
-                                <Button
-                                  onClick={() => setEdit(false)}
-                                  color="secondary"
-                                  variant="contained"
-                                  size="small"
-                                >
-                                  No
-                                </Button>{" "}
-                                <Button
-                                  onClick={() => {
-                                    resetPass();
-                                  }}
-                                  color="primary"
-                                  variant="contained"
-                                  size="small"
-                                >
-                                  Yes
-                                </Button>
-                              </Box>{" "}
-                            </>
-                          ) : (
-                            <Box display="flex" justifyContent="space-between">
-                              <Alert severity="success"> {newpass}</Alert>
-                              <IconButton
-                                onClick={() => {
-                                  setNewpass("");
-                                  setEdit(false);
-                                }}
-                              >
-                                <Close />
-                              </IconButton>
-                            </Box>
-                          )}
-                        </Box>
-                      </TabPanel>
-                    </TabContext>
-                  </DialogContent>
-                </Dialog>
-              </Modal>
-            }
-          </TableBody>
-        </Table>
-      </TableContainer>
+                      </DialogContent>
+                    </Dialog>
+                  </Modal>
+                }
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </TabPanel>
+      </TabContext>
     </div>
   );
 };

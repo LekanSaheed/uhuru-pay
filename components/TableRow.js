@@ -55,6 +55,7 @@ const Row = ({ revenue }) => {
         <TableCell>{revenue.title}</TableCell>
 
         <TableCell>{revenue.category}</TableCell>
+        <TableCell>{revenue.isPin ? "PIN" : "PINLESS"}</TableCell>
 
         <TableCell
           className={
@@ -84,7 +85,7 @@ const Row = ({ revenue }) => {
               <TableBody>
                 <TableRow key={revenue._id}>
                   <TableCell component="th" scope="row">
-                    {moment(revenue.created_At).format("yy, mm dd  hh:mm a")}
+                    {moment(revenue.created_At).format("MMM DD yyyy,  hh:mm a")}
                   </TableCell>
                   <TableCell>{revenue.revenue_id}</TableCell>
                   <TableCell>{revenue.amount}</TableCell>

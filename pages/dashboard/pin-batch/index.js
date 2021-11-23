@@ -38,7 +38,7 @@ const Batch = () => {
   const [loading, setLoading] = useState(true);
   const { logout } = useGlobalContext();
   const [searched, setSearched] = useState("");
-  const [selected, setSelected] = useState({});
+  const [selected, setSelected] = useState(null);
   const oldBatch = batch;
 
   const options =
