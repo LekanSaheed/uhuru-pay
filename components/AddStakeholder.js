@@ -232,16 +232,6 @@ const AddStakeholder = () => {
       .catch((err) => console.log(err));
   };
 
-  const useStyles = makeStyles({
-    root: {
-      "& .Mui-TabPanel-root": {
-        padding: "0",
-      },
-      padding: "0 !important",
-    },
-  });
-  const myClass = useStyles();
-
   return (
     <TabContext value={tab}>
       <form className={classes.form}>
@@ -263,7 +253,7 @@ const AddStakeholder = () => {
         ) : (
           ""
         )}
-        <TabPanel value="1" className={myClass.root}>
+        <TabPanel value="1" style={{ padding: "0 !important" }}>
           <div className={classes.header}>
             <span>Add Stakeholder</span>
           </div>
@@ -366,7 +356,7 @@ const AddStakeholder = () => {
             {loading ? "Registering..." : " Register Stakeholder"}
           </button>
         </TabPanel>
-        <TabPanel value="2" className={myClass.root}>
+        <TabPanel value="2" style={{ padding: "0 !important" }}>
           Add Company
           <div>
             <div className={classes.input_container}>
