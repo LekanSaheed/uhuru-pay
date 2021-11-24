@@ -7,6 +7,7 @@ import MainWrapper from "./MainWrapper";
 import React from "react";
 import { useGlobalContext } from "../context/context";
 import { motion } from "framer-motion";
+import TimeFilter from "./TimeFilter";
 const DashBoardMain = () => {
   const { user } = useGlobalContext();
   const contVariant = {
@@ -30,8 +31,9 @@ const DashBoardMain = () => {
   return (
     <MainWrapper>
       <motion.div variants={contVariant}>
+        <TimeFilter />
         <span className={classes.name}>
-          WELCOME {user !== null ? user.name : "USER"}
+          Welcome {user !== null ? user.name : "USER"}
         </span>
         <div className={classes.cont}>
           <Cards />

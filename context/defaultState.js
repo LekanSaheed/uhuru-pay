@@ -6,7 +6,7 @@ import {
 import { RiBookletFill } from "react-icons/ri";
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import { IoMdPeople } from "react-icons/io";
-
+import classes from "../components/TimeFilter.module.css";
 import { HiReceiptTax } from "react-icons/hi";
 import { FaCalendarCheck } from "react-icons/fa";
 import { CgPassword } from "react-icons/cg";
@@ -17,6 +17,13 @@ export const defaultState = {
   isUser: false,
   isToggledMobileNav: false,
   isToggled: false,
+  filters: [
+    { id: 1, text: "Today", class: classes.clicked },
+    { id: 2, text: "This Week" },
+    { id: 3, text: "This Month" },
+    { id: 4, text: "This Year" },
+    { id: 5, text: "Custom Period" },
+  ],
   asideContents: [
     {
       text: "Dashboard",
@@ -55,7 +62,7 @@ export const defaultState = {
           text: "Verify Pin",
           icon: <FaCalendarCheck />,
           link: "/verify-pin",
-          access: "admin",
+          // access: "admin",
         },
         {
           text: "Batch",

@@ -5,9 +5,10 @@ import React from "react";
 import { useGlobalContext } from "../context/context";
 import { baseUrl } from "../context/baseUrl";
 import toast from "react-hot-toast";
-import { Button } from "@material-ui/core";
+import { Button, ListItem, Divider } from "@material-ui/core";
 import { motion } from "framer-motion";
 import classes from "./PinManagement.module.css";
+import ThemedProgress from "./ThemedProgress";
 
 const PinManagement = () => {
   const [allRevenues, setAllRevenues] = React.useState([]);
@@ -16,9 +17,9 @@ const PinManagement = () => {
 
   const router = useRouter();
   const [selected, setSelected] = React.useState("");
-  const [size, setSize] = React.useState(null);
+  const [size, setSize] = React.useState("");
   const [areaCode, setAreaCode] = React.useState("");
-  const [discount, setDiscount] = React.useState(null);
+  const [discount, setDiscount] = React.useState("");
   React.useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (token) {
@@ -98,8 +99,8 @@ const PinManagement = () => {
       Pin Management
       <form className={classes.form}>
         <div className={classes.group}>
-          {loading && "loading please wait."}
-          <div style={{ width: "60%" }}>
+          {loading && <ThemedProgress />}
+          <div style={{ width: "100%" }}>
             <Select
               onChange={handleRevenues}
               value={selected}
@@ -118,7 +119,9 @@ const PinManagement = () => {
           </div>
 
           <div className={classes.input_container}>
-            <label>Quantity</label>
+            <label>
+              Quantity<sup style={{ color: "red" }}>*</sup>
+            </label>
             <input
               value={size}
               type="number"
@@ -127,7 +130,7 @@ const PinManagement = () => {
             />
           </div>
           <div className={classes.input_container}>
-            <label>Area Code</label>
+            <label>Area / Beat</label>
             <input
               value={areaCode}
               onChange={(e) => setAreaCode(e.target.value)}
@@ -178,14 +181,41 @@ const PinManagement = () => {
                 .map((rev, idx) => {
                   return (
                     <div key={idx} className={classes.card_main}>
-                      <div>
-                        <span>Revenue title: </span>
-                        {rev.title}
-                      </div>
-                      <div>
-                        <span>Amount: </span>
-                        {rev.amount}
-                      </div>
+                      <ListItem>
+                        <b>Revenue</b>: {rev.title}
+                      </ListItem>
+                      <Divider />
+                      <ListItem>
+                        <b>Amount</b>: {rev.amount}
+                      </ListItem>
+                      <Divider />
+                      <ListItem>
+                        <b>Type</b>: {rev.isPin ? "Pin" : "Pinless"}
+                      </ListItem>
+                      <Divider />
+                      <ListItem>
+                        <b>Category</b>: {rev.category}
+                      </ListItem>
+                      <Divider />
+                      <ListItem>
+                        <b>Status</b>:{" "}
+                        <span
+                          style={{
+                            marginLeft: "3px",
+                            textTransform: "capitalize",
+                            color:
+                              rev.status === "approved"
+                                ? "green"
+                                : rev.status === "pending"
+                                ? "goldenrod"
+                                : "red",
+                          }}
+                        >
+                          {" "}
+                          {rev.status}
+                        </span>
+                      </ListItem>
+                      <Divider />
                     </div>
                   );
                 })}

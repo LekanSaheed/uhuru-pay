@@ -29,6 +29,20 @@ export const reducer = (state = defaultState, action) => {
       isUser: true,
     };
   }
+  if (action.type === "TOGGLE_FILTERS") {
+    const i = action.payload.i;
+    const classes = action.payload.classes;
+    state.filters.forEach((frits) => {
+      delete frits.class;
+      if (i.id === frits.id) {
+        return (i.class = classes.clicked);
+      }
+    });
+
+    return {
+      ...state,
+    };
+  }
   if (action.type === "LOGOUT") {
     localStorage.removeItem("user");
     localStorage.clear();

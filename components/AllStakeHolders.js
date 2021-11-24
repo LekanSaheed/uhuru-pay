@@ -488,6 +488,9 @@ const AllStakeHolders = () => {
                                   }
                                   fullWidth={true}
                                   size="small"
+                                  onChange={(e) =>
+                                    handleChanges({ email: e.target.value })
+                                  }
                                 />
                                 <TextField
                                   className={myClass.input}
@@ -704,6 +707,9 @@ const AllStakeHolders = () => {
                               }
                               fullWidth={true}
                               size="small"
+                              onChange={(e) =>
+                                handleCompanyChanges({ email: e.target.value })
+                              }
                             />
                             <TextField
                               className={myClass.input}

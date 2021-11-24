@@ -366,7 +366,7 @@ const Batch = () => {
                       Batch Number
                     </TableCell>
                     <TableCell className={myClass.cellHead}>Status</TableCell>
-                    <TableCell className={myClass.cellHead}>Size</TableCell>
+                    <TableCell className={myClass.cellHead}>Quantity</TableCell>
                     <TableCell className={myClass.cellHead}>Amount</TableCell>
                     <TableCell className={myClass.cellHead}>
                       Active Pins
@@ -376,7 +376,7 @@ const Batch = () => {
                     </TableCell>
                     <TableCell className={myClass.cellHead}>Discount</TableCell>
                     <TableCell className={myClass.cellHead}>
-                      Area Code
+                      Area / Beat
                     </TableCell>
                     <TableCell className={myClass.cellHead}>
                       Date Created

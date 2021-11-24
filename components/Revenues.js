@@ -45,7 +45,7 @@ const Revenues = () => {
   const [loading, setLoading] = useState(true);
   const [revenues, setRevenues] = useState([]);
   const [value, setValue] = React.useState("1");
-
+  const { logout } = useGlobalContext();
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -125,6 +125,7 @@ const Revenues = () => {
               </Table>
             </TableContainer>
           </TabPanel>
+
           <TabPanel value="2">
             {" "}
             <TableContainer className={classes.root} component={TableComponent}>
@@ -147,6 +148,7 @@ const Revenues = () => {
                     ? revenues
                         .filter((i) => i.status === "rejected")
                         .map((revenue) => {
+                          console.log(revenue);
                           return <Row key={revenue._id} revenue={revenue} />;
                         })
                     : "Rejected revenues will appear here"}

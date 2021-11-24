@@ -1,0 +1,31 @@
+.container {
+  display: none;
+  padding: 10px;
+  border-radius: 4px;
+  background-color: #fff;
+  margin: 20px;
+  margin-bottom: 50px;
+}
+.item {
+  background-color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: 400;
+  transition: 0.3s ease-in-out all;
+  padding: 16px 14px;
+}
+.clicked {
+  box-shadow: 0 0 10px rgba(0 0 0 /17%);
+  color: #4bc2bc;
+  transition: 0.3s ease-in-out all;
+}
+.item:hover {
+}
+@media (min-width: 801px) {
+  .container {
+    display: flex;
+    justify-content: space-between;
+    width: 60%;
+  }
+}

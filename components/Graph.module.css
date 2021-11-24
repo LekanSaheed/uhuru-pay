@@ -3,20 +3,34 @@
   flex-basis: 100%;
   gap: 24px;
   margin-top: 20px;
+  flex-direction: column;
 }
 .graph_item {
   display: flex;
   flex-direction: column;
-  flex: 1 1 33.3%;
   align-items: center;
   text-align: center;
   background-color: #f9f9f9;
   min-height: 200px;
-  flex: 30%;
-  width: 30%;
+  flex: 100%;
+  width: 100%;
   padding: 10px;
+  padding: 30px;
 }
 .last {
-  flex: 1 1 70%;
-  width: 70%;
+  flex: 1;
+  width: 100%;
+}
+@media (min-width: 801px) {
+  .graph_container {
+    flex-direction: row;
+  }
+  .graph_item {
+    flex: 1 1 35%;
+    width: 35%;
+  }
+  .last {
+    flex: 1 1 65%;
+    width: 65%;
+  }
 }

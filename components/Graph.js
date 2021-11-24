@@ -12,6 +12,7 @@ const Graph = () => {
   const { logout } = useGlobalContext();
   const [data, setData] = useState({});
   const [revId, setRevId] = useState([]);
+
   const fetchRevenues = async () => {
     const url = `${baseUrl}/info/revenues`;
     const token =
@@ -29,7 +30,6 @@ const Graph = () => {
     await fetch(url, requestOptions)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (data.success) {
           setRevenues(data.data);
           setLoading(false);
@@ -44,6 +44,7 @@ const Graph = () => {
         toast.error("Error Fetching Data: " + err.message);
       });
   };
+
   const fetchAllRevenues = async () => {
     const url = `${baseUrl}/revenue/all`;
     const token =
@@ -61,7 +62,6 @@ const Graph = () => {
     await fetch(url, requestOptions)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (data.success) {
           setAllRevenues(data.data);
           setLoading(false);
@@ -75,6 +75,7 @@ const Graph = () => {
         toast.error("Error Fetching Data: " + err.message);
       });
   };
+
   useEffect(() => {
     const fetchData = async () => {
       await fetchAllRevenues();
@@ -82,74 +83,15 @@ const Graph = () => {
     };
     fetchData();
   }, []);
-  const graphData = [
-    { text: "Revenue Distribution", id: 3 },
-    { text: "Collection Overview", id: 2 },
-  ];
 
-  // const _data = {
-  //   labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-  //   datasets: [
-  //     {
-  //       label: "Revenue Distribution",
-  //       data: [],
-  //       backgroundColor: [
-  //         "rgba(255, 99, 132, 0.2)",
-  //         "rgba(54, 162, 235, 0.2)",
-  //         "rgba(255, 206, 86, 0.2)",
-  //         "rgba(75, 192, 192, 0.2)",
-  //         "rgba(153, 102, 255, 0.2)",
-  //         "rgba(255, 159, 64, 0.2)",
-  //       ],
-  //       borderColor: [
-  //         "rgba(255, 99, 132, 1)",
-  //         "rgba(54, 162, 235, 1)",
-  //         "rgba(255, 206, 86, 1)",
-  //         "rgba(75, 192, 192, 1)",
-  //         "rgba(153, 102, 255, 1)",
-  //         "rgba(255, 159, 64, 1)",
-  //       ],
-  //       borderWidth: 1,
-  //     },
-  //   ],
-  // };
-  //  revenues.map((rev) => {
-  //   return {
-  //     labels: allRevenues
-  //       .filter((i) => {
-  //         return rev._id.includes(i.revenue_id);
-  //       })
-  //       .map((rev) => rev.title),
-  //     datasets: [
-  //       {
-  //         label: "Revenue Distribution",
-  //         data: [8, 8, 8],
-  //         backgroundColor: [
-  //           "rgba(255, 99, 132, 0.2)",
-  //           "rgba(54, 162, 235, 0.2)",
-  //           "rgba(255, 206, 86, 0.2)",
-  //           "rgba(75, 192, 192, 0.2)",
-  //           "rgba(153, 102, 255, 0.2)",
-  //           "rgba(255, 159, 64, 0.2)",
-  //         ],
-  //         borderColor: [
-  //           "rgba(255, 99, 132, 1)",
-  //           "rgba(54, 162, 235, 1)",
-  //           "rgba(255, 206, 86, 1)",
-  //           "rgba(75, 192, 192, 1)",
-  //           "rgba(153, 102, 255, 1)",
-  //           "rgba(255, 159, 64, 1)",
-  //         ],
-  //         borderWidth: 1,
-  //       },
-  //     ],
-  //   };
-  // });
-  const l = [];
-  const d = [];
-  const [labels, setLabels] = useState([]);
-  const transactions = [];
+  useEffect(() => {
+    fetchRevenue();
+  }, []);
+
+  // const [labels, setLabels] = useState([]);
   const [dataset, setDataset] = useState([]);
+  const [transactions, setTransactions] = useState([]);
+
   const fetchHistory = async (revenueId) => {
     const token =
       typeof window !== "undefined" && localStorage.getItem("accessToken");
@@ -163,24 +105,15 @@ const Graph = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
-          data.data
-            .filter((res) => res.paginatedResult.length > 0)
-            .map((res) => res.paginatedResult)
-            .map((t) => {
-              transactions.push(t);
-            });
-          var merged = [].concat.apply([], transactions);
-
-          merged.map((t, id) => {
-            l.push(t.revenue);
-            d.push(l.amount);
-            setLabels(l);
-            setDataset(d);
-            console.log(labels, "data");
-          });
+          const result = data.data[0].paginatedResult;
+          if (result.length >= 1) {
+            setTransactions((transactions) => [...transactions, ...result]);
+            // settransactions(...result);
+          }
         }
       });
   };
+
   const fetchRevenue = async () => {
     const token =
       typeof window !== "undefined" && localStorage.getItem("accessToken");
@@ -196,7 +129,6 @@ const Graph = () => {
       .then((data) => {
         if (data.success) {
           setRevenues(data.data);
-
           setLoading(false);
           const revs = data.data;
           revs.forEach((rev) => {
@@ -209,25 +141,30 @@ const Graph = () => {
       })
       .catch((err) => console.log(err.message));
   };
-  useEffect(() => {
-    fetchRevenue();
-  }, []);
+
+  const convertId_Name = (_id, amount) => {
+    let letSee = "";
+    allRevenues.filter((rev) => {
+      const name = `${rev.title} - ${rev.revenue_id} (₦${amount})`;
+      if (rev.revenue_id === _id) {
+        letSee += name;
+      }
+    });
+    return letSee;
+  };
+
   const _data = {
-    labels: allRevenues
-      ? allRevenues
-          .filter((rev) => {
-            const id = revenues.map((i) => i._id);
-            return id.includes(rev.revenue_id);
-          })
-          .sort((a, b) => (a.revenue_id > b.revenue_id ? 1 : -1))
-          .map((rev) => rev.title)
+    labels: revenues
+      ? revenues.map((aRev, i) => {
+          return convertId_Name(aRev._id, aRev.amount);
+        })
       : [],
     datasets: [
       {
         label: "Revenue Distribution",
         data: revenues
           ? revenues
-              .sort((a, b) => (a.revenue_id > b.revenue_id ? 1 : -1))
+              // .sort((a, b) => (a.revenue_id > b.revenue_id ? 1 : -1))
               .map((rev) => rev.count)
           : [0],
         backgroundColor: [
@@ -250,6 +187,13 @@ const Graph = () => {
       },
     ],
   };
+
+  const legendOption = {
+    plugins: {
+      legend: { position: "bottom" },
+    },
+  };
+
   const options = {
     scales: {
       y: {
@@ -257,23 +201,38 @@ const Graph = () => {
       },
     },
   };
+
   const line = {
-    labels: labels,
+    labels:
+      transactions.length >= 1
+        ? transactions.map((trans) => {
+            return "";
+          })
+        : [],
+
     datasets: [
       {
-        label: "Tnx",
-        data: dataset,
+        label: "Recent Transactions (₦)",
+        data: transactions.map((trans) => {
+          return trans.amount;
+        }),
         fill: true,
         backgroundColor: "rgba(75,194,188,0.2",
         borderColor: "rgb(75,194,188)",
       },
     ],
   };
+
   return (
     <div className={classes.graph_container}>
       <div className={classes.graph_item}>
         Revenue Distribution
-        <Doughnut data={_data} width={100} height={100} />
+        <Doughnut
+          data={_data}
+          width={100}
+          height={100}
+          options={legendOption}
+        />
       </div>
 
       <div className={`${classes.graph_item} ${classes.last}`}>

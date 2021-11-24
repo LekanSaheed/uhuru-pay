@@ -3,7 +3,7 @@
     display: flex;
     width: 100%;
     padding: 20px;
-    box-shadow: 0 0 10px 0 rgba(0 0 0 /5%);
+    box-shadow: 0 0 10px 0 rgba(0 0 0 /13%);
     border-bottom: 5px;
   }
   .input_container {
@@ -14,7 +14,7 @@
     display: block;
   }
   .input_container input {
-    padding: 13px;
+    padding: 15px;
     border: solid 1px #cccccc;
     border-radius: 3px;
     outline: none;
@@ -48,7 +48,12 @@
     display: flex;
     flex-direction: column;
     padding: 10px;
-
-    font-size: 13px;
+    line-height: 20px;
+    padding-top: 15px;
+    box-shadow: 0 0 10px rgba(0 0 0 /13%);
+    border-radius: 6px;
+    font-size: 15px;
+    margin-left: 5px;
+    height: 100%;
   }
 }

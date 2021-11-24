@@ -11,6 +11,12 @@ import {
   Table,
   CircularProgress,
   Button,
+  Modal,
+  Dialog,
+  DialogContent,
+  Box,
+  IconButton,
+  TextField,
 } from "@material-ui/core";
 import toast from "react-hot-toast";
 import DashBoardWrapper from "../../components/DashBoardWrapper";
@@ -41,6 +47,9 @@ const PendingRevenues = () => {
   const classes = useStyle();
   const [loading, setLoading] = useState(true);
   const [revenues, setRevenues] = useState([]);
+  const [modal, setModal] = useState(false);
+  const [revenue, setRevenue] = useState({});
+  const [comment, setComment] = useState("");
   const url = `${baseUrl}/revenue/list`;
   const fetchPendingRevenues = () => {
     const token =
@@ -74,20 +83,20 @@ const PendingRevenues = () => {
   React.useEffect(() => {
     fetchPendingRevenues();
   }, [loading]);
-  const rejectRevenue = (id) => {
-    const url = `${baseUrl}/revenue/${id}/edit`;
+  const rejectRevenue = () => {
+    const url = `${baseUrl}/revenue/${revenue._id}/edit`;
     const token =
       typeof window !== "undefined" && localStorage.getItem("accessToken");
     const requestOptions = {
       method: "PUT",
       headers: {
         Accept: "application/json",
-        "Content-type": "application/json",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         status: "rejected",
-        // comments: "Go home",
+        comments: "Not acpproved",
       }),
     };
     fetch(url, requestOptions)
@@ -96,7 +105,7 @@ const PendingRevenues = () => {
         if (data.success === true) {
           toast.success("Revenue Rejected Successfully");
           fetchPendingRevenues();
-
+          setModal(false);
           setLoading(true);
         } else {
           setLoading(false);
@@ -126,7 +135,7 @@ const PendingRevenues = () => {
     fetch(url, requestOptions)
       .then((res) => res.json())
       .then((data) => {
-        if (data.success === true) {
+        if (data.success) {
           toast.success("Revenue Accepted Successfully");
           setLoading(true);
           //   fetchPendingRevenues();
@@ -144,6 +153,39 @@ const PendingRevenues = () => {
     <DashBoardWrapper>
       <section>
         <span>All Revenues</span>
+        <Modal open={modal}>
+          <Dialog open={modal} fullWidth={true}>
+            <DialogContent>
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="space-between"
+              >
+                Reasons for rejecting Revenue{" "}
+                <IconButton size="small" onClick={() => setModal(false)}>
+                  Close
+                </IconButton>
+              </Box>
+              <Box display="flex" flexDirection="column" gap="29px">
+                <TextField
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  label="Reasons"
+                  multiline={true}
+                  minRows={3}
+                  row
+                />
+                <Button
+                  onClick={() => rejectRevenue()}
+                  color="primary"
+                  variant="contained"
+                >
+                  Reject
+                </Button>
+              </Box>
+            </DialogContent>
+          </Dialog>
+        </Modal>
         <TableContainer className={classes.root} component={Paper}>
           <Table sx={{ minWidth: 650 }}>
             <TableHead>
@@ -171,9 +213,7 @@ const PendingRevenues = () => {
                     <TableCell component="th" scope="row">
                       {revenue.title}
                     </TableCell>
-
                     <TableCell>{revenue.amount}</TableCell>
-
                     <TableCell>{revenue.category}</TableCell>
                     <TableCell>{revenue.created_by.name}</TableCell>
                     <TableCell>
@@ -181,7 +221,6 @@ const PendingRevenues = () => {
                         "MMM DD YYYY, hh:mm a"
                       )}
                     </TableCell>
-
                     <TableCell
                       className={
                         (revenue.status === "rejected"
@@ -212,7 +251,10 @@ const PendingRevenues = () => {
                         variant="contained"
                         size="small"
                         className={classes.reject}
-                        onClick={() => rejectRevenue(revenue._id)}
+                        onClick={async () => {
+                          await setRevenue(revenue);
+                          setModal(true);
+                        }}
                       >
                         Reject
                       </Button>
