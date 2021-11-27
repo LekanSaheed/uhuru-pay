@@ -89,6 +89,22 @@ const Pin = () => {
       >
         <CircularProgress />
       </div> */}
+      <Modal open={loading}>
+        <div
+          style={{
+            position: "absolute",
+            top: "0",
+            bottom: "0",
+            right: "0",
+            left: "0",
+            justifyContent: "center",
+            alignItems: "center",
+            display: "flex",
+          }}
+        >
+          <CircularProgress />
+        </div>
+      </Modal>
 
       <Box paddingTop="10px" paddingBottom="10px">
         <Image src="/WORDMARK.png" height={70} width={300} />
