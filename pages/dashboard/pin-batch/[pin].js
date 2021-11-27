@@ -113,7 +113,7 @@ const Pin = () => {
             <TableBody>
               {pins.map((pin, id) => {
                 return (
-                  <TableRow>
+                  <TableRow key={id}>
                     <TableCell>{id + 1}</TableCell>
                     <TableCell>{pin}</TableCell>
                     <TableCell>
