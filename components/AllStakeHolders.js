@@ -646,8 +646,8 @@ const AllStakeHolders = () => {
                                 .filter((rev) =>
                                   stakerCreatedRevenues.includes(rev.revenue_id)
                                 )
-                                .map((rev) => {
-                                  return <div>{rev.title}</div>;
+                                .map((rev, id) => {
+                                  return <div key={id}>{rev.title}</div>;
                                 })}
                             </Box>
                           </TabPanel>
