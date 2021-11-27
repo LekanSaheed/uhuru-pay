@@ -111,6 +111,8 @@
   padding-left: 10px;
   margin-left: -10px;
   background-color: #4bc2bc2a;
+  border-bottom-right-radius: 15px;
+  border-top-right-radius: 15px;
 }
 .active .icon {
   color: #bb4077;

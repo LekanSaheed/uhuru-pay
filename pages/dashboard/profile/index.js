@@ -27,65 +27,67 @@ const ProfilePage = () => {
   const [revenues, setRevenues] = useState([]);
 
   React.useEffect(() => {
-    const fetchRevenue = async (streams) => {
-      const token =
-        typeof window !== "undefined" && localStorage.getItem("accessToken");
-      const requestOptions = {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      await fetch(`${baseUrl}/revenue/all`, requestOptions)
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.success) {
-            setLoading(false);
-            const allocated = data.data.filter((rev) => {
-              return streams.includes(rev.revenue_id);
-            });
-            console.log(allocated);
-            setRevenues(allocated);
-          } else {
-            setLoading(false);
-            toast.error(data.error);
-          }
-        })
-        .catch((err) => {
-          setLoading(false);
-          console.log(err.message);
-        });
-    };
-    const fetchProfile = async () => {
-      const token = localStorage.getItem("accessToken");
-      const requestOptions = {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      await fetch(`${baseUrl}/stakeholder/me`, requestOptions)
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.success === true) {
-            setLoading(false);
-            setProfile(data.data);
-            fetchRevenue(data.data.revenueStreams);
-          } else {
-            setLoading(false);
-            toast.error(data.error);
-          }
-        })
-        .catch((err) => {
-          setLoading(false);
-          console.log(err.message);
-        });
-    };
-
     fetchProfile();
   }, []);
+
+  const fetchRevenue = async (streams) => {
+    const token =
+      typeof window !== "undefined" && localStorage.getItem("accessToken");
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    await fetch(`${baseUrl}/revenue/all`, requestOptions)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setLoading(false);
+          const allocated = data.data.filter((rev) => {
+            return streams.includes(rev.revenue_id);
+          });
+          console.log(streams);
+          setRevenues(allocated);
+        } else {
+          setLoading(false);
+          toast.error(data.error);
+        }
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err.message);
+      });
+  };
+  const fetchProfile = async () => {
+    const token = localStorage.getItem("accessToken");
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    await fetch(`${baseUrl}/stakeholder/me`, requestOptions)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data.data);
+        if (data.success === true) {
+          setLoading(false);
+          setProfile(data.data);
+          fetchRevenue(data.data.revenueStreams);
+        } else {
+          setLoading(false);
+          toast.error(data.error);
+        }
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err.message);
+      });
+  };
+
   const contVariant = {
     hidden: {
       opacity: 0,

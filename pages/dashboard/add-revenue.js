@@ -23,6 +23,7 @@ export default function AddRevenue() {
   const [isPin, setIsPin] = useState(true);
   const options = [
     { label: "Transport", value: "transport" },
+    { label: "Waste", value: "waste" },
     { label: "Street Naming", value: "street_naming" },
     { label: "Tenement Rate", value: "tenement_rate" },
     { label: "Toll Gate", value: "toll_gate" },
@@ -166,14 +167,14 @@ export default function AddRevenue() {
               </label>
             </Box>
           </FormControl>
-          <div className={classes.input_container}>
+          {/* <div className={classes.input_container}>
             <label>Comment</label>
             <input
               value={comment}
               placeholder="Comment"
               onChange={(e) => setComment(e.target.value)}
             />
-          </div>
+          </div> */}
         </div>
         <Button
           size="large"

@@ -20,7 +20,6 @@ import { useGlobalContext } from "../../../context/context";
 import classes from "../Batch.module.css";
 import { motion } from "framer-motion";
 import { styled } from "@material-ui/styles";
-import QRCode from "qrcode";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import moment from "moment";
@@ -29,7 +28,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import ThemedProgress from "../../../components/ThemedProgress";
 import Select from "react-select";
+import QRCode from "react-qr-code";
 
+// import QRCode from "qrcode";
 const Batch = () => {
   const router = useRouter();
   const [batch, setBatch] = useState([]);
@@ -196,17 +197,6 @@ const Batch = () => {
     },
   }));
 
-  const downloadPdf = () => {
-    const doc = new jsPDF();
-
-    doc.autoTable({
-      head: [["S/N", "Pin"]],
-      body: pin.map((aPin, id) => [id + 1, aPin]),
-      theme: "grid",
-    });
-    const batch = pin[0].slice(-6);
-    doc.save("batch" + batch + ".pdf");
-  };
   const getBatch = async (revenueCode) => {
     setLoading(true);
     setBatch([]);
@@ -338,8 +328,8 @@ const Batch = () => {
                   //   <span className={classes.amount}>{rev.amount}</span>
                   // </div>
                 );
-              })
-            : `You don't have any revenue to generate a pin`} */}
+              }) */}
+          {/* : `You don't have any revenue to generate a pin`} */}
         </motion.div>
         <motion.div
           variants={contVariant}
@@ -465,7 +455,11 @@ const Batch = () => {
                                 variant="contained"
                                 color="primary"
                                 size="small"
-                                onClick={() => getPin(aBatch.batch_no)}
+                                onClick={() =>
+                                  router.push(
+                                    router.pathname + "/" + aBatch.batch_no
+                                  )
+                                }
                               >
                                 View
                               </Button>
@@ -484,7 +478,7 @@ const Batch = () => {
             {batch.length > 0 && pin.length > 0 && (
               <motion.div variant={contVariant} className={classes.pin_table}>
                 <TableContainer className={myClass.table}>
-                  <TableContainer sx={{ minWidth: 650 }}>
+                  <TableContainer id="pin_table" sx={{ minWidth: 650 }}>
                     <StyledHead>
                       <TableRow>
                         <TableCell
@@ -500,6 +494,13 @@ const Batch = () => {
                           scope="row"
                         >
                           Pin
+                        </TableCell>
+                        <TableCell
+                          className={myClass.cellHead}
+                          component="th"
+                          scope="row"
+                        >
+                          QR Code
                         </TableCell>
                       </TableRow>
                     </StyledHead>
@@ -528,6 +529,14 @@ const Batch = () => {
                                   scope="row"
                                 >
                                   {aPin}
+                                </TableCell>
+                                <TableCell
+                                  className={myClass.cell}
+                                  component="th"
+                                  scope="row"
+                                  id="qrcode"
+                                >
+                                  <QRCode value={aPin} size={100} level="H" />
                                 </TableCell>
                               </TableRow>
                             );

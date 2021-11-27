@@ -147,7 +147,7 @@ const PinManagement = () => {
             />
           </div>
           <Button
-            disabled={!selected || !size || !areaCode || size === "0"}
+            disabled={!selected || !size || size === "0"}
             onClick={generatePin}
             variant="contained"
             color="primary"

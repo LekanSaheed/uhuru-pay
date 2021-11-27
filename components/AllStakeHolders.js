@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { baseUrl } from "../context/baseUrl";
 import toast from "react-hot-toast";
 import classes from "./AllStaker.module.css";
-import Select from "react-select";
+import Select, { components } from "react-select";
 import {
   Table,
   TableContainer,
@@ -74,20 +74,30 @@ const AllStakeHolders = () => {
   const [aStakeholder, setStakeholder] = useState({});
   const { user, logout } = useGlobalContext();
   const [revenues, setRevenues] = useState([]);
-  const [newRevenues, setNewRevenues] = useState(null);
+  const [newRevenues, setNewRevenues] = useState([]);
   const [newpass, setNewpass] = useState("");
   const [value, setValue] = React.useState("1");
   const [dataSet, setDataset] = useState({});
   const [companyDataSet, setCompanyDataset] = useState({});
   const [companies, setCompanies] = useState([]);
   const [aCompany, setCompany] = useState({});
+  const [concatArray, setconcatArray] = useState([]);
+  const [testRev, setTestRev] = useState([
+    { label: "ans me", value: "3din", isFixed: true },
+  ]);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const [stakerCreatedRevenues, setStakerCreatedRevenues] = useState([]);
 
+  console.log(stakerCreatedRevenues, "gg");
   const handleRevenueChanges = (change) => {
     setNewRevenues(change);
-    handleChanges({ revenueStreams: change.map((rev) => rev.value) });
+    handleChanges({
+      revenueStreams: change
+        .map((rev) => rev.value)
+        .concat(stakerCreatedRevenues),
+    });
   };
 
   const token =
@@ -144,6 +154,7 @@ const AllStakeHolders = () => {
     await fetch(url, requestOptions)
       .then((res) => res.json())
       .then((data) => {
+        console.log(data.data);
         if (data.success) {
           fetchRevenues();
           setStakeholders(data.data);
@@ -188,27 +199,35 @@ const AllStakeHolders = () => {
     await setStakeholder(stakeholder);
     setEdit(true);
     setCompany({});
+
     setNewRevenues(
-      revenues.length > 0 &&
-        revenues
-          .filter((rev) => {
-            if (user.revenueStreams !== undefined) {
-              return user.revenueStreams.includes(rev.revenue_id);
-            }
-          })
-          .filter(
-            (rev) =>
-              stakeholder.revenueStreams !== undefined &&
-              stakeholder.revenueStreams.includes(rev.revenue_id)
-          )
-          .map((rev) => {
-            return {
-              label: rev.title.toUpperCase(),
-              value: rev.revenue_id,
-            };
-          })
+      revenues
+        .filter((rev) => {
+          if (user.revenueStreams !== undefined) {
+            return user.revenueStreams.includes(rev.revenue_id);
+          }
+        })
+        .filter((rev) => {
+          return (
+            stakeholder.revenueStreams !== undefined &&
+            stakeholder.revenueStreams.includes(rev.revenue_id)
+          );
+        })
+        .map((rev) => {
+          return {
+            label: rev.title.toUpperCase(),
+            value: rev.revenue_id,
+          };
+        })
+    );
+
+    setStakerCreatedRevenues(
+      stakeholder.revenueStreams.filter((rev) => {
+        return !user.revenueStreams.includes(rev);
+      })
     );
   };
+
   const selectCompany = async (company) => {
     await setCompany(company);
     setEdit(true);
@@ -288,6 +307,28 @@ const AllStakeHolders = () => {
         }
       });
   };
+
+  const MultiValueRemove = (props) => {
+    if (props.data.isFixed) {
+      return null;
+    }
+    return <components.MultiValueRemove {...props} />;
+  };
+
+  const onChange = (actionMeta) => {
+    switch (actionMeta.action) {
+      case "remove-value":
+      case "pop-value":
+        if (actionMeta.removedValue.isFixed) {
+          return;
+        }
+        break;
+      case "clear":
+        value = newRevenues.filter((v) => !v.isFixed);
+        break;
+    }
+  };
+
   const editUser = async () => {
     // const url = `${baseUrl}/stakeholder/${aStakeholder._id}/update`;
     await fetch(`${baseUrl}/stakeholder/${aStakeholder._id}/update`, {
@@ -439,6 +480,10 @@ const AllStakeHolders = () => {
                             >
                               <Tab label="Edit Profile" value="1" />
                               <Tab label="Reset Password" value="2" />
+                              <Tab
+                                label={`Stakeholder's Created Revenues`}
+                                value="3"
+                              />
                             </TabList>
                           </Box>
                           <TabPanel value="1">
@@ -589,6 +634,21 @@ const AllStakeHolders = () => {
                                   </IconButton>
                                 </Box>
                               )}
+                            </Box>
+                          </TabPanel>
+                          <TabPanel value="3">
+                            <Box
+                              display="flex"
+                              flexDirection="column"
+                              gap="10px"
+                            >
+                              {revenues
+                                .filter((rev) =>
+                                  stakerCreatedRevenues.includes(rev.revenue_id)
+                                )
+                                .map((rev) => {
+                                  return <div>{rev.title}</div>;
+                                })}
                             </Box>
                           </TabPanel>
                         </TabContext>
