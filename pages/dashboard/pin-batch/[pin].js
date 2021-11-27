@@ -53,6 +53,7 @@ const Pin = () => {
       .then((data) => {
         if (data.success && data.data.length > 0) {
           setPin(data.data);
+          window.print();
           setLoading(false);
           console.log(data);
           toast.success("success");
