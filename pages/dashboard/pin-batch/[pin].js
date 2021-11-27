@@ -23,7 +23,6 @@ import { Box } from "@mui/system";
 import Image from "next/image";
 const Pin = () => {
   const router = useRouter();
-  console.log(router);
   const [pins, setPin] = useState([]);
   const [loading, setLoading] = useState(true);
   const { logout } = useGlobalContext();
@@ -53,11 +52,11 @@ const Pin = () => {
       .then((data) => {
         if (data.success && data.data.length > 0) {
           setPin(data.data);
+          setLoading(false);
           setTimeout(() => {
             window.print();
           }, 1500);
-          setLoading(false);
-          console.log(data);
+
           toast.success("success");
         } else {
           setLoading(false);
