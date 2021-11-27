@@ -53,7 +53,9 @@ const Pin = () => {
       .then((data) => {
         if (data.success && data.data.length > 0) {
           setPin(data.data);
-          window.print();
+          setTimeout(() => {
+            window.print();
+          }, 1500);
           setLoading(false);
           console.log(data);
           toast.success("success");
@@ -73,22 +75,22 @@ const Pin = () => {
 
   return (
     <>
-      <Modal open={loading}>
-        <div
-          style={{
-            position: "absolute",
-            top: "0",
-            bottom: "0",
-            right: "0",
-            left: "0",
-            justifyContent: "center",
-            alignItems: "center",
-            display: "flex",
-          }}
-        >
-          <CircularProgress />
-        </div>
-      </Modal>
+      <div
+        style={{
+          background: "rgba(0,0,0, .8)",
+          position: "absolute",
+          top: "0",
+          bottom: "0",
+          right: "0",
+          left: "0",
+          justifyContent: "center",
+          alignItems: "center",
+          display: "flex",
+        }}
+      >
+        <CircularProgress />
+      </div>
+
       <Box paddingTop="10px" paddingBottom="10px">
         <Image src="/WORDMARK.png" height={70} width={300} />
       </Box>
