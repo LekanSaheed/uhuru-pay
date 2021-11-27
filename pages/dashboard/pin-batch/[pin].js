@@ -74,7 +74,7 @@ const Pin = () => {
 
   return (
     <>
-      <div
+      {/* <div
         style={{
           background: "rgba(0,0,0, .8)",
           position: "absolute",
@@ -88,7 +88,7 @@ const Pin = () => {
         }}
       >
         <CircularProgress />
-      </div>
+      </div> */}
 
       <Box paddingTop="10px" paddingBottom="10px">
         <Image src="/WORDMARK.png" height={70} width={300} />
