@@ -21,7 +21,7 @@ const History = () => {
   const [allRev, setAllRev] = useState([]);
   const token =
     typeof window !== "undefined" && localStorage.getItem("accessToken");
-  const fetchHistory = async (revenueId) => {
+  const fetchHistory = async () => {
     const url = `${baseUrl}/collections/all/history`;
     await fetch(url, {
       method: "GET",
@@ -51,12 +51,7 @@ const History = () => {
       .then((data) => {
         if (data.success) {
           setRevenues(data.data);
-
           setLoading(false);
-          const revs = data.data;
-          revs.forEach((rev) => {
-            fetchHistory(rev.revenue_id);
-          });
         } else {
           setLoading(false);
           console.log(data.error);
@@ -67,6 +62,7 @@ const History = () => {
   useEffect(() => {
     fetchRevenue();
     fetchRev();
+    fetchHistory();
   }, []);
 
   const fetchRev = async (id) => {

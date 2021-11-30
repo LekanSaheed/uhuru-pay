@@ -54,36 +54,18 @@ const GridCard = () => {
         "Check your history on transactions and manage your packages that you have.",
       linkText: "Details",
       linkIcon: <MdOutlineHistory />,
-      link: "", //"/dashboard/transaction-history",
+      link: "/dashboard/transaction-history",
     },
   ];
   const router = useRouter();
   return (
     <div className={classes.card_container}>
-      {modal && (
-        <Modal open={modal}>
-          <Dialog open={modal}>
-            <DialogContent>
-              This feature is coming soon
-              <Box alignItems="center" justifyContent="center" display="flex">
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={() => setModal(false)}
-                >
-                  Got it
-                </Button>
-              </Box>
-            </DialogContent>
-          </Dialog>
-        </Modal>
-      )}
       {React.Children.toArray(
         cardContent.map((card) => {
           return (
             <div
               onClick={() => {
-                card.link ? router.push(card.link) : setModal(true);
+                router.push(card.link);
               }}
               key={card.title}
               className={classes.card}
