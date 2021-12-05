@@ -9,7 +9,9 @@ import { useGlobalContext } from "../context/context";
 import { motion } from "framer-motion";
 import TimeFilter from "./TimeFilter";
 const DashBoardMain = () => {
-  const { user } = useGlobalContext();
+  const { user, filters } = useGlobalContext();
+  const [filterTime, setFilterTime] = React.useState(filters[0]);
+
   const contVariant = {
     hidden: {
       opacity: 0,
@@ -31,12 +33,18 @@ const DashBoardMain = () => {
   return (
     <MainWrapper>
       <motion.div variants={contVariant}>
-        <TimeFilter />
+        <TimeFilter
+          onPress={(action) => {
+            if (action.text !== "Custom Period") {
+              setFilterTime(action);
+            }
+          }}
+        />
         <span className={classes.name}>
           Welcome {user !== null ? user.name : "USER"}
         </span>
         <div className={classes.cont}>
-          <Cards />
+          <Cards filter={filterTime} />
           <div>
             <Wallet />
           </div>

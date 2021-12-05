@@ -121,6 +121,7 @@ const AddStakeholder = () => {
 
   const add = async (e) => {
     setLoading(true);
+
     e.preventDefault();
     const url = `${baseUrl}/stakeholder/register`;
     const requestOptions = {
@@ -158,12 +159,13 @@ const AddStakeholder = () => {
           setStream([]);
         } else {
           toast.error(data.error);
+
           setLoading(false);
         }
       })
       .catch((err) => {
         console.log(err);
-        toast.error(err.message);
+        toast.error(err);
       });
   };
 

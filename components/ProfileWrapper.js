@@ -1,6 +1,7 @@
 import classes from "./ProfileWrapper.module.css";
 import { motion } from "framer-motion";
 import {
+  RiBuilding2Line,
   RiCoinsLine,
   RiLockPasswordLine,
   RiUserLine,
@@ -37,6 +38,13 @@ const ProfileWrapper = ({ children }) => {
       icon: <RiLockPasswordLine />,
       detail: "Manage and change your password here",
       link: "/profile/change-password",
+    },
+    {
+      text: "Bank Details",
+      icon: <RiBuilding2Line />,
+      detail: "Manage and add bank details here",
+      link: "/profile/bank-details",
+      access: "regular",
     },
   ];
   const contVariant = {

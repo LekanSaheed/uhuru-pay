@@ -3,8 +3,11 @@ import React, { useState } from "react";
 import { baseUrl } from "../context/baseUrl";
 import ACard from "./ACard";
 import toast from "react-hot-toast";
+import moment from "moment";
 import { useGlobalContext } from "../context/context";
-const Cards = () => {
+
+const Cards = (props) => {
+  const { filter } = props;
   const [weekInfo, setWeekInfo] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -13,6 +16,75 @@ const Cards = () => {
   const [collectionRate, setCollectionRate] = useState([]);
   const { user } = useGlobalContext();
   const [activePins, setActivePins] = useState([]);
+  const [filterTrans, setFilterTrans] = useState([]);
+
+  React.useEffect(() => {
+    fetchWeek();
+    fetchHistory();
+    fetchActivePins();
+    fetchTaxPayers();
+    fetchCollectionRate();
+  }, [filter]);
+
+  const fetchHistory = async () => {
+    setFilterTrans([]);
+    let filterTnx = [];
+    const token =
+      typeof window !== "undefined" && localStorage.getItem("accessToken");
+    const url = `${baseUrl}/collections/all/history`;
+    await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          const trnx = data.data[0].paginatedResult;
+          trnx.map((aTrnx) => {
+            switch (filter.text) {
+              case "Today":
+                {
+                  const splitFilterTime = filter.date[0].split("T")[0];
+                  const splitTrnxTime = aTrnx.updated_at.split("T")[0];
+                  if (splitTrnxTime === splitFilterTime) {
+                    filterTnx.push(aTrnx);
+                    setFilterTrans(filterTnx);
+                    setLoading(false);
+                  }
+                }
+                break;
+              case "All Time":
+                {
+                  filterTnx.push(aTrnx);
+                  setFilterTrans(filterTnx);
+                  setLoading(false);
+                }
+                break;
+              default:
+                {
+                  const splitFilterStart = filter.date[0].split("T")[0];
+                  const splitFilterEnd = filter.date[1].split("T")[0];
+                  const splitTrnxTime = aTrnx.updated_at.split("T")[0];
+                  if (
+                    splitTrnxTime >= splitFilterStart &&
+                    splitTrnxTime <= splitFilterEnd
+                  ) {
+                    filterTnx.push(aTrnx);
+                    setFilterTrans(filterTnx);
+                    setLoading(false);
+                  }
+                }
+                break;
+            }
+          });
+        } else {
+          setLoading(false);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
 
   const fetchWeek = async () => {
     const url = `${baseUrl}/info/revenues`;
@@ -45,6 +117,7 @@ const Cards = () => {
         toast.error("Error Fetching Data: " + err.message);
       });
   };
+
   const fetchActivePins = async () => {
     const codes = user.revenueStreams;
     codes.forEach(async (code) => {
@@ -102,6 +175,8 @@ const Cards = () => {
   };
 
   const fetchTaxPayers = async () => {
+    setTaxPayers([]);
+    let payerList = [];
     const url = `${baseUrl}/payer/dash`;
     const token =
       typeof window !== "undefined" && localStorage.getItem("accessToken");
@@ -118,10 +193,48 @@ const Cards = () => {
     await fetch(url, requestOptions)
       .then((res) => res.json())
       .then((data) => {
+        console.log(data.data);
         if (data.success) {
-          console.log(data, "card");
-          setTaxPayers(data.data);
-          setLoading(false);
+          // setTaxPayers(data.data);
+          // setLoading(false);
+          const payers = data.data;
+          payers.map((aTrnx) => {
+            switch (filter.text) {
+              case "Today":
+                {
+                  const splitFilterTime = filter.date[0].split("T")[0];
+                  const splitTrnxTime = aTrnx.created_At.split("T")[0];
+                  if (splitTrnxTime === splitFilterTime) {
+                    payerList.push(aTrnx);
+                    setTaxPayers(payerList);
+                    setLoading(false);
+                  }
+                }
+                break;
+              case "All Time":
+                {
+                  payerList.push(aTrnx);
+                  setTaxPayers(payerList);
+                  setLoading(false);
+                }
+                break;
+              default:
+                {
+                  const splitFilterStart = filter.date[0].split("T")[0];
+                  const splitFilterEnd = filter.date[1].split("T")[0];
+                  const splitTrnxTime = aTrnx.created_At.split("T")[0];
+                  if (
+                    splitTrnxTime >= splitFilterStart &&
+                    splitTrnxTime <= splitFilterEnd
+                  ) {
+                    payerList.push(aTrnx);
+                    setTaxPayers(payerList);
+                    setLoading(false);
+                  }
+                }
+                break;
+            }
+          });
         } else {
           setLoading(false);
           toast.error(data.error);
@@ -162,25 +275,19 @@ const Cards = () => {
         toast.error("Error Fetching Data: " + err.message);
       });
   };
-  React.useEffect(() => {
-    fetchWeek();
-    fetchActivePins();
-    fetchTaxPayers();
-    fetchCollectionRate();
-  }, []);
 
   return (
     <div className={classes.cardContainer}>
       <ACard
         title="Total Collections"
         type="week"
-        detail={`₦${weekInfo
+        detail={`₦${filterTrans
           .reduce((a, b) => a + b.amount, 0)
           .toLocaleString(undefined, {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
           })}`}
-        collection={weekInfo}
+        collection={filterTrans.length}
         loading={loading}
       />
       <ACard
@@ -200,17 +307,14 @@ const Cards = () => {
         <ACard
           title="Collection Volume"
           type="volume"
-          volume={weekInfo.reduce((a, b) => a + b.amount, 0)}
+          volume={filterTrans.reduce((a, b) => a + b.amount, 0)}
           loading={loading}
         />
       ) : (
         <ACard
           title="Collection Rate"
           type="rate"
-          rate={
-            weekInfo.reduce((a, b) => a + b.count, 0) /
-            activePins.reduce((a, b) => a + b, 0)
-          }
+          rate={filterTrans.length / activePins.reduce((a, b) => a + b, 0)}
           loading={loading}
         />
       )}

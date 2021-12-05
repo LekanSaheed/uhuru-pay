@@ -2,8 +2,9 @@ import classes from "./TimeFilter.module.css";
 import { useState } from "react";
 import { useGlobalContext } from "../context/context";
 
-const TimeFilter = () => {
+const TimeFilter = (props) => {
   const { filters, dispatch } = useGlobalContext();
+  const { onPress } = props;
 
   return (
     <div className={classes.container}>
@@ -14,6 +15,7 @@ const TimeFilter = () => {
             key={i.id}
             onClick={() => {
               dispatch({ type: "TOGGLE_FILTERS", payload: { i, classes } });
+              onPress(i);
             }}
           >
             {i.text}

@@ -469,7 +469,12 @@ const AllStakeHolders = () => {
                   );
                 })}
                 {
-                  <Modal open={edit}>
+                  <Modal
+                    BackdropProps={{
+                      style: { background: "rgba(255,255,255, .6)" },
+                    }}
+                    open={edit}
+                  >
                     <Dialog fullWidth={true} open={edit}>
                       <DialogContent>
                         <TabContext value={value}>
@@ -551,28 +556,30 @@ const AllStakeHolders = () => {
                                     handleChanges({ phone: e.target.value })
                                   }
                                 />
-                                <FormControl>
-                                  <label>Revenue</label>
-                                  <Select
-                                    onChange={handleRevenueChanges}
-                                    value={newRevenues}
-                                    isMulti={true}
-                                    options={revenues
-                                      .filter((rev) => {
-                                        if (user.revenueStreams) {
-                                          return user.revenueStreams.includes(
-                                            rev.revenue_id
-                                          );
-                                        }
-                                      })
-                                      .map((rev) => {
-                                        return {
-                                          label: rev.title.toUpperCase(),
-                                          value: rev.revenue_id,
-                                        };
-                                      })}
-                                  />
-                                </FormControl>
+                                {user.role !== "admin" && (
+                                  <FormControl>
+                                    <label>Revenue</label>
+                                    <Select
+                                      onChange={handleRevenueChanges}
+                                      value={newRevenues}
+                                      isMulti={true}
+                                      options={revenues
+                                        .filter((rev) => {
+                                          if (user.revenueStreams) {
+                                            return user.revenueStreams.includes(
+                                              rev.revenue_id
+                                            );
+                                          }
+                                        })
+                                        .map((rev) => {
+                                          return {
+                                            label: rev.title.toUpperCase(),
+                                            value: rev.revenue_id,
+                                          };
+                                        })}
+                                    />
+                                  </FormControl>
+                                )}
 
                                 <Button
                                   color="primary"

@@ -25,14 +25,7 @@ const ACard = ({
           <br />
           {type === "week" && (
             <span className={classes.figure}>
-              <CountUp
-                end={
-                  collection.length > 0
-                    ? collection.reduce((a, b) => a + b.count, 0)
-                    : "0"
-                }
-                duration={1}
-              />
+              <CountUp end={collection} duration={1} />
             </span>
           )}
           {type === "pins" && (
