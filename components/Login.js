@@ -4,6 +4,7 @@ import { useGlobalContext } from "../context/context";
 import classes from "./Login.module.css";
 import { useRouter } from "next/router";
 import React from "react";
+import Link from "next/link";
 import {
   AiFillEyeInvisible,
   AiFillEye,
@@ -169,7 +170,9 @@ const Form = () => {
             </span>
           </div>
         </div>
-
+        <div style={{ textAlign: "right", marginRight: "10px" }}>
+          <Link href="/reset">Reset Password</Link>
+        </div>
         <button
           className={isLoading ? classes.disabled : ""}
           disabled={isLoading}

@@ -31,6 +31,7 @@ import { TabContext } from "@material-ui/lab";
 import { TabList } from "@material-ui/lab";
 import { TabPanel } from "@material-ui/lab";
 import { Close } from "@material-ui/icons";
+import moment from "moment";
 const AllStakeHolders = () => {
   const useStyles = makeStyles({
     root: {
@@ -423,6 +424,7 @@ const AllStakeHolders = () => {
                   <TableCell>Email</TableCell>
                   <TableCell>Phone</TableCell>
                   <TableCell>Role</TableCell>
+                  <TableCell>Date Created</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -443,6 +445,11 @@ const AllStakeHolders = () => {
                       <TableCell>{stakeholder.email}</TableCell>
                       <TableCell>{stakeholder.phone}</TableCell>
                       <TableCell>{stakeholder.role}</TableCell>
+                      <TableCell>
+                        {moment(stakeholder.createdAt).format(
+                          "ddd, MMM DD YYYY "
+                        )}
+                      </TableCell>
                       <TableCell>
                         {stakeholder.isActive ? (
                           <span onClick={() => deactivate(stakeholder._id)}>
@@ -683,6 +690,7 @@ const AllStakeHolders = () => {
                   <TableCell>Email</TableCell>
                   <TableCell>Phone</TableCell>
                   <TableCell>Reg No</TableCell>
+                  <TableCell>Date Created</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -703,6 +711,9 @@ const AllStakeHolders = () => {
                       <TableCell>{company.email}</TableCell>
                       <TableCell>{company.phone}</TableCell>
                       <TableCell>{company.reg_no}</TableCell>
+                      <TableCell>
+                        {moment(company.createdAt).format("ddd, MMM DD YYYY ")}
+                      </TableCell>
                       <TableCell>
                         {company.isActive ? (
                           <span onClick={() => deactivateCompany(company._id)}>

@@ -73,6 +73,7 @@ const Revenues = () => {
       .then((data) => {
         if (data.success === true) {
           setRevenues(data.data);
+          console.log(data);
           setLoading(false);
         } else {
           setLoading(false);

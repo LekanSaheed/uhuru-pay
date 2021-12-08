@@ -43,7 +43,8 @@ function MyApp({ Component, pageProps, router }) {
     if (localUser !== null && localUser.name !== null) {
       setUser(localUser);
     } else {
-      router.push("/login");
+      router.pathname !== "/reset" ||
+        (router.pathname !== "/reset-password" && router.push("/login"));
     }
   }, []);
   const { toasts } = useToasterStore();

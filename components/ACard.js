@@ -52,7 +52,9 @@ const ACard = ({
             <span className={classes.figure}>₦{volume ? volume : 0}</span>
           )}
           {type === "payers" && (
-            <span className={classes.figure}>{payers}</span>
+            <span className={classes.figure}>
+              <CountUp end={payers} duration={1} />
+            </span>
           )}
           <br />
           <span className={classes.detail}>{detail}</span>

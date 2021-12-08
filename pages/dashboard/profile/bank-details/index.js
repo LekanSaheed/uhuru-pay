@@ -18,6 +18,7 @@ const Bank = () => {
   const [index, setIndex] = useState([]);
   useEffect(() => {
     user.role === "admin" && router.push("/");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     fetchBanks();
   }, []);
 
