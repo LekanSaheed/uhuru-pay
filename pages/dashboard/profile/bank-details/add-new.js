@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ProfileWrapper from "../../../../components/ProfileWrapper";
 import Select from "react-select";
-import { banks } from "./ngBanks";
+import { banks } from "../../../../components/ngBanks";
 import { Box, TextField, Button } from "@material-ui/core";
 import toast from "react-hot-toast";
 import { baseUrl } from "../../../../context/baseUrl";
