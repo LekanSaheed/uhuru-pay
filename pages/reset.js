@@ -4,7 +4,7 @@ import { baseUrl } from "../context/baseUrl";
 import classes from "./reset.module.css";
 import Image from "next/image";
 import link from "next/link";
-const reset = () => {
+const Reset = () => {
   const [email, setEmail] = React.useState("");
   const resetPass = async (e) => {
     e.preventDefault();
@@ -37,8 +37,8 @@ const reset = () => {
           <Image src="/WORDMARK.png" height={50} width={200} />
         </div>
         <div className={classes.inst}>
-          Enter the email associated with your account and we'll send you a link
-          to reset your password
+          Enter the email associated with your account and we will send you a
+          link to reset your password
         </div>{" "}
         <label>Email</label>
         <div className={classes.input_container}>
@@ -58,4 +58,4 @@ const reset = () => {
   );
 };
 
-export default reset;
+export default Reset;
