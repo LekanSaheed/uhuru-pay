@@ -41,10 +41,11 @@ const Reset = () => {
     <div className={classes.container}>
       <form className={classes.form}>
         <div className={classes.header}>
-        <div className={classes.inst}>
-          Enter the email associated with your account and we will send you a
-          link to reset your password
-        </div>{" "}
+          <div className={classes.inst}>
+            Enter the email associated with your account and we will send you a
+            link to reset your password
+          </div>
+        </div>
         <label>Email</label>
         <div className={classes.input_container}>
           <input
