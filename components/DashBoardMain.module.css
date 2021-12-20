@@ -1,0 +1,16 @@
+.cont {
+  background-color: white;
+}
+.name {
+  font-weight: 600;
+}
+
+@media (min-width: 767px) {
+  .cont {
+  }
+}
+@media (min-width: 1024px) {
+  .cont {
+    display: flex;
+  }
+}

@@ -1,0 +1,228 @@
+.form {
+  width: 380px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 10px;
+  padding: 17px;
+  border: solid 2px #efefef;
+}
+.input_flex {
+  display: flex;
+  align-items: center;
+  border: solid 2px #4bc2bc;
+  border-radius: 5px;
+  padding: 0 10px;
+  background-color: white;
+}
+
+.login_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #f4f6f8;
+  margin-top: -100px;
+
+  margin-top: 3px;
+}
+.input_container {
+  width: 100%;
+  margin-bottom: 20px;
+}
+.input_container input:focus > .input_flex {
+  border-color: teal;
+}
+
+.input_container input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 15px;
+  border: none;
+  font-size: 14px;
+  outline: none;
+  background: transparent;
+  -webkit-appearance: none;
+  border: none;
+  transition: 0.3s;
+}
+.form button {
+  height: 50px;
+  display: flex;
+  box-sizing: content-box;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+  font-weight: 600;
+  border: none;
+  background-color: #4bc2bc;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.1s linear;
+  margin-top: 13px;
+}
+.input_container label {
+  margin-bottom: 1px;
+  display: block;
+  font-size: 13px;
+}
+.spinner {
+  font-size: 20px;
+  animation: spin 0.6s ease-in-out infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  from {
+    transform: rotateZ(0deg);
+  }
+  to {
+    transform: rotateZ(360deg);
+  }
+}
+@-moz-keyframes spin {
+  from {
+    transform: rotateZ(0deg);
+  }
+  to {
+    transform: rotateZ(360deg);
+  }
+}
+.form button:hover {
+  background-color: #5bddd6;
+  transform: scale(1.01);
+}
+.vis_toggle {
+  cursor: pointer;
+  font-size: 23px;
+}
+
+.formText {
+  font-weight: 600;
+  font-size: 14px;
+}
+@media (max-width: 330px) {
+  .form {
+    width: 97%;
+  }
+  .input_container input {
+    padding: 10px;
+  }
+  .form button {
+    height: 40px;
+  }
+}
+@media (min-width: 767px) {
+  .form {
+    width: 550px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+  }
+  .formText {
+    font-weight: 600;
+    font-size: 22px;
+  }
+  .input_container label {
+    margin-bottom: 2px;
+    display: block;
+    font-size: 16px;
+  }
+
+  .login_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #f4f6f8;
+    padding-top: 70px;
+  }
+  .input_container {
+    width: 100%;
+    padding: 10px;
+  }
+  .icon {
+    font-size: 20px;
+  }
+  .form button {
+    margin: 10px;
+    color: white;
+    text-align: center;
+    font-weight: 600;
+    border: none;
+    background-color: #4bc2bc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.1s linear;
+    margin-top: 13px;
+  }
+  .input_container label {
+    margin-bottom: 7px;
+  }
+  .spinner {
+    font-size: 20px;
+    animation: spin 0.6s ease-in-out infinite;
+  }
+  @keyframes spin {
+    0% {
+      transform: rotateZ(0deg);
+    }
+    100% {
+      transform: rotateZ(360deg);
+    }
+  }
+  @-webkit-keyframes spin {
+    from {
+      transform: rotateZ(0deg);
+    }
+    to {
+      transform: rotateZ(360deg);
+    }
+  }
+  @-moz-keyframes spin {
+    from {
+      transform: rotateZ(0deg);
+    }
+    to {
+      transform: rotateZ(360deg);
+    }
+  }
+  .form button:hover {
+    background-color: #5bddd6;
+    transform: scale(1.01);
+  }
+
+  .disabled {
+    background-color: #a8fdf9 !important;
+  }
+  .input_container input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 15px;
+    border-radius: 5px;
+    transition: 0.3s;
+  }
+  .vis_toggle {
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 26px;
+  }
+}

@@ -1,0 +1,81 @@
+@font-face {
+  font-family: "icomoon";
+  src: url("./icomoon/fonts/icomoon.eot");
+  src: url("./icomoon/fonts/icomoon.eot?#iefix") format("embedded-opentype"),
+    url("./icomoon/fonts/icomoon.woff") format("woff"),
+    url("./icomoon/fonts/icomoon.ttf") format("truetype"),
+    url("./icomoon/fonts/icomoon.svg") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: brFirma;
+  src: url("./brFirma/BR\ Firma\ Regular.woff") format("woff");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: brFBold;
+  src: url("./brFirma/BR\ Firma\ Black.woff") format("woff");
+  font-weight: 500;
+}
+body::placeholder {
+  font-family: brFirma;
+}
+body::-webkit-scrollbar {
+  background-color: #efefef;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #4bc2bc;
+  border-radius: 50px;
+  box-shadow: 0 0 10px rgba(0 0 0 /17%);
+  border: solid 3px white;
+  background-clip: padding-box;
+}
+body::-webkit-scrollbar-corner {
+  border-radius: 10px;
+}
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: brFirma, sans-serif;
+}
+.theme-color {
+  color: #4bc2bc;
+  padding: 10px;
+}
+.theme-color-bold {
+  color: #4bc2bc;
+  font-weight: 700;
+}
+input[type="text"],
+textarea {
+  background-color: #fff;
+}
+input[type="color"] {
+  -webkit-appearance: none;
+}
+input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+input[type="color"]::-webkit-color-swatch {
+  border: none;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  box-shadow: 0 0 0 30px white inset !important;
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
