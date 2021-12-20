@@ -35,7 +35,8 @@ import moment from "moment";
 const AllStakeHolders = () => {
   const useStyles = makeStyles({
     root: {
-      overflow: "scroll",
+      overflowX: "scroll",
+      width: "100%",
     },
     active: {
       color: "green",
@@ -411,10 +412,10 @@ const AllStakeHolders = () => {
             <Tab value="2" label="Companies" />
           </TabList>
         )}
-        <TabPanel value="1">
-          <TableContainer component={TableComponent} className={myClass.root}>
+        <TabPanel value="1" className={myClass.root}>
+          <TableContainer component={TableComponent}>
             <Table sx={{ minWidth: 650 }}>
-              <TableHead>
+              <TableHead style={{ whiteSpace: "nowrap" }}>
                 <TableRow>
                   <TableCell>S/N</TableCell>
                   <TableCell component="th" scope="row">
@@ -434,7 +435,11 @@ const AllStakeHolders = () => {
                       hover
                       classes={{ hover: myClass.hover }}
                       key={stakeholder._id}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                        whiteSpace: "nowrap",
+                      }}
+                      style={{ whiteSpace: "nowrap" }}
                     >
                       <TableCell>{id + 1}</TableCell>
                       <TableCell component="th" scope="row">
@@ -491,10 +496,10 @@ const AllStakeHolders = () => {
                               aria-label="Edit Profile"
                             >
                               <Tab label="Edit Profile" value="1" />
-                              <Tab label="Reset Password" value="2" />
+
                               <Tab
                                 label={`Stakeholder's Created Revenues`}
-                                value="3"
+                                value="2"
                               />
                             </TabList>
                           </Box>
@@ -599,7 +604,7 @@ const AllStakeHolders = () => {
                               </Box>
                             </Box>
                           </TabPanel>
-                          <TabPanel value="2">
+                          {/* <TabPanel value="2">
                             <Box display="flex" flexDirection="column">
                               {!newpass ? (
                                 <>
@@ -649,8 +654,8 @@ const AllStakeHolders = () => {
                                 </Box>
                               )}
                             </Box>
-                          </TabPanel>
-                          <TabPanel value="3">
+                          </TabPanel> */}
+                          <TabPanel value="2">
                             <Box
                               display="flex"
                               flexDirection="column"
@@ -677,10 +682,10 @@ const AllStakeHolders = () => {
 
         {/* Company Table */}
 
-        <TabPanel value="2">
+        <TabPanel value="2" className={myClass.root}>
           <TableContainer component={TableComponent} className={myClass.root}>
             <Table sx={{ minWidth: 650 }}>
-              <TableHead>
+              <TableHead style={{ whiteSpace: "nowrap" }}>
                 <TableRow>
                   <TableCell>S/N</TableCell>
                   <TableCell component="th" scope="row">

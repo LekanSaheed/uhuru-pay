@@ -339,7 +339,7 @@ const Batch = () => {
             <TableContainer className={myClass.table}>
               <SearchBar />
               <TableContainer>
-                <StyledHead>
+                <StyledHead style={{ whiteSpace: "nowrap" }}>
                   <TableRow>
                     <TableCell
                       className={myClass.cellHead}
@@ -372,6 +372,7 @@ const Batch = () => {
                       Date Created
                     </TableCell>
                     <TableCell className={myClass.cellHead}></TableCell>
+                    <TableCell className={myClass.cellHead}></TableCell>
                   </TableRow>
                 </StyledHead>
                 <TableBody>
@@ -379,6 +380,7 @@ const Batch = () => {
                     ? batch.map((aBatch) => {
                         return (
                           <TableRow
+                            style={{ whiteSpace: "nowrap" }}
                             className={myClass.tRow}
                             key={aBatch.batch_no}
                             sx={{
