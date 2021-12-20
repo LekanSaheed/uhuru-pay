@@ -40,10 +40,7 @@ const Reset = () => {
   return (
     <div className={classes.container}>
       <form className={classes.form}>
-        {loading && <LinearProgress />}
         <div className={classes.header}>
-          <Image src="/WORDMARK.png" height={50} width={200} />
-        </div>
         <div className={classes.inst}>
           Enter the email associated with your account and we will send you a
           link to reset your password

@@ -76,7 +76,6 @@
   font-size: 20px;
   animation: spin 0.6s ease-in-out infinite;
 }
-
 @keyframes spin {
   0% {
     transform: rotateZ(0deg);
