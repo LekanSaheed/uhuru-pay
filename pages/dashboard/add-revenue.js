@@ -34,7 +34,7 @@ export default function AddRevenue() {
     { label: "Street Naming", value: "street_naming" },
     { label: "Tenement Rate", value: "tenement_rate" },
     { label: "Toll Gate", value: "toll_gate" },
-    { label: "School Fees", value: "school_fees" },
+    { label: "School Collection", value: "school_collection" },
     { label: "Market", value: "market" },
   ];
   const token = process.browser && localStorage.getItem("accessToken");
