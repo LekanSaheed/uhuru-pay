@@ -17,35 +17,58 @@ import Select from "react-select";
 const EditRevenue = ({ open, selected, setOpen, fetchRev, setSelected }) => {
   const [edited, setEdited] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState(null);
-  const fetchMe = async () => {
+  const [bank, setBank] = useState([]);
+  const [currentBank, setCurrentBank] = useState(null);
+  console.log(currentBank, bank, "Current bank");
+  const token =
+    typeof window !== "undefined" && localStorage.getItem("accessToken");
+  const fetchAccounts = async () => {
     setLoading(true);
-    await fetch(`${baseUrl}/stakeholder/me`, {
+    await fetch(`${baseUrl}/accounts/list`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
       .then((res) => res.json())
-      .then((data) => {
-        setLoading(false);
+      .then(async (data) => {
         if (data.success) {
+          console.log(data);
+
+          await setCurrentBank({
+            label:
+              selected &&
+              data.data
+                .filter((b) => b.subaccount_id === selected.settlementAccount)
+                .map((b) => `${b.account_number} ${b.bank_name}`)[0],
+            value: selected && selected.settlementAccount,
+          });
+          setBank(data.data);
           setLoading(false);
-          setUser(data.data);
-          console.log(data.data);
         } else {
           toast.error(data.error);
+          setLoading(false);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
   };
   useEffect(() => {
-    fetchMe();
-  }, []);
+    fetchAccounts();
+  }, [selected]);
+
+  const bankOptions = bank.map((b) => {
+    return {
+      value: b.subaccount_id,
+      label: b.account_number + " " + b.bank_name,
+    };
+  });
+
   const editRevenue = async () => {
     setLoading(true);
-    const token =
-      typeof window !== "undefined" && localStorage.getItem("accessToken");
+
     const url = `${baseUrl}/revenue/${selected && selected._id}/edit`;
     const requestOptions = {
       method: "PUT",
@@ -63,6 +86,7 @@ const EditRevenue = ({ open, selected, setOpen, fetchRev, setSelected }) => {
         if (data.success) {
           toast.success("Saved Successfully");
           setOpen(false);
+          setCurrentBank(null);
           setSelected(null);
           setEdited(null);
           fetchRev();
@@ -107,6 +131,7 @@ const EditRevenue = ({ open, selected, setOpen, fetchRev, setSelected }) => {
                   onClick={() => {
                     setOpen(false);
                     setSelected(null);
+                    setCurrentBank({});
                     setLoading(false);
                     setEdited(null);
                     console.log(selected);
@@ -138,12 +163,43 @@ const EditRevenue = ({ open, selected, setOpen, fetchRev, setSelected }) => {
                   }
                 />
               </div>
-              <div>
+
+              <div className={classes.input_container}>
                 {" "}
                 <label>Account</label>
-                <Select />
+                <Select
+                  style={{ fontFamily: "brFirma" }}
+                  options={bankOptions}
+                  value={
+                    currentBank
+                    // .subaccount_id !== undefined
+                    //   ? currentBank
+                    //   : edited && edited.settlementAccount
+                  }
+                  onChange={(e) => {
+                    handleDataChange({ settlementAccount: e.value });
+                    setCurrentBank(e);
+                  }}
+                />
               </div>
-              <Button onClick={editRevenue}>Save</Button>
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <Button
+                style={{
+                  background: "#4bc2bc",
+                  color: "#fff",
+                  fontFamily: "brFirma",
+                }}
+                onClick={editRevenue}
+              >
+                Save
+              </Button>
             </Box>
           </DialogContent>
         </Dialog>
