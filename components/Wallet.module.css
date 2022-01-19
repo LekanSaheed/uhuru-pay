@@ -36,5 +36,7 @@
 @media (min-width: 1024px) {
   .wallet_container {
     width: 30%;
+    padding: 10px;
+    align-items: flex-start;
   }
 }

@@ -9,13 +9,39 @@ import {
 import { Box } from "@mui/system";
 import { baseUrl } from "../context/baseUrl";
 import ThemedProgress from "./ThemedProgress";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@material-ui/core";
 import toast from "react-hot-toast";
 import classes from "./EditRevenue.module.css";
+import Select from "react-select";
 const EditRevenue = ({ open, selected, setOpen, fetchRev, setSelected }) => {
   const [edited, setEdited] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState(null);
+  const fetchMe = async () => {
+    setLoading(true);
+    await fetch(`${baseUrl}/stakeholder/me`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setLoading(false);
+        if (data.success) {
+          setLoading(false);
+          setUser(data.data);
+          console.log(data.data);
+        } else {
+          toast.error(data.error);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+  useEffect(() => {
+    fetchMe();
+  }, []);
   const editRevenue = async () => {
     setLoading(true);
     const token =
@@ -37,6 +63,8 @@ const EditRevenue = ({ open, selected, setOpen, fetchRev, setSelected }) => {
         if (data.success) {
           toast.success("Saved Successfully");
           setOpen(false);
+          setSelected(null);
+          setEdited(null);
           fetchRev();
         } else {
           toast.error(data.error);
@@ -94,7 +122,10 @@ const EditRevenue = ({ open, selected, setOpen, fetchRev, setSelected }) => {
                   ? edited.title
                   : selected && selected.title !== undefined && selected.title}
               </div>
-              <div className={classes.input_container}>
+              <div
+                style={{ marginTop: "10px" }}
+                className={classes.input_container}
+              >
                 <label>Amount</label>
                 <input
                   onChange={(e) => handleDataChange({ amount: e.target.value })}
@@ -110,7 +141,7 @@ const EditRevenue = ({ open, selected, setOpen, fetchRev, setSelected }) => {
               <div>
                 {" "}
                 <label>Account</label>
-                Account here Good
+                <Select />
               </div>
               <Button onClick={editRevenue}>Save</Button>
             </Box>

@@ -179,7 +179,6 @@ const Revenues = () => {
                     ? revenues
                         .filter((i) => i.status === "rejected")
                         .map((revenue) => {
-                          console.log(revenue);
                           return <Row key={revenue._id} revenue={revenue} />;
                         })
                     : "Rejected revenues will appear here"}
