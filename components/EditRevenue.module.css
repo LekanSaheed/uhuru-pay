@@ -1,0 +1,10 @@
+.input_container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: brFirma !important;
+}
+.input_container input {
+  width: 100%;
+}

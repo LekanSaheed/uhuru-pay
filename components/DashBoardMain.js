@@ -45,9 +45,8 @@ const DashBoardMain = () => {
         </span>
         <div className={classes.cont}>
           <Cards filter={filterTime} />
-          <div>
-            <Wallet />
-          </div>
+
+          <Wallet />
         </div>
         <GridCard />
         <Graph />

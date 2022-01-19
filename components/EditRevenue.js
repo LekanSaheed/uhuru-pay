@@ -12,6 +12,7 @@ import ThemedProgress from "./ThemedProgress";
 import { useState } from "react";
 import { Button } from "@material-ui/core";
 import toast from "react-hot-toast";
+import classes from "./EditRevenue.module.css";
 const EditRevenue = ({ open, selected, setOpen, fetchRev, setSelected }) => {
   const [edited, setEdited] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -24,6 +25,8 @@ const EditRevenue = ({ open, selected, setOpen, fetchRev, setSelected }) => {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(edited),
     };
@@ -32,7 +35,7 @@ const EditRevenue = ({ open, selected, setOpen, fetchRev, setSelected }) => {
       .then((data) => {
         setLoading(false);
         if (data.success) {
-          toast.success(data.message);
+          toast.success("Saved Successfully");
           setOpen(false);
           fetchRev();
         } else {
@@ -56,10 +59,23 @@ const EditRevenue = ({ open, selected, setOpen, fetchRev, setSelected }) => {
         <Dialog open={open} fullWidth>
           <DialogContent>
             {loading && <ThemedProgress />}
-            <AppBar position="sticky">
-              <Box display="flex" justifyContent="space-between">
-                <span>Edit Revenue</span>{" "}
+            <AppBar
+              elevation={0}
+              position="sticky"
+              style={{
+                background: "#fff",
+                color: "black !important",
+                boxShadow: "none",
+              }}
+            >
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="space-between"
+              >
+                <b style={{ color: "#000 !important" }}>Edit Revenue</b>{" "}
                 <IconButton
+                  size="small"
                   onClick={() => {
                     setOpen(false);
                     setSelected(null);
@@ -78,8 +94,7 @@ const EditRevenue = ({ open, selected, setOpen, fetchRev, setSelected }) => {
                   ? edited.title
                   : selected && selected.title !== undefined && selected.title}
               </div>
-              <div>
-                {" "}
+              <div className={classes.input_container}>
                 <label>Amount</label>
                 <input
                   onChange={(e) => handleDataChange({ amount: e.target.value })}

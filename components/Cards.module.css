@@ -48,6 +48,11 @@
     flex-direction: row;
   }
 }
+@media (min-width: 1024px) {
+  .cardContainer {
+    width: 75%;
+  }
+}
 @media (min-width: 1124px) {
   .cards {
     flex: 1 1 25%;
