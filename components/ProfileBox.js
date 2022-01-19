@@ -20,11 +20,11 @@ const ProfileBox = () => {
   const router = useRouter();
   const variant = {
     hidden: {
-      scale: 0.8,
+      x: -20,
       opacity: 0,
     },
     visible: {
-      scale: 1,
+      x: 0,
       opacity: 1,
       transition: {
         delay: 0.4,

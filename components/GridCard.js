@@ -14,7 +14,7 @@ import { Button, Dialog, DialogContent, Modal } from "@material-ui/core";
 import { Box } from "@mui/system";
 import { MdOutlineHistory } from "react-icons/md";
 import { RiEyeLine } from "react-icons/ri";
-
+import { motion } from "framer-motion";
 const GridCard = () => {
   const [modal, setModal] = React.useState(false);
   const cardContent = [
@@ -58,12 +58,40 @@ const GridCard = () => {
     },
   ];
   const router = useRouter();
+  const contV = {
+    hidden: {
+      opacity: 0,
+    },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+  const listV = {
+    hidden: {
+      opacity: 0,
+      x: -20,
+    },
+    visible: {
+      opacity: 1,
+      x: 0,
+    },
+  };
   return (
-    <div className={classes.card_container}>
+    <motion.div
+      initial="hidden"
+      variants={contV}
+      whileInView="visible"
+      className={classes.card_container}
+    >
       {React.Children.toArray(
         cardContent.map((card) => {
           return (
-            <div
+            <motion.div
+              variants={listV}
+              whileInView="visible"
               onClick={() => {
                 router.push(card.link);
               }}
@@ -92,11 +120,11 @@ const GridCard = () => {
                 </Box>
                 <div style={{ color: "#BB4077" }}>{card.linkText}</div>
               </Box>
-            </div>
+            </motion.div>
           );
         })
       )}
-    </div>
+    </motion.div>
   );
 };
 

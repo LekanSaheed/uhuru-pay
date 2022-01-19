@@ -15,7 +15,7 @@ const DashBoardMain = () => {
   const contVariant = {
     hidden: {
       opacity: 0,
-      x: "100vw",
+      x: -30,
     },
     visible: {
       opacity: 1,

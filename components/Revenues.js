@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { baseUrl } from "../context/baseUrl";
 import { useGlobalContext } from "../context/context";
 import * as React from "react";
-
+import EditRevenue from "./EditRevenue";
 import {
   Table,
   TableContainer,
@@ -14,6 +14,7 @@ import {
   makeStyles,
   CircularProgress,
   Box,
+  Button,
 } from "@material-ui/core";
 import Row from "./TableRow";
 import TableComponent from "./TableComponent";
@@ -22,10 +23,12 @@ import { TabContext } from "@material-ui/lab";
 import { TabList } from "@material-ui/lab";
 import { TabPanel } from "@material-ui/lab";
 import ThemedProgress from "./ThemedProgress";
-
+import { FiEdit } from "react-icons/fi";
 const url = `${baseUrl}/revenue/list`;
 
 const Revenues = () => {
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState(null);
   const useStyle = makeStyles((theme) => ({
     root: {
       marginTop: "20px",
@@ -55,9 +58,9 @@ const Revenues = () => {
   //   const accessToken = sessionStorage.getItem("accessToken");
   //   setToken(accessToken);
   // }, []);
-
-  useEffect(() => {
-    const token = localStorage.getItem("accessToken");
+  const fetchRevenues = async () => {
+    const token =
+      typeof window !== "undefined" && localStorage.getItem("accessToken");
     if (!token) {
       logout();
       toast.error("You need to log in again");
@@ -68,7 +71,7 @@ const Revenues = () => {
         Authorization: `Bearer ${token}`,
       },
     };
-    fetch(url, requestOptions)
+    await fetch(url, requestOptions)
       .then((res) => res.json())
       .then((data) => {
         if (data.success === true) {
@@ -81,12 +84,21 @@ const Revenues = () => {
         }
       })
       .catch((err) => console.log(err.message));
+  };
+  useEffect(() => {
+    fetchRevenues();
   }, []);
 
   return (
     <section>
       <span>All Revenues</span>
-
+      <EditRevenue
+        open={open}
+        setOpen={setOpen}
+        selected={selected}
+        setSelected={setSelected}
+        fetchRev={fetchRevenues}
+      />
       <Box sx={{ width: "100%", typography: "body1" }}>
         <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -95,6 +107,7 @@ const Revenues = () => {
               <Tab label="Rejected Revenues" value="2" />
             </TabList>
           </Box>
+          {loading && <ThemedProgress />}
           <TabPanel value="1">
             <TableContainer className={classes.root} component={TableComponent}>
               <Table sx={{ minWidth: 650 }}>
@@ -119,7 +132,24 @@ const Revenues = () => {
                             i.status === "pending" || i.status === "approved"
                         )
                         .map((revenue) => {
-                          return <Row key={revenue._id} revenue={revenue} />;
+                          return (
+                            <Row
+                              key={revenue._id}
+                              revenue={revenue}
+                              edit={
+                                <TableCell>
+                                  <Button
+                                    onClick={async () => {
+                                      await setSelected(revenue);
+                                      setOpen(true);
+                                    }}
+                                  >
+                                    <FiEdit />
+                                  </Button>
+                                </TableCell>
+                              }
+                            />
+                          );
                         })
                     : "Revenues will appear here"}
                 </TableBody>
@@ -159,7 +189,7 @@ const Revenues = () => {
           </TabPanel>
         </TabContext>
       </Box>
-      {loading && <ThemedProgress />}
+
       {loading && (
         <div
           style={{

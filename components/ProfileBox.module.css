@@ -41,6 +41,9 @@
 .name {
   font-weight: 600;
   color: black;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .role {
   text-transform: capitalize;

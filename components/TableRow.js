@@ -18,7 +18,7 @@ import { Box } from "@mui/system";
 import { useState } from "react";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 import moment from "moment";
-const Row = ({ revenue }) => {
+const Row = ({ revenue , edit}) => {
   const useStyle = makeStyles((theme) => ({
     root: {
       marginTop: "20px",
@@ -66,6 +66,7 @@ const Row = ({ revenue }) => {
         >
           {revenue.status}
         </TableCell>
+ {edit}
       </TableRow>
 
       <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>

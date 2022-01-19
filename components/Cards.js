@@ -166,10 +166,10 @@ const Cards = (props) => {
           //   toast.error(data.error);
           //   console.log(data.error);
           // }
+        })
+        .catch((err) => {
+          toast.error("Error Fetching Data: " + err);
         });
-      // .catch((err) => {
-      //   toast.error("Error Fetching Data: " + err.message);
-      // });
     });
   };
 
