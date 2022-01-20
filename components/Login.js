@@ -12,7 +12,8 @@ import {
   AiOutlineLock,
   AiOutlineUnlock,
 } from "react-icons/ai";
-import { ImSpinner } from "react-icons/im";
+// import { ImSpinner } from "react-icons/im";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import toast from "react-hot-toast";
@@ -185,7 +186,7 @@ const Form = () => {
         >
           {isLoading ? (
             <span className={classes.spinner}>
-              <ImSpinner />
+              <AiOutlineLoading3Quarters />
             </span>
           ) : (
             "Login to your Dashboard"
