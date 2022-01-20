@@ -111,7 +111,8 @@ const Graph = () => {
             // settransactions(...result);
           }
         }
-      });
+      })
+      .catch((err) => console.log(err));
   };
 
   const fetchRevenue = async () => {

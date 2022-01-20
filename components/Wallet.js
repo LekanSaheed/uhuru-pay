@@ -60,8 +60,17 @@ const Wallet = () => {
       </div>
       <div className={classes.wallet_main}>
         <div className={classes.wallet_title}>Total Balance</div>
-        <div className={classes.wallet_balance}>
-          ₦
+        <div
+          className={`${classes.wallet_balance} ${
+            funds.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            }).length >= 16
+              ? classes.reduce_figure_font
+              : undefined
+          }`}
+        >
+          <span style={{ fontSize: "11px" }}> ₦ </span>
           {funds.toLocaleString(undefined, {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,

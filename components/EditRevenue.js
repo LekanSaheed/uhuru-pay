@@ -17,6 +17,8 @@ import Select from "react-select";
 const EditRevenue = ({ open, selected, setOpen, fetchRev, setSelected }) => {
   const [edited, setEdited] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [bankLoading, setbankLoading] = useState(true);
+  // const [loading, setLoading] = useState(false);
   const [bank, setBank] = useState([]);
   const [currentBank, setCurrentBank] = useState(null);
   console.log(currentBank, bank, "Current bank");
@@ -34,20 +36,27 @@ const EditRevenue = ({ open, selected, setOpen, fetchRev, setSelected }) => {
       .then(async (data) => {
         if (data.success) {
           console.log(data);
-
-          await setCurrentBank({
-            label:
-              selected &&
-              data.data
-                .filter((b) => b.subaccount_id === selected.settlementAccount)
-                .map((b) => `${b.account_number} ${b.bank_name}`)[0],
-            value: selected && selected.settlementAccount,
-          });
+          setbankLoading(false);
+          await setCurrentBank(
+            selected && selected.settlementAccount
+              ? {
+                  label:
+                    selected &&
+                    data.data
+                      .filter(
+                        (b) => b.subaccount_id === selected.settlementAccount
+                      )
+                      .map((b) => `${b.account_number} ${b.bank_name}`)[0],
+                  value: selected && selected.settlementAccount,
+                }
+              : null
+          );
           setBank(data.data);
           setLoading(false);
         } else {
           toast.error(data.error);
           setLoading(false);
+          setbankLoading(false);
         }
       })
       .catch((err) => {
@@ -153,6 +162,9 @@ const EditRevenue = ({ open, selected, setOpen, fetchRev, setSelected }) => {
               >
                 <label>Amount</label>
                 <input
+                  type="number"
+                  min="0"
+                  disabled={loading}
                   onChange={(e) => handleDataChange({ amount: e.target.value })}
                   value={
                     edited && edited.amount
@@ -168,6 +180,9 @@ const EditRevenue = ({ open, selected, setOpen, fetchRev, setSelected }) => {
                 {" "}
                 <label>Account</label>
                 <Select
+                  placeholder="Select Settlement Account"
+                  isLoading={loading}
+                  isDisabled={loading}
                   style={{ fontFamily: "brFirma" }}
                   options={bankOptions}
                   value={
@@ -191,8 +206,10 @@ const EditRevenue = ({ open, selected, setOpen, fetchRev, setSelected }) => {
               <br />
               <br />
               <Button
+                color="primary"
+                disabled={loading}
                 style={{
-                  background: "#4bc2bc",
+                  background: loading ? "#bababa" : "#4bc2bc",
                   color: "#fff",
                   fontFamily: "brFirma",
                 }}
