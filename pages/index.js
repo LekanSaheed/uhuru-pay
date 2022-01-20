@@ -1,9 +1,10 @@
 import Link from "next/link";
 import React, { useEffect, useReducer, useState } from "react";
 import { useGlobalContext } from "../context/context";
-
+import classes from "./Home.module.css";
 import DashBoard from "./dashboard";
 import Login from "./login";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const Home = () => {
   const { isUser, setUser } = useGlobalContext();
@@ -23,7 +24,21 @@ const Home = () => {
   if (!loading) {
     return <div>{aUser ? <DashBoard /> : <Login />}</div>;
   } else {
-    return <div>loading..</div>;
+    return (
+      <div
+        style={{
+          position: "fixed",
+          top: "0",
+          right: "0",
+          left: "0",
+          bottom: "0",
+          width: "100%",
+          color: "#4bc2bc",
+        }}
+      >
+        <AiOutlineLoading3Quarters className={classes.loader} />
+      </div>
+    );
   }
 };
 export default Home;
