@@ -32,6 +32,11 @@ const Revenues = () => {
   const useStyle = makeStyles((theme) => ({
     root: {
       marginTop: "20px",
+      "& .MuiTableCell-head": {
+        fontFamily: "brFirma",
+        fontSize: "0.65em",
+        fontWeight: "bolder",
+      },
     },
     pending: {
       color: "goldenrod !important",
@@ -41,6 +46,9 @@ const Revenues = () => {
     },
     rejected: {
       color: "red !important",
+    },
+    progress: {
+      color: "#4bc2bc",
     },
   }));
   const classes = useStyle();
@@ -111,7 +119,7 @@ const Revenues = () => {
           <TabPanel value="1">
             <TableContainer className={classes.root} component={TableComponent}>
               <Table sx={{ minWidth: 650 }}>
-                <TableHead>
+                <TableHead sx={{ position: "sticky", top: "0" }}>
                   <TableRow>
                     <TableCell />
                     <TableCell component="th" scope="row">
@@ -175,13 +183,16 @@ const Revenues = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {revenues
-                    ? revenues
-                        .filter((i) => i.status === "rejected")
-                        .map((revenue) => {
-                          return <Row key={revenue._id} revenue={revenue} />;
-                        })
-                    : "Rejected revenues will appear here"}
+                  {revenues &&
+                    revenues
+                      .filter((i) => i.status === "rejected")
+                      .map((revenue) => {
+                        return <Row key={revenue._id} revenue={revenue} />;
+                      })}
+                  {revenues &&
+                    revenues.filter((i) => i.status === "rejected").length <
+                      1 &&
+                    "Rejected revenues will appear here"}
                 </TableBody>
               </Table>
             </TableContainer>
@@ -202,7 +213,7 @@ const Revenues = () => {
             bottom: "0",
           }}
         >
-          <CircularProgress />
+          <CircularProgress size={25} className={classes.progress} />
         </div>
       )}
     </section>

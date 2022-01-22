@@ -27,6 +27,11 @@ const PendingRevenues = () => {
   const useStyle = makeStyles((theme) => ({
     root: {
       marginTop: "20px",
+      "& .MuiTableCell-head": {
+        fontFamily: "brFirma",
+        fontSize: "0.65em",
+        fontWeight: "bolder",
+      },
     },
     pending: {
       color: "goldenrod !important",
@@ -191,7 +196,7 @@ const PendingRevenues = () => {
         </Modal>
         <TableContainer className={classes.root} component={Paper}>
           <Table sx={{ minWidth: 650 }}>
-            <TableHead>
+            <TableHead sx={{ position: "sticky", top: "0" }}>
               <TableRow>
                 <TableCell component="th" scope="row">
                   Title
@@ -282,23 +287,29 @@ const PendingRevenues = () => {
               bottom: "0",
             }}
           >
-            <CircularProgress className={classes.progress} />
+            <CircularProgress size={30} className={classes.progress} />
           </div>
         )}
         {!loading && revenues.length < 1 && (
           <div
             style={{
-              padding: "10px",
+              padding: "20px",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
             }}
           >
-            <span style={{ textAlign: "center", fontSize: "20px" }}>
+            {/* <span
+              style={{
+                textAlign: "center",
+                fontSize: "20px",
+                marginBottom: "10px",
+              }}
+            >
               No Pending Revenue
-            </span>
+            </span> */}
             <img
-              style={{ width: "80%", opacity: "0.7" }}
+              style={{ width: "50%", opacity: "0.4" }}
               src="/norevenue.svg"
             />
           </div>
