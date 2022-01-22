@@ -118,10 +118,18 @@ const History = () => {
   const columns = [
     {
       field: "id",
-      headerName: "S/N",
+      headerName: "#",
       width: 90,
       headerClassName: "header",
-      cellClassName: "cell",
+      cellClassName: "cell bold",
+    },
+    {
+      field: "revenue",
+      headerName: "Code",
+      width: 130,
+      editable: true,
+      headerClassName: "header",
+      cellClassName: "cell revenueCell",
     },
     {
       field: "name",
@@ -131,14 +139,7 @@ const History = () => {
       headerClassName: "header",
       cellClassName: "cell",
     },
-    {
-      field: "revenue",
-      headerName: "Revenue",
-      width: 150,
-      editable: true,
-      headerClassName: "header",
-      cellClassName: "cell revenueCell",
-    },
+
     {
       field: "amount",
       headerName: "Amount",
@@ -163,26 +164,37 @@ const History = () => {
       width: 150,
       editable: true,
     },
-    {
-      field: "created_by",
-      headerName: "Agent/Collector",
-      description: "This column has a value getter and is not sortable.",
-      sortable: false,
-      width: 160,
-      headerClassName: "header",
-      cellClassName: "cell",
-    },
-    {
-      field: "updated_at",
-      headerName: "Date",
-      sortable: false,
-      width: 160,
-      headerClassName: "header",
-      cellClassName: "cell",
-    },
+
     {
       field: "pin",
       headerName: "Pin",
+      sortable: false,
+      width: 200,
+      headerClassName: "header",
+      cellClassName: "cell",
+    },
+    {
+      field: "creator_name",
+      headerName: "Agent/Collector",
+      description: "The agent or collector.",
+
+      width: 160,
+      headerClassName: "header",
+      cellClassName: "cell",
+    },
+    {
+      field: "role",
+      headerName: "Role",
+      description: "Role.",
+
+      width: 100,
+      headerClassName: "header",
+      cellClassName: "cell",
+    },
+
+    {
+      field: "updated_at",
+      headerName: "Date",
       sortable: false,
       width: 160,
       headerClassName: "header",
@@ -198,7 +210,7 @@ const History = () => {
   const customTool = () => {
     return (
       <GridToolbarContainer className={gridClasses.toolbarContainer}>
-        <GridToolbarExport />
+        <GridToolbarExport className={classes.toolbar} />
       </GridToolbarContainer>
     );
   };
@@ -207,17 +219,30 @@ const History = () => {
       backgroundColor: "#fff",
       boxShadow: "0 0 10px rgba(0 0 0 /0.1)",
       "& .header": {
-        color: "#4bc2bc",
+        color: "teal",
         fontWeight: "700",
         fontFamily: "brFirma",
+      },
+      "& .MuiTypography-body2": {
+        fontFamily: "brFirma",
+        fontSize: "0.7em",
+        color: "#000 !important",
+      },
+      "& .bold": {
+        fontWeight: "bolder",
       },
       "& .cell": {
         borderBottom: "solid 1px whitesmoke",
         fontFamily: "brFirma",
+        fontSize: "0.8em",
       },
       "& .revenueCell": {
         color: "dodgerblue",
       },
+    },
+    toolbar: {
+      color: "teal",
+      padding: "15px 10px",
     },
     background: {
       minHeight: "100vh",
@@ -228,7 +253,7 @@ const History = () => {
     <DashboardWrapper>
       <div className={classes.background}>
         {loading && <ThemedProgress />}
-        <div style={{ height: "70vh", width: "100%" }}>
+        <div style={{ height: "80vh", width: "100%" }}>
           <DataGrid
             components={{ Toolbar: customTool }}
             pageSize={30}
@@ -250,13 +275,16 @@ const History = () => {
                   "MMM DD, yyyy hh:mm a"
                 ),
                 commission: trx.commission ? trx.commission : "-",
+                creator_name: trx.creator[0].name,
+                role: trx.creator[0].role,
               };
             })}
             columns={columns}
             rowsPerPageOptions={[10, 30, 100]}
-            checkboxSelection
-            disableSelectionOnClick
+            // checkboxSelection
+            // disableSelectionOnClick
             loading={loading}
+            density="compact"
           />
         </div>
       </div>
