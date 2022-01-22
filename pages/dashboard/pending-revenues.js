@@ -43,6 +43,9 @@ const PendingRevenues = () => {
     reject: {
       backgroundColor: "red",
     },
+    progress: {
+      color: "#4bc2bc",
+    },
   }));
   const classes = useStyle();
   const [loading, setLoading] = useState(true);
@@ -279,12 +282,25 @@ const PendingRevenues = () => {
               bottom: "0",
             }}
           >
-            <CircularProgress />
+            <CircularProgress className={classes.progress} />
           </div>
         )}
         {!loading && revenues.length < 1 && (
-          <div>
-            <img src="/norevenue.svg" />
+          <div
+            style={{
+              padding: "10px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <span style={{ textAlign: "center", fontSize: "20px" }}>
+              No Pending Revenue
+            </span>
+            <img
+              style={{ width: "80%", opacity: "0.7" }}
+              src="/norevenue.svg"
+            />
           </div>
         )}
       </section>
