@@ -274,7 +274,7 @@ const History = () => {
                 updated_at: moment(trx.updated_at).format(
                   "MMM DD, yyyy hh:mm a"
                 ),
-                commission: trx.commission ? trx.commission : "-",
+                commission: trx.commission ? `₦${trx.commission}` : "-",
                 creator_name: trx.creator[0].name,
                 role: trx.creator[0].role,
               };

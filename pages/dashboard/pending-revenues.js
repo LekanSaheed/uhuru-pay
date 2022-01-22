@@ -282,6 +282,11 @@ const PendingRevenues = () => {
             <CircularProgress />
           </div>
         )}
+        {!loading && revenues.length < 1 && (
+          <div>
+            <img src="/norevenue.svg" />
+          </div>
+        )}
       </section>
     </DashBoardWrapper>
   );

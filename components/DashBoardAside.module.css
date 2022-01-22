@@ -65,10 +65,10 @@
   display: block;
 }
 .padText {
-  color: #5ad1ce;
+  color: teal;
   font-weight: 500 !important;
   text-transform: uppercase;
-  font-size: 13px;
+  font-size: 12px;
   padding-bottom: 0;
 }
 .link_flex {
