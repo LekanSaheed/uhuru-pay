@@ -30,18 +30,29 @@ const Revenues = () => {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(null);
   const useStyle = makeStyles((theme) => ({
-    tabs: {
+    tabs: {},
+    root: {
+      padding: "0",
       "& .MuiTabs-flexContainer": {
         gap: "10px",
       },
-    },
-    root: {
+      "& .css-cjctlb-MuiButtonBase-root-MuiTab-root": {
+        fontFamily: "brFirma",
+        fontWeight: "bolder",
+      },
       fontFamily: "brFirma",
       marginTop: "20px",
+      "& .MuiTableCell-root": {
+        lineHeight: 1.2,
+        fontFamily: "brFirma",
+        fontSize: "0.65em",
+        padding: "7px",
+      },
       "& .MuiTableCell-head": {
         fontFamily: "brFirma !important",
-        fontSize: "0.65em !important",
+        fontSize: "0.7em !important",
         fontWeight: "bolder !important",
+        padding: "10px",
       },
     },
     pending: {
@@ -116,7 +127,7 @@ const Revenues = () => {
         />
       )}
       <Box sx={{ width: "100%", typography: "body1" }}>
-        <TabContext value={value} className={classes.tabs}>
+        <TabContext value={value} className={classes.root}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <TabList onChange={handleChange} aria-label="lab API tabs example">
               <Tab label="Revenues" value="1" />
@@ -124,8 +135,8 @@ const Revenues = () => {
             </TabList>
           </Box>
           {loading && <ThemedProgress />}
-          <TabPanel value="1">
-            <TableContainer className={classes.root} component={TableComponent}>
+          <TabPanel sx={{ padding: "0 !important" }} value="1">
+            <TableContainer className={classes.root} component={Paper}>
               <Table sx={{ minWidth: 650 }}>
                 <TableHead sx={{ position: "sticky", top: "0" }}>
                   <TableRow>
