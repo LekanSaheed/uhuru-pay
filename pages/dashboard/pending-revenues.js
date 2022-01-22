@@ -160,7 +160,7 @@ const PendingRevenues = () => {
   return (
     <DashBoardWrapper>
       <section>
-        <span>All Revenues</span>
+        <span>Pending Revenues</span>
         <Modal open={modal}>
           <Dialog open={modal} fullWidth={true}>
             <DialogContent>
@@ -293,6 +293,7 @@ const PendingRevenues = () => {
         {!loading && revenues.length < 1 && (
           <div
             style={{
+              width: "100%",
               padding: "20px",
               display: "flex",
               flexDirection: "column",
@@ -309,7 +310,7 @@ const PendingRevenues = () => {
               No Pending Revenue
             </span> */}
             <img
-              style={{ width: "50%", opacity: "0.4" }}
+              style={{ width: "40%", opacity: "0.4" }}
               src="/norevenue.svg"
             />
           </div>

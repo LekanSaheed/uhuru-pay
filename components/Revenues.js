@@ -30,12 +30,18 @@ const Revenues = () => {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(null);
   const useStyle = makeStyles((theme) => ({
+    tabs: {
+      "& .MuiTabs-flexContainer": {
+        gap: "10px",
+      },
+    },
     root: {
+      fontFamily: "brFirma",
       marginTop: "20px",
       "& .MuiTableCell-head": {
-        fontFamily: "brFirma",
-        fontSize: "0.65em",
-        fontWeight: "bolder",
+        fontFamily: "brFirma !important",
+        fontSize: "0.65em !important",
+        fontWeight: "bolder !important",
       },
     },
     pending: {
@@ -56,7 +62,7 @@ const Revenues = () => {
   const [loading, setLoading] = useState(true);
   const [revenues, setRevenues] = useState([]);
   const [value, setValue] = React.useState("1");
-  const { logout } = useGlobalContext();
+  const { logout, user } = useGlobalContext();
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -100,15 +106,17 @@ const Revenues = () => {
   return (
     <section>
       <span>All Revenues</span>
-      <EditRevenue
-        open={open}
-        setOpen={setOpen}
-        selected={selected}
-        setSelected={setSelected}
-        fetchRev={fetchRevenues}
-      />
+      {user.role !== "admin" && (
+        <EditRevenue
+          open={open}
+          setOpen={setOpen}
+          selected={selected}
+          setSelected={setSelected}
+          fetchRev={fetchRevenues}
+        />
+      )}
       <Box sx={{ width: "100%", typography: "body1" }}>
-        <TabContext value={value}>
+        <TabContext value={value} className={classes.tabs}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <TabList onChange={handleChange} aria-label="lab API tabs example">
               <Tab label="Revenues" value="1" />
@@ -146,14 +154,16 @@ const Revenues = () => {
                               revenue={revenue}
                               edit={
                                 <TableCell>
-                                  <Button
-                                    onClick={async () => {
-                                      await setSelected(revenue);
-                                      setOpen(true);
-                                    }}
-                                  >
-                                    <FiEdit />
-                                  </Button>
+                                  {user.role !== "admin" && (
+                                    <Button
+                                      onClick={async () => {
+                                        await setSelected(revenue);
+                                        setOpen(true);
+                                      }}
+                                    >
+                                      <FiEdit />
+                                    </Button>
+                                  )}
                                 </TableCell>
                               }
                             />
@@ -167,7 +177,7 @@ const Revenues = () => {
 
           <TabPanel value="2">
             {" "}
-            <TableContainer className={classes.root} component={TableComponent}>
+            <TableContainer className={classes.root} component={Paper}>
               <Table sx={{ minWidth: 650 }}>
                 <TableHead>
                   <TableRow>
