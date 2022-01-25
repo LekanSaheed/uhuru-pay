@@ -103,7 +103,7 @@ const Cards = (props) => {
     await fetch(url, requestOptions)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         if (data.success) {
           setWeekInfo(data.data);
           setLoading(false);
@@ -144,7 +144,7 @@ const Cards = (props) => {
               pin.reduce((a, b) => a + b, 0)
             );
             setActivePins(reducePins);
-            console.log();
+            // console.log();
             setLoading(false);
             // data.data.forEach((item) => {
             //   fetch(
@@ -192,7 +192,7 @@ const Cards = (props) => {
     await fetch(url, requestOptions)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.data);
+        // console.log(data.data);
         if (data.success) {
           // setTaxPayers(data.data);
           // setLoading(false);
@@ -237,7 +237,7 @@ const Cards = (props) => {
         } else {
           setLoading(false);
           toast.error(data.error);
-          console.log(data.error);
+          // console.log(data.error);
         }
       })
       .catch((err) => {
