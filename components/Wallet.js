@@ -34,11 +34,6 @@ const Wallet = () => {
             const filtered = data.data
               .filter((batch) => batch.isDispatched)
               .map((batch) => {
-                console.log(
-                  (batch.amount - batch.discount ? batch.discount : 0) *
-                    batch.size,
-                  "Amount"
-                );
                 if (batch.discount) {
                   return (batch.amount - batch.discount) * batch.size;
                 } else {
@@ -52,9 +47,9 @@ const Wallet = () => {
               .map((i) => i.reduce((a, b) => a + b, 0))
               .reduce((a, b) => a + b, 0);
             setFunds(reducedFunds);
-            console.log(reducedFunds);
-            console.log(filtered, "filtered");
-            console.log(data.data, "data");
+            // console.log(reducedFunds);
+            // console.log(filtered, "filtered");
+            // console.log(data.data, "data");
 
             setLoading(false);
           } else {
