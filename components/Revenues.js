@@ -210,10 +210,6 @@ const Revenues = () => {
                       .map((revenue) => {
                         return <Row key={revenue._id} revenue={revenue} />;
                       })}
-                  {revenues &&
-                    revenues.filter((i) => i.status === "rejected").length <
-                      1 &&
-                    "Rejected revenues will appear here"}
                 </TableBody>
               </Table>
             </TableContainer>
@@ -221,6 +217,10 @@ const Revenues = () => {
         </TabContext>
       </Box>
 
+      {!loading &&
+        revenues &&
+        revenues.filter((i) => i.status === "rejected").length < 1 &&
+        "Rejected revenues will appear here"}
       {loading && (
         <div
           style={{
