@@ -25,6 +25,9 @@
   font-size: 40px;
   transition: 0.3s;
 }
+.rate_color {
+  color: #0047ab !important;
+}
 .detail {
   font-size: 13px;
   color: #bb4077;
