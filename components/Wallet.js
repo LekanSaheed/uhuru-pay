@@ -71,6 +71,9 @@ const Wallet = () => {
     visible: {
       opacity: 1,
       x: 0,
+      transition: {
+        delay: 0.5,
+      },
     },
   };
   return (
