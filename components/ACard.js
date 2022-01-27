@@ -40,7 +40,9 @@ const ACard = ({
                   ? classes.rate_color
                   : rate * 100 <= 49
                   ? classes.descend_color
-                  : classes.median_rate
+                  : rate * 100 === 50 && rate * 10 <= 54
+                  ? classes.median_rate
+                  : classes.figure
               }`}
             >
               {/* {rate.length > 0
