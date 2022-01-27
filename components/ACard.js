@@ -34,7 +34,15 @@ const ACard = ({
             </span>
           )}
           {type === "rate" && (
-            <span className={`${classes.figure} ${classes.rate_color}`}>
+            <span
+              className={`${classes.figure} ${
+                rate * 100 >= 55
+                  ? classes.rate_color
+                  : rate * 100 <= 49
+                  ? classes.descend_color
+                  : classes.median_rate
+              }`}
+            >
               {/* {rate.length > 0
             ? // ? rate.reduce((a, b) => a + b.count, 0) / pin &&
               pin

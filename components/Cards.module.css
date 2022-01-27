@@ -26,7 +26,13 @@
   transition: 0.3s;
 }
 .rate_color {
-  color: #0047ab !important;
+  color: #28a745 !important;
+}
+.descend_color {
+  color: #dc3545;
+}
+.median_rate {
+  color: #ffc107;
 }
 .detail {
   font-size: 13px;
