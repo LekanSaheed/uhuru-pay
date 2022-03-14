@@ -1,0 +1,211 @@
+import classes from "./DashBoardAside.module.css";
+import React from "react";
+import { motion } from "framer-motion";
+import { useGlobalContext } from "../context/context";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import Image from "next/image";
+import ProfileBox from "./ProfileBox";
+
+const DashBoardAside = () => {
+  const router = useRouter();
+  const { isToggled, asideContents, user } = useGlobalContext();
+
+  return (
+    <div className={classes.asideMain}>
+      <header className={classes.asideHeader}>
+        <ProfileBox />
+      </header>
+
+      <ul className={classes.asideContainer}>
+        {React.Children.toArray(
+          asideContents.map((aside) => {
+            return (
+              <li
+                className={`${classes.aside} ${
+                  aside.link === router.pathname ? classes.active : ""
+                }`}
+                key={aside.text}
+              >
+                {aside.link ? (
+                  <Link
+                    href={"/dashboard" + aside.link}
+                    className={`${classes.asideLink}`}
+                  >
+                    <a
+                      className={`${classes.link_flex}  ${
+                        router.pathname === `/dashboard` ? classes.active : ""
+                      }`}
+                    >
+                      <div
+                        className={classes.link_hover}
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          gap: "16px",
+                          alignItems: "center",
+                        }}
+                      >
+                        <div
+                          className={`${classes.icon}`}
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          {aside.icon}
+                        </div>
+                        <span className={isToggled ? classes.hideText : ""}>
+                          {aside.text}
+                        </span>
+                      </div>
+                    </a>
+                  </Link>
+                ) : (
+                  <span
+                    className={classes.link_flex}
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      gap: "13px",
+                      alignItems: "center",
+                    }}
+                  >
+                    {aside.icon && <i className={classes.icon}>{aside.icon}</i>}
+
+                    <motion.div
+                      animate="visible"
+                      initial="hidden"
+                      variants={{
+                        hidden: {
+                          x: -15,
+                          opacity: 0,
+                        },
+                        visible: {
+                          x: 0,
+                          opacity: 1,
+                          transition: {
+                            delay: 0.2,
+                          },
+                        },
+                      }}
+                      className={`${aside.icon ? "" : classes.padText} ${
+                        isToggled ? classes.hidePad : classes.showPad
+                      }`}
+                    >
+                      {aside.text}
+                    </motion.div>
+                  </span>
+                )}
+
+                <div className={classes.showdrop}>
+                  {aside.dropdown && (
+                    <div className={classes.dropdown}>
+                      {user.role === "admin"
+                        ? aside.dropdown
+                            .filter(
+                              (i) =>
+                                i.access === "admin" || i.access === undefined
+                            )
+                            .map((i, id) => {
+                              return (
+                                <Link key={id} href={"/dashboard" + i.link}>
+                                  <a
+                                    style={{
+                                      display: "flex",
+                                      gap: "15px",
+                                      alignItems: "center",
+                                      cursor: "pointer",
+                                    }}
+                                    className={
+                                      router.pathname === "/dashboard" + i.link
+                                        ? classes.active
+                                        : ""
+                                    }
+                                  >
+                                    <span className={`${classes.icon}  `}>
+                                      {i.icon}
+                                    </span>
+
+                                    <span
+                                      className={
+                                        isToggled
+                                          ? classes.hideText
+                                          : classes.showText
+                                      }
+                                      style={{ fontSize: "13px" }}
+                                    >
+                                      {i.text}
+                                    </span>
+                                  </a>
+                                </Link>
+                              );
+                            })
+                        : aside.dropdown
+                            .filter(
+                              (i) =>
+                                i.access === "regular" || i.access === undefined
+                            )
+                            .map((i, id) => {
+                              return (
+                                <Link key={id} href={"/dashboard" + i.link}>
+                                  <a
+                                    style={{
+                                      display: "flex",
+                                      gap: "15px",
+                                      alignItems: "center",
+                                      cursor: "pointer",
+                                    }}
+                                    className={
+                                      router.pathname === "/dashboard" + i.link
+                                        ? classes.active
+                                        : ""
+                                    }
+                                  >
+                                    <span className={`${classes.icon} `}>
+                                      {i.icon}
+                                    </span>
+
+                                    <span
+                                      className={
+                                        isToggled
+                                          ? classes.hideText
+                                          : classes.showText
+                                      }
+                                      style={{ fontSize: "13px" }}
+                                    >
+                                      {i.text}
+                                    </span>
+                                  </a>
+                                </Link>
+                              );
+                            })}
+                    </div>
+                  )}
+                </div>
+              </li>
+            );
+          })
+        )}
+      </ul>
+
+      <footer className={classes.asideFooter}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {isToggled ? (
+            <Image src="/favicon.ico" width={30} height={30} alt="upay" />
+          ) : (
+            <Image width={220} height={50} src="/WORDMARK.png" alt="upay" />
+          )}
+        </div>
+      </footer>
+    </div>
+  );
+};
+export default DashBoardAside;
