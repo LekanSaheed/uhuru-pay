@@ -59,18 +59,18 @@ const MobileMenu = ({ children }) => {
                   <MdClose />
                 </Box>
                 <motion.div>
-                  {asideContents.map((nav) => {
+                  {asideContents.map((nav, id) => {
                     return (
-                      <div className={classes.aCompartment}>
+                      <div key={id} className={classes.aCompartment}>
                         <div className={classes.category_name}>
                           {" "}
                           {nav?.text}
                         </div>
 
                         <div className={classes.link_cont}>
-                          {nav?.dropdown?.map((drop) => {
+                          {nav?.dropdown?.map((drop, id) => {
                             return (
-                              <Link href={`dashboard${drop.link}`}>
+                              <Link key={id} href={`dashboard${drop.link}`}>
                                 {drop.text}
                               </Link>
                             );
