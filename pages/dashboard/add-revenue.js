@@ -83,7 +83,6 @@ export default function AddRevenue() {
       .then((data) => {
         if (data.success) {
           setLoading(false);
-
           setUser(data.data);
         } else {
           toast.error(data.error);
